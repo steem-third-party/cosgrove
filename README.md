@@ -5,6 +5,55 @@ STEEM Centric Discord Bot Framework
 
 * No features yet.  This is just the initial skeleton to get the continuous integrations started.  Stay tuned.
 
+## Installation
+
+```bash
+$ gem install cosgrove
+```
+
+## Setup
+
+Add a config file to your project called `config.yml`:
+
+```yaml
+:cosgrove:
+  :secret: set this
+:chain:
+  :steem_account: 
+  :steem_posting_wif: 
+  :golos_account: 
+  :golos_posting_wif: 
+  :steem_api_url: https://steemd.steemit.com
+  :golos_api_url: https://ws.golos.io
+  :test_api_url: https://test.steem.ws
+:discord:
+  :log_mode: info
+```
+
+You should change the `secret` key using:
+
+```ruby
+SecureRandom.hex(32)
+```
+
+## Usage
+
+Cosgrove is based on `discordrb`, see: https://github.com/meew0/discordrb
+
+All features offered by `discordrb` are available in Cosgrove.  In addition, Cosgrove comes with pre-defined commands.
+
+```ruby
+require 'cosgrove'
+
+bot = Cosgrove::Bot.new token: '<token here>', client_id: 168123456789123456
+
+bot.message(with_text: 'Ping!') do |event|
+  event.respond 'Pong!'
+end
+
+bot.run
+```
+
 ## Tests
 
 * Clone the client repository into a directory of your choice:
