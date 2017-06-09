@@ -1,3 +1,5 @@
+require 'steem-slap'
+
 module Cosgrove
   module SnarkCommands
     def self.add_all_snark_commands(bot)
