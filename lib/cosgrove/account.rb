@@ -61,7 +61,7 @@ module Cosgrove
     
     def add_discord_id(discord_id)
       details[DISCORD_IDS] ||= []
-      details[DISCORD_IDS] << discord_id
+      details[DISCORD_IDS] << discord_id.to_i
       details[DISCORD_IDS] = details[DISCORD_IDS].uniq
       
       Account.save_yml!
