@@ -9,6 +9,9 @@ Bundler.require
 SteemData.load
 
 module Cosgrove
+  PWD = Dir.pwd.freeze
+  KNOWN_CHAINS = [:steem, :golos, :test]
+  
   require 'cosgrove/version'
   require 'cosgrove/agent'
   require 'cosgrove/config'
@@ -16,6 +19,4 @@ module Cosgrove
   require 'cosgrove/account'
   require 'cosgrove/support'
   require 'cosgrove/bot'
-  
-  KNOWN_CHAINS = [:steem, :golos, :test]
 end

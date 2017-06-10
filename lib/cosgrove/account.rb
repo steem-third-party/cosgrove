@@ -4,7 +4,7 @@ module Cosgrove
   class Account
     include Cosgrove::Config
 
-    ACCOUNTS_FILE ||= "accounts.yml".freeze
+    ACCOUNTS_FILE ||= "#{Cosgrove::PWD}/accounts.yml".freeze
     DISCORD_IDS = 'discord_ids'.freeze
     
     attr_accessor :chain, :account_name, :discord_ids

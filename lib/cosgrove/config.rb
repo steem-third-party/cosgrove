@@ -64,7 +64,7 @@ module Cosgrove
     def yml
       return @yml if !!@yml
       
-      config_yaml_path = "config.yml"
+      config_yaml_path = "#{Cosgrove::PWD}/config.yml"
       
       @yml = if File.exist?(config_yaml_path)
         YAML.load_file(config_yaml_path)
