@@ -18,5 +18,6 @@ module Cosgrove
   require 'cosgrove/utils'
   require 'cosgrove/account'
   require 'cosgrove/support'
+  require 'cosgrove/market'
   require 'cosgrove/bot'
 end
