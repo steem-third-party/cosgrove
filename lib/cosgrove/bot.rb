@@ -7,7 +7,9 @@ module Cosgrove
     include SnarkCommands
     
     def initialize(options = {})
-      super
+      options[:token] ||= cosgrove_token
+      options[:client_id] ||= cosgrove_client_id
+      super(options)
       
       Bot::add_all_commands(self)
       SnarkCommands::add_all_snark_commands(self)

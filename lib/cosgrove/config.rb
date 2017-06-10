@@ -1,5 +1,17 @@
 module Cosgrove
   module Config
+    def cosgrove_secure
+      yml[:cosgrove][:secure]
+    end
+    
+    def cosgrove_token
+      yml[:cosgrove][:token]
+    end
+    
+    def cosgrove_client_id
+      yml[:cosgrove][:client_id]
+    end
+    
     def steem_api_url
       chain[:steem_api_url]
     end
@@ -44,18 +56,17 @@ module Cosgrove
       
       yml[:discord][:log_mode].to_sym
     end
-    
-    def cosgrove_secure
-      yml[:cosgrove][:secure]
-    end
   private
     def chain
       @chain ||= yml[:chain]
     end
     
     def yml
-      @config_yaml_path ||= "config.yml"
-      @yml ||= if File.exist?(@config_yaml_path)
+      return @yml if !!@yml
+      
+      @config_yaml_path = "config.yml"
+      
+      @yml = if File.exist?(@config_yaml_path)
         YAML.load_file(@config_yaml_path)
       else
         raise 'Create a file: config.yml'
