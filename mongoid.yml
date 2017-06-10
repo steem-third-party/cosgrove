@@ -1,0 +1,9 @@
+development:
+  clients:
+    default:
+      database: SteemData
+      hosts:
+        - mongo1.steemdata.com:27017
+      options:
+        user: 'steemit'
+        password: 'steemit'
