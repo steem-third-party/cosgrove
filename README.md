@@ -1,9 +1,16 @@
 # [Cosgrove](https://github.com/steem-third-party/cosgrove)
-STEEM Centric Discord Bot Framework
+
+Cosgrove is a STEEM Centric Discord Bot Framework that allows you to write your own Discord bots that interact with the STEEM blockchain.
+
+One example of a bot that uses this framework is [@banjo](https://steemit.com/steemdata/@inertia/introducing-banjo) on STEEM.
+
+Many (not all) features work on Golos as well.
 
 ## Features
 
-* No features yet.  This is just the initial skeleton to get the continuous integrations started.  Stay tuned.
+* **Registration** - Allows users to associate their Discord user with a STEEM account.
+* **Verify** - Checks previously registered accounts.
+* **Up Vote** - Allows registered users to vote for posts.
 
 ## Installation
 
@@ -11,12 +18,21 @@ STEEM Centric Discord Bot Framework
 $ gem install cosgrove
 ```
 
+... or in your `Gemfile`
+
+```ruby
+gem 'steemdata-rb', require: 'steemdata', git: 'git@github.com:steem-third-party/steemdata-rb.git'
+gem 'cosgrove'
+```
+
 ## Setup
 
-Add a config file to your project called `config.yml`:
+Add a config file to your `ruby` project called `config.yml`:
 
 ```yaml
 :cosgrove:
+  :token: 
+  :client_id: 
   :secret: set this
 :chain:
   :steem_account: 
@@ -25,10 +41,13 @@ Add a config file to your project called `config.yml`:
   :golos_posting_wif: 
   :steem_api_url: https://steemd.steemit.com
   :golos_api_url: https://ws.golos.io
-  :test_api_url: https://test.steem.ws
 :discord:
   :log_mode: info
 ```
+
+You will need to request a `token` and `client_id` from Discord (see below).
+
+Provide the accounts and `wif` private postings keys if you want your bot to upvote posts.
 
 You should change the `secret` key using:
 
@@ -36,16 +55,26 @@ You should change the `secret` key using:
 SecureRandom.hex(32)
 ```
 
+## Bot Registration
+
+1. Request a new bot here: https://discordapp.com/developers/applications/me#top
+2. Register an `application` and create an `app bot user`.
+3. Replace `APP_CLIENT_ID` with the App's Client ID in this URL: https://discordapp.com/oauth2/authorize?&client_id=APP_CLIENT_ID&scope=bot&permissions=153600
+4. Give that URL to the Discord server/guild owner and have them authorize the bot.
+5. Set the `token` and `client_id` in your bot constructor (see below).
+
 ## Usage
 
 Cosgrove is based on `discordrb`, see: https://github.com/meew0/discordrb
 
-All features offered by `discordrb` are available in Cosgrove.  In addition, Cosgrove comes with pre-defined commands.
+All features offered by `discordrb` are available in Cosgrove.  In addition, Cosgrove comes with pre-defined commands.  See them by typing: `$help`
+
+You can add you features thusly:
 
 ```ruby
 require 'cosgrove'
 
-bot = Cosgrove::Bot.new token: '<token here>', client_id: 168123456789123456
+bot = Cosgrove::Bot.new
 
 bot.message(with_text: 'Ping!') do |event|
   event.respond 'Pong!'
