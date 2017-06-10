@@ -13,6 +13,7 @@ module Cosgrove
   KNOWN_CHAINS = [:steem, :golos, :test]
   
   require 'cosgrove/version'
+  require 'cosgrove/phantomjs'
   require 'cosgrove/agent'
   require 'cosgrove/config'
   require 'cosgrove/utils'
