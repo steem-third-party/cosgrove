@@ -9,6 +9,7 @@ SteemData.load
 
 module Cosgrove
   require 'cosgrove/version'
+  require 'cosgrove/agent'
   require 'cosgrove/config'
   require 'cosgrove/utils'
   require 'cosgrove/account'
