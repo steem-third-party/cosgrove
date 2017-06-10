@@ -16,6 +16,12 @@ module Cosgrove
     end
     
     def self.add_all_commands(bot)
+      bot.command :help do |_event, *args|
+        help = []
+        help << "`$slap [target]` - does a slap on the `target`"
+        help.join("\n")
+      end
+      
       bot.command :version do |_|
         "cosgrove: #{Cosgrove::VERSION} :: https://github.com/steem-third-party/cosgrove"
       end

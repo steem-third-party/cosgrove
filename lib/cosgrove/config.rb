@@ -64,16 +64,16 @@ module Cosgrove
     def yml
       return @yml if !!@yml
       
-      @config_yaml_path = "config.yml"
+      config_yaml_path = "config.yml"
       
-      @yml = if File.exist?(@config_yaml_path)
-        YAML.load_file(@config_yaml_path)
+      @yml = if File.exist?(config_yaml_path)
+        YAML.load_file(config_yaml_path)
       else
-        raise 'Create a file: config.yml'
+        raise "Create a file: #{config_yaml_path}"
       end
       
       if @yml[:cosgrove].nil? || @yml[:cosgrove][:secure].nil? || @yml[:cosgrove][:secure] == 'set this'
-        raise 'Set secure key in config.yml.'
+        raise "Set secure key in #{config_yaml_path}."
       end
       
       @yml
