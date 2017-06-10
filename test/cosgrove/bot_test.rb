@@ -16,6 +16,6 @@ class Cosgrove::BotTest < Cosgrove::Test
   
   def test_version
     result = @bot.simple_execute('version', @mock_event)
-    assert_nil result, 'did not expect result; no permission'
+    refute_nil result
   end
 end
