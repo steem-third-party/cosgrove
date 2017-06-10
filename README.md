@@ -2,7 +2,7 @@
 
 Cosgrove is a STEEM Centric Discord Bot Framework that allows you to write your own Discord bots that interact with the STEEM blockchain.
 
-One example of a bot that uses this framework is [@banjo](https://steemit.com/steemdata/@inertia/introducing-banjo) on STEEM.
+One example of a bot that uses this framework is [@banjo](https://steemit.com/steemdata/@inertia/introducing-banjo) on SteemSpeak.
 
 Many (not all) features work on Golos as well.
 
@@ -49,7 +49,7 @@ You will need to request a `token` and `client_id` from Discord (see below).
 
 Provide the accounts and `wif` private postings keys if you want your bot to upvote posts.
 
-You should change the `secret` key using:
+You should change the `secret` key using the output of:
 
 ```ruby
 SecureRandom.hex(32)
