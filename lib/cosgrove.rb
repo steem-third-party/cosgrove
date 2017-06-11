@@ -2,6 +2,8 @@ require 'rubygems'
 require 'bundler/setup'
 require 'yaml'
 require 'action_view'
+require 'radiator'
+require 'awesome_print'
 # require 'pry'
 
 Bundler.require

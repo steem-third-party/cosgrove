@@ -22,6 +22,8 @@ module Cosgrove
     end
     
     def self.find_by_discord_id(discord_id, chain = :steem)
+      return if Account.yml[chain.to_s].nil?
+      
       discord_id = discord_id.to_s.split('@').last.split('>').first.to_i
       
       Account.yml[chain.to_s].each do |k, v|
