@@ -12,7 +12,8 @@ Many (not all) features work on Golos as well.
   * `$register <account> [chain]` - associate `account` with your Discord user (`chain` default `steem`)
 * **Verification**
   * `$verify <account> [chain]` - check `account` association with Discord users (`chain` default `steem`)
-* **Up Voting** - Allows registered users to vote for posts.
+* **Up Voting**
+  * `$upvote [url]` - upvote from cosgrove; empty or `^` to upvote last steemit link
 
 ## Installation
 
