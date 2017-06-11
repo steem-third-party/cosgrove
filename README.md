@@ -8,9 +8,11 @@ Many (not all) features work on Golos as well.
 
 ## Features
 
-* **Registration** - Allows users to associate their Discord user with a STEEM account.
-* **Verify** - Checks previously registered accounts.
-* **Up Vote** - Allows registered users to vote for posts.
+* **Registration**
+  * `$register <account> [chain]` - associate `account` with your Discord user (`chain` default `steem`)
+* **Verification**
+  * `$verify <account> [chain]` - check `account` association with Discord users (`chain` default `steem`)
+* **Up Voting** - Allows registered users to vote for posts.
 
 ## Installation
 
