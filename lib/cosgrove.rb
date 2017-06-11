@@ -20,5 +20,6 @@ module Cosgrove
   require 'cosgrove/account'
   require 'cosgrove/support'
   require 'cosgrove/market'
+  require 'cosgrove/upvote_job'
   require 'cosgrove/bot'
 end

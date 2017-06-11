@@ -17,6 +17,8 @@ module Cosgrove
       options[:client_id] ||= cosgrove_client_id
       super(options)
       
+      self.bucket :voting, limit: 4, time_span: 8640, delay: 10
+
       add_all_commands
       add_all_messages
       SnarkCommands::add_all_snark_commands(self)
@@ -43,6 +45,7 @@ module Cosgrove
         help << "`$slap [target]` - does a slap on the `target`"
         help << "`$verify <account> [chain]` - check `account` association with Discord users (`chain` default `steem`)"
         help << "`$register <account> [chain]` - associate `account` with your Discord user (`chain` default `steem`)"
+        help << "`$upvote [url]` - upvote from #{steem_account}; empty or `^` to upvote last steemit link"
         help.join("\n")
       end
       
@@ -129,6 +132,12 @@ module Cosgrove
         else
           "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{chain.upcase}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
         end
+      end
+      
+      self.command(:upvote, bucket: :voting, rate_limit_message: 'Sorry, you are in cool-down.  Please wait %time% more seconds.') do |event, slug = nil|
+        slug = Cosgrove::latest_steemit_link[event.channel.name] if slug.nil? || slug.empty? || slug == '^'
+
+        Cosgrove::UpvoteJob.new.perform(event, slug)
       end
     end
   end
