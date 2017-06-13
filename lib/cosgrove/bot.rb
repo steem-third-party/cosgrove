@@ -84,7 +84,7 @@ module Cosgrove
         elsif !!account
           "#{chain.to_s.upcase} account `#{account.name}` has not been registered with any Discord account.  To register:\n`$register #{account.name}`"
         elsif discord_id.to_i > 0
-          "<@#{discord_id}> has not been associated with #{chain.to_s.upcase} account.  To register:\n`$register <account>`"
+          "<@#{discord_id}> has not been associated with a #{chain.to_s.upcase} account.  To register:\n`$register <account>`"
         else
           "No association found.  To register:\n`$register <account>`"
         end
@@ -106,7 +106,7 @@ module Cosgrove
         
         memo_key = cb_account.memo_key(discord_id)
         op = SteemData::AccountOperation.type('transfer').
-          where(from: account.name, to: steem_account, memo: {'$regex' => ".*#{memo_key}.*"}).last
+          where(account: steem_account, from: account.name, to: steem_account, memo: {'$regex' => ".*#{memo_key}.*"}).last
           
         if op.nil?
           # Fall back to RPC.  The transaction is so new, SteemData hasn't seen it

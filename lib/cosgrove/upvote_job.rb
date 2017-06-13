@@ -17,8 +17,9 @@ module Cosgrove
       muted = muted by: steem_account, chain: :steem
       
       posts = SteemData::Post.root_posts.where(author: author_name, permlink: permlink)
-      today_count = SteemData::AccountOperation.type('vote').where(voter: steem_account).today.count
-      author_count = SteemData::AccountOperation.type('vote').where(voter: steem_account, author: author_name).today.count
+      votes_today = SteemData::AccountOperation.type('vote').where(voter: steem_account).today
+      today_count = votes_today.count
+      author_count = votes_today.where(author: author_name).count
       vote_ratio = if today_count == 0
         0.0
       else

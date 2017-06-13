@@ -97,10 +97,9 @@ module Cosgrove
         details << "Net votes: #{netvotes}"
         
         if cashout_time > Time.now.utc
-          total_votes = SteemData::AccountOperation.type('vote').
-            starting(post.created).count
-          total_voters = SteemData::AccountOperation.type('vote').
-            starting(post.created).distinct(:voter).size
+          votes = SteemData::AccountOperation.type('vote').starting(post.created)
+          total_votes = votes.count
+          total_voters = votes.distinct(:voter).size
             
           if total_votes > 0 && total_voters > 0
             details << "Out of #{pluralize(total_votes - netvotes, 'vote')} cast by #{pluralize(total_voters, 'voter')}"

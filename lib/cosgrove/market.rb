@@ -240,7 +240,7 @@ module Cosgrove
     def promoted(chain = :steem, period = :today)
       return "Query not supported.  No Mongo for #{chain.to_s.capitalize}." unless chain == :steem
       
-      promoted = SteemData::AccountOperation.type('transfer').where(to: 'null', 'amount.asset' => 'SBD').send(period)
+      promoted = SteemData::AccountOperation.type('transfer').where(account: 'null', to: 'null', 'amount.asset' => 'SBD').send(period)
       count_promoted = promoted.count
       sum_promoted = promoted.sum('amount.amount')
       
