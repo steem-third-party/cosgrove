@@ -81,13 +81,13 @@ module Cosgrove
         event.respond nope
         return
       end
-
+      
       vote = {
         type: :vote,
         voter: steem_account,
         author: post.author,
         permlink: post.permlink,
-        weight: 10000
+        weight: upvote_weight
       }
 
       tx = new_tx :steem
@@ -108,6 +108,11 @@ module Cosgrove
       else
         ':question:'
       end
+    end
+  private
+    def upvote_weight
+      upvote_weight = cosgrove_upvote_weight
+      upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
     end
   end
 end

@@ -6,6 +6,10 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
     @mock_event = MockEvent.new(bot: @bot)
   end
   
+  def test_upvote_weight
+    assert_equal 10000, @job.send(:upvote_weight)
+  end
+  
   def test_perform_empty
     expected_result = 'Sorry, I wasn\'t paying attention.'
     

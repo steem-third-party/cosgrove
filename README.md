@@ -37,6 +37,7 @@ Add a config file to your `ruby` project called `config.yml`:
   :token: 
   :client_id: 
   :secret: set this
+  :upvote_weight: 100.0 %
 :chain:
   :steem_account: 
   :steem_posting_wif: 

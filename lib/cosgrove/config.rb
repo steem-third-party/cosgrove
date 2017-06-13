@@ -12,6 +12,10 @@ module Cosgrove
       yml[:cosgrove][:client_id]
     end
     
+    def cosgrove_upvote_weight
+      yml[:cosgrove][:upvote_weight]
+    end
+    
     def steem_api_url
       chain[:steem_api_url]
     end

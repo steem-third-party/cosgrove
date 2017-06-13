@@ -120,6 +120,7 @@ module Cosgrove
           token: '634c3f3bdad073e963b9fdefe1c483d19d7540258aee5744b4f9d287853c422e',
           client_id: COSGROVE_DISCORD_ID,
           secure: '987d25308f27446e37238e1189c35e899b3f24bb1a8fcad0ab57a25c6fd6075b',
+          upvote_weight: '100.0 %'
         },
         chain: {
           steem_account: 'cosgrove',
