@@ -13,9 +13,7 @@ if ENV["HELL_ENABLED"] || ENV['CODECLIMATE_REPO_TOKEN']
 end
 
 require 'cosgrove'
-
 require 'minitest/autorun'
-
 require 'webmock/minitest'
 require 'vcr'
 require 'yaml'
@@ -23,11 +21,12 @@ require 'pry'
 require 'typhoeus/adapters/faraday'
 require 'securerandom'
 
-if !!ENV['VCR']
-  VCR.configure do |c|
-    c.cassette_library_dir = 'test/fixtures/vcr_cassettes'
-    c.hook_into :webmock
-  end
+# Just for testing.
+COSGROVE_DISCORD_ID = 273608642232582144
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'test/fixtures/vcr_cassettes'
+  c.hook_into :webmock
 end
 
 if ENV["HELL_ENABLED"]
@@ -42,7 +41,8 @@ else
 end
 
 if defined? WebMock 
-  WebMock.disable_net_connect!(allow_localhost: false, allow: 'codeclimate.com:443')
+  allow = ['codeclimate.com:443']
+  WebMock.disable_net_connect!(allow_localhost: false, allow: allow)
 end
 
 class MockChannel
@@ -64,7 +64,7 @@ class MockAuthor
   attr_accessor :id, :resolve_id
   
   def initialize(options = {})
-    @id = options[:id] || 'test_id'
+    @id = options[:id] || COSGROVE_DISCORD_ID
     @resolve_id = options[:resolve_id] || SecureRandom.hex
   end
   
@@ -112,7 +112,51 @@ class MockEvent
   end
 end
 
+module Cosgrove
+  module Config
+    def yml
+      {
+        cosgrove: {
+          token: '634c3f3bdad073e963b9fdefe1c483d19d7540258aee5744b4f9d287853c422e',
+          client_id: COSGROVE_DISCORD_ID,
+          secure: '987d25308f27446e37238e1189c35e899b3f24bb1a8fcad0ab57a25c6fd6075b',
+        },
+        chain: {
+          steem_account: 'cosgrove',
+          steem_posting_wif: '5ffaed497ad3e693efe3139e63fcc2cdc15151046b99dc4d78',
+          golos_account: '',
+          golos_posting_wif: '',
+          steem_api_url: 'https://steemd.steemit.com',
+          golos_api_url: 'https://ws.golos.io',
+          test_api_url: 'https://test.steem.ws',
+        },
+        discord: {
+          log_mode: 'info'
+        }
+      }
+    end
+  end
+end
+
+module Cosgrove
+  class Account
+    def self.yml
+      {
+        'steem' => {
+          'cosgrove' => {
+            'discord_ids' => [COSGROVE_DISCORD_ID]
+          }
+        },
+        'golos' => {}
+      }
+    end
+  end
+end
+
 class Cosgrove::Test < MiniTest::Test
+  VCR_RECORD_MODE = :once
+  # VCR_RECORD_MODE = :new_episodes
+
   def save filename, result
     f = File.open("#{File.dirname(__FILE__)}/support/#{filename}", 'w+')
     f.write(result)

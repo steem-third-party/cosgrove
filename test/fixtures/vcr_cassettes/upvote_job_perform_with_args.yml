@@ -1,0 +1,135 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://steemd.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - 30
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 12 Jun 2017 02:40:34 GMT
+      Content-Length:
+      - '20'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"result":[]}'
+    http_version: 
+  recorded_at: Mon, 12 Jun 2017 02:40:34 GMT
+- request:
+    method: post
+    uri: https://steemd.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_content",["nobody","nothing"]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - 30
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 12 Jun 2017 02:40:39 GMT
+      Content-Length:
+      - '987'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"result":{"id":0,"author":"<%=author%>","permlink":"<%=permlink%>","category":"","parent_author":"","parent_permlink":"<%=parent_permlink%>","title":"<%=title%>","body":"","json_metadata":"<%=json_metadata%>","last_update":"1970-01-01T00:00:00","created":"<%=created%>","active":"1970-01-01T00:00:00","last_payout":"1970-01-01T00:00:00","depth":0,"children":0,"net_rshares":0,"abs_rshares":0,"vote_rshares":0,"children_abs_rshares":0,"cashout_time":"<%=cashout_time%>","max_cashout_time":"1970-01-01T00:00:00","total_vote_weight":0,"reward_weight":0,"total_payout_value":"0.000
+        STEEM","curator_payout_value":"0.000 STEEM","author_rewards":0,"net_votes":0,"root_comment":0,"max_accepted_payout":"0.000
+        STEEM","percent_steem_dollars":0,"allow_replies":false,"allow_votes":false,"allow_curation_rewards":false,"beneficiaries":[],"url":"","root_title":"","pending_payout_value":"0.000
+        STEEM","total_pending_payout_value":"0.000 STEEM","active_votes":[],"replies":[],"author_reputation":<%=author_reputation%>,"promoted":"0.000
+        SBD","body_length":0,"reblogged_by":[]}}'
+    http_version: 
+  recorded_at: Mon, 12 Jun 2017 02:40:39 GMT
+- request:
+    method: post
+    uri: https://steemd.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - 30
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 12 Jun 2017 02:40:39 GMT
+      Content-Length:
+      - '1037'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"id":2,"result":{"id":0,"head_block_number":12743981,"head_block_id":"00c2752d8720bc647b2838a039edf83a65c54c4d","time":"2017-06-12T02:40:39","current_witness":"clayop","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"251042030.119
+        STEEM","current_supply":"250331562.450 STEEM","confidential_supply":"0.000
+        STEEM","current_sbd_supply":"1717200.356 SBD","confidential_sbd_supply":"0.000
+        SBD","total_vesting_fund_steem":"178747444.962 STEEM","total_vesting_shares":"370174730807.395029
+        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"99098958.401737
+        VESTS","pending_rewarded_vesting_steem":"47814.837 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"average_block_size":4648,"maximum_block_size":65536,"current_aslot":12800013,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":12743964,"max_virtual_bandwidth":"5986734968066277376","current_reserve_ratio":20000,"vote_power_reserve_rate":40}}'
+    http_version: 
+  recorded_at: Mon, 12 Jun 2017 02:40:39 GMT
+recorded_with: VCR 3.0.3

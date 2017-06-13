@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 11.2.2'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'minitest-line'
+  spec.add_development_dependency 'minitest-proveit'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'faraday'
