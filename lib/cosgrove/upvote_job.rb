@@ -112,7 +112,13 @@ module Cosgrove
   private
     def upvote_weight
       upvote_weight = cosgrove_upvote_weight
-      upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
+      
+      if upvote_weight == 'dynamic'
+        bot_account = find_account(steem_account)
+        upvote_weight = bot_account.voting_power.to_i
+      else
+        upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
+      end
     end
   end
 end
