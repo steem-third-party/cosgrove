@@ -60,6 +60,20 @@ module Cosgrove
       
       yml[:discord][:log_mode].to_sym
     end
+    
+    def channel_upvote_weight(channel_id)
+      rules = yml[:cosgrove][:upvote_rules][:channels]
+      default_weight = rules[:default][:upvote_weight] rescue '100.00 %'
+      
+      keys = rules.keys - [:default]
+      
+      weight = keys.map do |key|
+        rule = rules[key]
+        rule[:upvote_weight] if rule[:channel_id] == channel_id
+      end.compact.last
+      
+      weight || default_weight
+    end
   private
     def chain
       @chain ||= yml[:chain]

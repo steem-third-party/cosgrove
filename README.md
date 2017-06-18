@@ -6,6 +6,13 @@ One example of a bot that uses this framework is [@banjo](https://steemit.com/st
 
 Many (not all) features work on Golos as well.
 
+## New features
+
+* Added the ability for each discord channel to have its own upvote weight, as well as have a default.  Upvote voting weight can be:
+  * `dynamic` - uses the bot's current voting recharge percent as the upvote percent.
+  * `upvote_rules` - uses channel specific rules.
+  * `100.00 %` - can be any valid voting percentage.
+
 ## Features
 
 * **Registration**
@@ -37,7 +44,14 @@ Add a config file to your `ruby` project called `config.yml`:
   :token: 
   :client_id: 
   :secret: set this
-  :upvote_weight: 100.0 %
+  :upvote_weight: upvote_rules
+  :upvote_rules:
+    :channels:
+      :default:
+        :upvote_weight: 50.00 %
+      :general_text:
+        :channel_id: <Your Favorite Channel ID>
+        :upvote_weight: 100.00 %
 :chain:
   :steem_account: 
   :steem_posting_wif: 

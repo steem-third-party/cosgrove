@@ -7,7 +7,12 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
   end
   
   def test_upvote_weight
-    assert_equal 10000, @job.send(:upvote_weight)
+    assert_equal 1000, @job.send(:upvote_weight)
+  end
+  
+  def test_upvote_weight_by_channel_id
+    assert_equal 10000, @job.send(:upvote_weight, 65442882692710)
+    assert_equal 3333, @job.send(:upvote_weight, 92893087564620)
   end
   
   def test_perform_empty

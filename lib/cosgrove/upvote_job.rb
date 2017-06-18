@@ -87,7 +87,7 @@ module Cosgrove
         voter: steem_account,
         author: post.author,
         permlink: post.permlink,
-        weight: upvote_weight
+        weight: upvote_weight(event.channel.id)
       }
 
       tx = new_tx :steem
@@ -110,12 +110,22 @@ module Cosgrove
       end
     end
   private
-    def upvote_weight
+    def upvote_weight(channel_id = nil)
       upvote_weight = cosgrove_upvote_weight
       
-      if upvote_weight == 'dynamic'
+      case upvote_weight
+      when 'dynamic'
         bot_account = find_account(steem_account)
         upvote_weight = bot_account.voting_power.to_i
+      when 'upvote_rules'
+        upvote_weight = channel_upvote_weight(channel_id)
+        
+        if upvote_weight == 'dynamic'
+          bot_account = find_account(steem_account)
+          upvote_weight = bot_account.voting_power.to_i
+        else
+          upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
+        end
       else
         upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
       end
