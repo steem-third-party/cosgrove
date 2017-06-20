@@ -23,5 +23,6 @@ module Cosgrove
   require 'cosgrove/support'
   require 'cosgrove/market'
   require 'cosgrove/upvote_job'
+  require 'cosgrove/comment_job'
   require 'cosgrove/bot'
 end

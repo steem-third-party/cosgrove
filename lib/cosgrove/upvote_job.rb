@@ -4,6 +4,10 @@ module Cosgrove
     include Cosgrove::Support
     include Cosgrove::Config
     
+    def initialize(options = {})
+      @on_success = options[:on_success]
+    end
+    
     def perform(event, slug)
       if slug.nil? || slug.empty?
         event.respond 'Sorry, I wasn\'t paying attention.'
@@ -102,6 +106,14 @@ module Cosgrove
       elsif !!response.result.id
         if created > 30.minutes.ago
           event.respond "*#{SteemSlap.slap(event.author.display_name)}*"
+        end
+        
+        if !!@on_success
+          begin
+            @on_success.call(event, post.permlink)
+          rescue => e
+            ap e
+          end
         end
         
         "Upvoted: #{post.title} by #{author_name}"

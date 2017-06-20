@@ -17,6 +17,8 @@ module Cosgrove
       options[:client_id] ||= cosgrove_client_id
       super(options)
       
+      @on_success_upvote_job = options[:on_success_upvote_job]
+      
       self.bucket :voting, limit: 4, time_span: 8640, delay: 10
 
       add_all_commands
@@ -136,8 +138,11 @@ module Cosgrove
       
       self.command(:upvote, bucket: :voting, rate_limit_message: 'Sorry, you are in cool-down.  Please wait %time% more seconds.') do |event, slug = nil|
         slug = Cosgrove::latest_steemit_link[event.channel.name] if slug.nil? || slug.empty? || slug == '^'
+        options = {
+          on_success: @on_success_upvote_job
+        }
 
-        Cosgrove::UpvoteJob.new.perform(event, slug)
+        Cosgrove::UpvoteJob.new(options).perform(event, slug)
       end
     end
   end
