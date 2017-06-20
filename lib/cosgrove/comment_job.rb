@@ -82,8 +82,7 @@ module Cosgrove
       op = Radiator::Operation.new(comment)
       tx.operations << op
       
-      # Need to really think about this (rep).
-      response = tx.process(false)
+      response = tx.process(true)
       
       ap response.inspect
       
