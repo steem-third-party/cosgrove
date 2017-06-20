@@ -105,13 +105,9 @@ module Cosgrove
       
       raise "Cannot read #{template} template or template is empty." unless @comment_body[template].present?
       
-      unless message.nil?
-        merged = @comment_body[template].gsub('${message}', message)
-      end
-      
-      unless username.nil?
-        merged = merged.gsub('${username}', username)
-      end
+      merged = @comment_body[template]
+      merged = merged.gsub('${message}', message) unless message.nil?
+      merged = merged.gsub('${username}', username) unless username.nil?
       
       case markup
       when :html then RDiscount.new(merged).to_html
