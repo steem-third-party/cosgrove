@@ -51,8 +51,8 @@ module Cosgrove
       elsif muted.include? author_name
         puts "Won't vote because author muted."
         'Unable to vote.'
-      elsif template == :welcome && author.post_count != 1
-        'Sorry, this function is intended to welcome new authors.'
+      # elsif template == :welcome && author.post_count != 1
+      #   'Sorry, this function is intended to welcome new authors.'
       elsif SteemData::Post.where(author: steem_account, parent_permlink: post.permlink).any?
         title = post.title
         title = post.permlink if title.empty?
