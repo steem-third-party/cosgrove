@@ -113,6 +113,7 @@ module Cosgrove
             @on_success.call(event, post.permlink)
           rescue => e
             ap e
+            ap e.backtrace
           end
         end
         
