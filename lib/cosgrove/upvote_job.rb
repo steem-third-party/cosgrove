@@ -110,7 +110,7 @@ module Cosgrove
         
         if !!@on_success
           begin
-            @on_success.call(event, "@#{post.author_name}/#{post.permlink}")
+            @on_success.call(event, "@#{post.author}/#{post.permlink}")
           rescue => e
             ap e
             ap e.backtrace
