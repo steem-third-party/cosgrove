@@ -12,6 +12,8 @@ Many (not all) features work on Golos as well.
   * `dynamic` - uses the bot's current voting recharge percent as the upvote percent.
   * `upvote_rules` - uses channel specific rules.
   * `100.00 %` - can be any valid voting percentage.
+* Added `CommentJob` for creating automated replies.
+* Added callback `on_success_upvote_job` which can be used to, for example, reply to the post after being upvoted.
 
 ## Features
 
