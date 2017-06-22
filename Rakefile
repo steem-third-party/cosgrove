@@ -26,3 +26,18 @@ task default: :test
 task :console do
   exec "irb -r cosgrove -I ./lib"
 end
+
+task :build do
+  exec 'gem build cosgrove.gemspec'
+end
+
+task :push do
+  exec "gem push cosgrove-#{Cosgrove::VERSION}.gem"
+end
+
+# We're not going to yank on a regular basis, but this is how it's done if you
+# really want a task for that for some reason.
+
+# task :yank do
+#   exec "gem yank cosgrove -v #{Cosgrove::VERSION}"
+# end
