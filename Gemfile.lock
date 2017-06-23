@@ -17,20 +17,21 @@ GIT
 PATH
   remote: .
   specs:
-    cosgrove (0.0.1rc1)
-      activeview
-      ai4r
-      discordrb
-      mechanize
-      mongoid
-      phantomjs
-      radiator
-      rdiscount
-      rmagick
-      ruby-cleverbot-api
-      steem-slap
-      steemdata-rb
-      wolfram-alpha
+    cosgrove (0.0.1rc2)
+      activesupport (~> 5.1, >= 5.1.1)
+      ai4r (~> 1.13, >= 1.13)
+      discordrb (~> 3.2, >= 3.2.1)
+      mechanize (~> 2.7, >= 2.7.5)
+      mongoid (~> 6.1, >= 6.1.0)
+      phantomjs (~> 2.1, >= 2.1.1.0)
+      radiator (~> 0.2, >= 0.2.2)
+      railties (~> 5.1, >= 5.1.1)
+      rdiscount (~> 2.2, >= 2.2.0.1)
+      rmagick (~> 2.16, >= 2.16.0)
+      ruby-cleverbot-api (~> 1.0, >= 1.0.6)
+      steem-slap (~> 0.0, >= 0.0.2)
+      steemdata-rb (~> 0.0, >= 0.0.1f)
+      wolfram-alpha (~> 0.3, >= 0.3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -55,9 +56,6 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    activeview (0)
-      activesupport (~> 5.0)
-      railties (~> 5.0)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     ai4r (1.13)
@@ -206,24 +204,24 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  awesome_print
+  awesome_print (~> 1.7, >= 1.7.0)
   bundler (~> 1.11)
-  byebug
+  byebug (~> 9.0, >= 9.0.6)
   cleverbot_rb!
   cosgrove!
-  faraday
-  minitest
-  minitest-line
-  minitest-proveit
-  pry
+  faraday (~> 0.9, >= 0.9.2)
+  minitest (~> 5.9, >= 5.9.0)
+  minitest-line (~> 0.6, >= 0.6.3)
+  minitest-proveit (~> 1.0, >= 1.0.0)
+  pry (~> 0.10, >= 0.10.3)
   radiator
-  rake (~> 11.2.2)
-  simplecov
+  rake (~> 11.2, >= 11.2.2)
+  simplecov (~> 0.11, >= 0.11.2)
   steemdata-rb!
-  typhoeus
-  vcr
-  webmock
-  yard
+  typhoeus (~> 1.0, >= 1.0.2)
+  vcr (~> 3.0, >= 3.0.3)
+  webmock (~> 3.0, >= 3.0.1)
+  yard (~> 0.8, >= 0.8.7.6)
 
 BUNDLED WITH
    1.14.6
