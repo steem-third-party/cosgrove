@@ -50,8 +50,10 @@ module Cosgrove
       created ||= post.created
       cashout_time ||= post.cashout_time
       
-      nope = if created > 5.minutes.ago
+      nope = if created > 1.minute.ago
         "Give it a second!  It's going to SPACE!  Can you give it a second to come back from space?"
+      elsif created > 20.minutes.ago
+        "Unable to vote.  Please wait 20 minutes before voting."
       elsif cashout_time < Time.now.utc
         'Unable to vote on that.  Too old.'
       elsif post.parent_permlink == 'nsfw'
