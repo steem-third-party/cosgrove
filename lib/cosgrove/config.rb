@@ -63,7 +63,7 @@ module Cosgrove
     
     def channel_upvote_weight(channel_id)
       rules = yml[:cosgrove][:upvote_rules][:channels]
-      default_weight = rules[:default][:upvote_weight] rescue '100.00 %'
+      default_weight = rules[:default][:upvote_weight] rescue '0.00 %'
       
       keys = rules.keys - [:default]
       

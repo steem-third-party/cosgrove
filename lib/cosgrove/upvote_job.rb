@@ -139,10 +139,10 @@ module Cosgrove
           bot_account = find_account(steem_account)
           upvote_weight = bot_account.voting_power.to_i
         else
-          upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
+          upvote_weight = (((upvote_weight || '0.00 %').to_f) * 100).to_i
         end
       else
-        upvote_weight = (((upvote_weight || '100.0 %').to_f) * 100).to_i
+        upvote_weight = (((upvote_weight || '0.0 %').to_f) * 100).to_i
       end
     end
   end
