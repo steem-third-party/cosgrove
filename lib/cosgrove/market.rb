@@ -57,7 +57,17 @@ module Cosgrove
       btx_usdt_golos = btx_usdt_btc * btx_btc_golos
       # btx_gbg_golos = btx_usdt_gbg * ( btx_usdt_btc * btx_btc_golos )
       
-      [pol_usdt_steem, pol_usdt_sbd, btx_usdt_golos, btx_usdt_gbg]
+      btx_btc_steem = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-steem").read]
+      btx_btc_sbd = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-sbd").read]
+      
+      btx_btc_steem = btx_btc_steem['result'].first['Ask'].to_f
+      btx_btc_sbd = btx_btc_sbd['result'].first['Ask'].to_f
+      
+      btx_usdt_sbd = btx_usdt_btc * btx_btc_sbd
+      btx_usdt_steem = btx_usdt_btc * btx_btc_steem
+      # btx_sbd = btx_usdt_sbd * ( btx_usdt_btc * btx_btc_steem )
+      
+      [pol_usdt_steem, pol_usdt_sbd, btx_usdt_golos, btx_usdt_gbg, btx_usdt_steem, btx_usdt_sbd]
     end
     
     def mvests(chain = :steem, account_names = [])
@@ -224,15 +234,18 @@ module Cosgrove
     end
     
     def ticker
-      pol_usdt_steem, pol_usdt_sbd, btx_usdt_golos, btx_usdt_gbg = market_data
+      pol_usdt_steem, pol_usdt_sbd, btx_usdt_golos, btx_usdt_gbg, btx_usdt_steem, btx_usdt_sbd = market_data
       
       pol_usdt_steem = number_to_currency(pol_usdt_steem, precision: 4)
       pol_usdt_sbd = number_to_currency(pol_usdt_sbd, precision: 4)
+      btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
+      btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
       btx_usdt_golos = number_to_currency(btx_usdt_golos, precision: 4)
       btx_usdt_gbg = number_to_currency(btx_usdt_gbg, precision: 4)
 
       ticker = []
       ticker << "`Poloniex: USD/STEEM: #{pol_usdt_steem}; USD/SBD: #{pol_usdt_sbd}`"
+      ticker << "`Bittrex: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
       ticker << "`Bittrex: USD/GOLOS: #{btx_usdt_golos}; USD/GBG: #{btx_usdt_gbg}`"
       ticker.join("\n")
     end
