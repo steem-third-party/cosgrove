@@ -71,12 +71,12 @@ module Cosgrove
     end
     
     def mvests(chain = :steem, account_names = [])
-      pol_usdt_steem, _pol_usdt_sbd, btx_usdt_golos, _btx_usdt_gbg = market_data
+      pol_usdt_steem, _pol_usdt_sbd, btx_usdt_golos, _btx_usdt_gbg, btx_usdt_steem, btx_usdt_sbd = market_data
       base_per_mvest, base_per_debt = price_feed(chain)
       
       if account_names.none?
-        pol_base_per_dept_as_usdt = base_per_mvest * pol_usdt_steem
-        pol_base_per_dept_as_usdt = number_to_currency(pol_base_per_dept_as_usdt, precision: 3)
+        btx_base_per_dept_as_usdt = base_per_mvest * btx_usdt_steem
+        btx_base_per_dept_as_usdt = number_to_currency(btx_base_per_dept_as_usdt, precision: 3)
         
         base_per_mvest = number_with_precision(base_per_mvest, precision: 3, delimiter: ',', separator: '.')
         
@@ -92,7 +92,7 @@ module Cosgrove
         
         # E.g. from 2016/11/25: 1 MV = 1M VESTS = 459.680 STEEM = $50.147
         return case chain
-        when :steem then "`1 MV = 1M VESTS = #{base_per_mvest} STEEM = #{base_per_debt} = #{pol_base_per_dept_as_usdt} on Poloniex`"
+        when :steem then "`1 MV = 1M VESTS = #{base_per_mvest} STEEM = #{base_per_debt} = #{btx_base_per_dept_as_usdt} on Bittrex`"
         when :golos then "`1 MG = 1M GESTS = #{base_per_mvest} GOLOS = #{base_per_debt} GBG = #{base_per_debt_as_usdt}`"
         when :test then "`1 MT = 1M TESTS = #{base_per_mvest} TEST = #{base_per_debt}`"
         end
@@ -152,24 +152,24 @@ module Cosgrove
         delegated_vests = (received_vests - delegated_vests) / 1000000
         steem = base_per_mvest * mvests
         sbd = base_per_debt * mvests
-        pol_sbd = base_per_mvest * mvests * pol_usdt_steem
+        btx_sbd = base_per_mvest * mvests * btx_usdt_steem
         
         mvests = number_with_precision(mvests, precision: 3, delimiter: ',', separator: '.')
         delegated_sign = delegated_vests >= 0.0 ? '+' : '-'
         delegated_vests = number_with_precision(delegated_vests.abs, precision: 3, delimiter: ',', separator: '.')
         steem = number_with_precision(steem, precision: 3, delimiter: ',', separator: '.')
         sbd = number_to_currency(sbd, precision: 3)
-        pol_sbd = number_to_currency(pol_sbd, precision: 3)
+        btx_sbd = number_to_currency(btx_sbd, precision: 3)
         
         if accounts.size == 1
-          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{pol_sbd} on Poloniex"]
+          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
           unless delegated_vests == '0.000'
             balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
           end
           
           "**#{account.name}:** `#{balance.join(' ')}`"
         else
-          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{pol_sbd} on Poloniex"]
+          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
           unless delegated_vests == '0.000'
             balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
           end
@@ -198,7 +198,7 @@ module Cosgrove
     end
     
     def rewardpool(chain = :steem)
-      pol_usdt_steem, _pol_usdt_sbd, btx_usdt_golos, _btx_usdt_gbg = market_data
+      pol_usdt_steem, _pol_usdt_sbd, btx_usdt_golos, _btx_usdt_gbg, btx_usdt_steem, btx_usdt_sbd = market_data
       base_per_mvest, base_per_debt = price_feed(chain)
       
       case chain
@@ -208,13 +208,13 @@ module Cosgrove
         total = reward_fund.reward_balance
         total = total.split(' ').first.to_f
         total_usd = (total / base_per_mvest) * base_per_debt
-        pol_total_usd = total * pol_usdt_steem
+        btx_total_usd = total * btx_usdt_steem
         
         total = number_with_precision(total, precision: 0, delimiter: ',', separator: '.')
         total_usd = number_to_currency(total_usd, precision: 0)
-        pol_total_usd = number_to_currency(pol_total_usd, precision: 0)
+        btx_total_usd = number_to_currency(btx_total_usd, precision: 0)
         
-        "Total Reward Fund: `#{total} STEEM (Worth: #{total_usd} internally; #{pol_total_usd} on Poloniex)`"
+        "Total Reward Fund: `#{total} STEEM (Worth: #{total_usd} internally; #{btx_total_usd} on Bittrex)`"
       when :golos
         response = api(chain).get_dynamic_global_properties
         properties = response.result

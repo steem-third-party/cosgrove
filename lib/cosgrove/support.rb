@@ -96,7 +96,8 @@ module Cosgrove
         netvotes = upvotes - downvotes
         details << "Net votes: #{netvotes}"
         
-        if cashout_time > Time.now.utc
+        # Only append this detail of the post less than an hour old.
+        if created > 1.hour.ago
           votes = SteemData::AccountOperation.type('vote').starting(post.created)
           total_votes = votes.count
           total_voters = votes.distinct(:voter).size
