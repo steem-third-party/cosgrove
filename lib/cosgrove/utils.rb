@@ -44,7 +44,7 @@ module Cosgrove
     end
     
     def steem_data_head_block_number
-      SteemData::Setting.last.last_block
+      [SteemData::Setting.last.last_block, SteemData::AccountOperation.last.block].min
     end
     
     def properties(chain)
