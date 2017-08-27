@@ -87,6 +87,8 @@ module Cosgrove
     end
     
     def self.save_yml!
+      return unless !!@yml
+      
       File.open(ACCOUNTS_FILE, 'w') do |f|
         f.write @yml.to_yaml
       end
