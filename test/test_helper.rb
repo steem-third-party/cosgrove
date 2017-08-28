@@ -46,10 +46,11 @@ if defined? WebMock
 end
 
 class MockChannel
-  attr_accessor :topic
+  attr_accessor :id, :topic
   
-  def initialize
-    @topic = nil
+  def initialize(options = {})
+    @topic = options[:topic]
+    @id = options[:id]
   end
   
   def name
@@ -128,7 +129,8 @@ module Cosgrove
               },
               specific_channel: {
                 channel_id: 65442882692710,
-                upvote_weight: '100.00 %'
+                upvote_weight: '100.00 %',
+                disable_comment_voting: true
               },
               another_specific_channel: {
                 channel_id: 92893087564620,

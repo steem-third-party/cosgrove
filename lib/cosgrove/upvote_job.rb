@@ -49,6 +49,7 @@ module Cosgrove
       
       created ||= post.created
       cashout_time ||= post.cashout_time
+      root_post = post.parent_author == ''
       
       nope = if created > 1.minute.ago
         "Give it a second!  It's going to SPACE!  Can you give it a second to come back from space?"
@@ -70,6 +71,9 @@ module Cosgrove
         'Unable to vote on that.'
       elsif muted.include? author_name
         puts "Won't vote because author muted."
+        'Unable to vote.'
+      elsif !root_post && channel_disable_comment_voting(event.channel.id)
+        puts "Won't vote because comment voting is disabled."
         'Unable to vote.'
       elsif !registered
         'Unable to vote.  Feature resticted to registered users.'

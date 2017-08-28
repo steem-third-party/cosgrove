@@ -16,6 +16,10 @@ module Cosgrove
       yml[:cosgrove][:upvote_weight]
     end
     
+    def cosgrove_disable_comment_voting
+      yml[:cosgrove][:disable_comment_voting].to_s == 'true'
+    end
+    
     def steem_api_url
       chain[:steem_api_url]
     end
@@ -73,6 +77,20 @@ module Cosgrove
       end.compact.last
       
       weight || default_weight
+    end
+    
+    def channel_disable_comment_voting(channel_id)
+      rules = yml[:cosgrove][:upvote_rules][:channels]
+      default_disable_comment_voting = rules[:default][:disable_comment_voting].to_s == 'true' rescue false
+      
+      keys = rules.keys - [:default]
+      
+      disable_comment_voting = keys.map do |key|
+        rule = rules[key]
+        rule[:disable_comment_voting] if rule[:channel_id] == channel_id
+      end.compact.last
+      
+      disable_comment_voting || default_disable_comment_voting
     end
   private
     def chain

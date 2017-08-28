@@ -77,4 +77,26 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
       assert_equal expected_result, @mock_event.responses.last
     end
   end
+  
+  def test_disable_comment_voting_false_post
+    slug = '@inertia/macintosh'
+    expected_result = 'Unable to vote on that.  Too old.'
+    
+    VCR.use_cassette('upvote_job_perform_too_old', record: VCR_RECORD_MODE) do
+      result = @job.perform(@mock_event, slug)
+      assert_equal expected_result, @mock_event.responses.last
+    end
+  end
+  
+  def test_disable_comment_voting_true_post
+    slug = '@inertia/macintosh'
+    expected_result = 'Unable to vote on that.  Too old.'
+    mock_channel = MockChannel.new(id: 65442882692710)
+    mock_event = MockEvent.new(bot: @bot, channel_id: mock_channel)
+    
+    VCR.use_cassette('upvote_job_perform_too_old', record: VCR_RECORD_MODE) do
+      result = @job.perform(@mock_event, slug)
+      assert_equal expected_result, @mock_event.responses.last
+    end
+  end
 end
