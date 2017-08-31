@@ -45,7 +45,7 @@ Add a config file to your `ruby` project called `config.yml`:
 :cosgrove:
   :token: 
   :client_id: 
-  :secret: set this
+  :secure: set this
   :upvote_weight: upvote_rules
   :upvote_rules:
     :channels:
@@ -69,7 +69,7 @@ You will need to request a `token` and `client_id` from Discord (see below).
 
 Provide the accounts and `wif` private postings keys if you want your bot to upvote posts.
 
-You should change the `secret` key using the output of:
+You should change the `secure` key using the output of:
 
 ```ruby
 SecureRandom.hex(32)
