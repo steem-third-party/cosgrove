@@ -110,9 +110,9 @@ module Cosgrove
       if !!response.error
         'Unable to vote right now.  Maybe I already voted on that.  Try again later.'
       elsif !!response.result.id
-        if created > 30.minutes.ago
-          event.respond "*#{SteemSlap.slap(event.author.display_name)}*"
-        end
+        # if created > 30.minutes.ago
+        #   event.respond "*#{SteemSlap.slap(event.author.display_name)}*"
+        # end
         
         if !!@on_success
           begin

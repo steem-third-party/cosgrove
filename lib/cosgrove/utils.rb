@@ -43,6 +43,24 @@ module Cosgrove
       end
     end
     
+    def reset_stream
+      @steem_stream = @golos_stream = @test_stream = nil
+      @steem_folow_stream = @golos_follow_stream = @test_folow_stream = nil
+      @cycle_stream_at = nil
+    end
+    
+    def stream(chain)
+      reset_stream if @cycle_stream_at.nil? || @cycle_stream_at < 15.minutes.ago
+      
+      @cycle_stream_at ||= Time.now
+      
+      case chain
+      when :steem then @steem_stream ||= Radiator::Stream.new(url: steem_api_url)
+      when :golos then @golos_stream ||= Radiator::Stream.new(url: golos_api_url)
+      when :test then @test_stream ||= Radiator::Stream.new(url: test_api_url)
+      end
+    end
+    
     def steem_data_head_block_number
       [SteemData::Setting.last.last_block, SteemData::AccountOperation.last.block].min
     end
@@ -55,7 +73,7 @@ module Cosgrove
       properties(chain)['head_block_number']
     end
     
-    def last_irreversible_block_num(chain)
+    def last_irreversible_block_num(chain = :steem)
       properties(chain)['last_irreversible_block_num']
     end
     
