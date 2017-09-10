@@ -12,6 +12,10 @@ module Cosgrove
       yml[:cosgrove][:client_id]
     end
     
+    def cosgrove_operators
+      (yml[:cosgrove][:operators] || '').split(' ')
+    end
+    
     def cosgrove_upvote_weight
       yml[:cosgrove][:upvote_weight]
     end

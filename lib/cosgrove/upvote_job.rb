@@ -18,7 +18,9 @@ module Cosgrove
       discord_id = event.author.id
       cb_account = Cosgrove::Account.find_by_discord_id(discord_id)
       registered = !!cb_account
-      muted = muted by: steem_account, chain: :steem
+      muters = cosgrove_operators
+      muters << steem_account
+      muted = muted by: muters, chain: :steem
       
       posts = SteemData::Post.root_posts.where(author: author_name, permlink: permlink)
       votes_today = SteemData::AccountOperation.type('vote').where(voter: steem_account).today

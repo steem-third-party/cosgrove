@@ -17,7 +17,7 @@ GIT
 PATH
   remote: .
   specs:
-    cosgrove (0.0.1rc9)
+    cosgrove (0.0.1rc10)
       activesupport (~> 5.1, >= 5.1.1)
       ai4r (~> 1.13, >= 1.13)
       discordrb (~> 3.2, >= 3.2.1)
