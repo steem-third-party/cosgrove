@@ -1,4 +1,5 @@
 require 'steem-slap'
+require 'open-uri'
 
 module Cosgrove
   module SnarkCommands
@@ -46,6 +47,10 @@ module Cosgrove
         else
           "There are #{SteemSlap::combinations} slap combinations, see: https://gist.github.com/inertia186/c34e6e7b73f7ee9fb5f60f5ed8f30206"
         end
+      end
+      
+      bot.command [:catfact, :catfacts] do |_event|
+        JSON[open('https://catfact.ninja/fact').read]['fact']
       end
     end
   end
