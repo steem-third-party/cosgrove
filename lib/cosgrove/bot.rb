@@ -131,7 +131,6 @@ module Cosgrove
           
         if !!op
           cb_account.add_discord_id(discord_id)
-          "Ok.  #{chain.to_s.upcase} account #{account.name} has been registered with <@#{discord_id}>."
           
           if !!@on_success_register_job
             begin
@@ -141,6 +140,8 @@ module Cosgrove
               ap e.backtrace
             end
           end
+          
+          "Ok.  #{chain.to_s.upcase} account #{account.name} has been registered with <@#{discord_id}>."
         else
           "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{chain.upcase}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
         end
