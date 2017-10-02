@@ -41,4 +41,14 @@ class Cosgrove::BotTest < Cosgrove::Test
     refute_nil result
     assert_equal expected_result, @mock_event.responses.last
   end
+  
+  def test_slap
+    result = @bot.simple_execute('slap dan', @mock_event)
+    refute_nil result
+  end
+  
+  def test_slap_no_target
+    result = @bot.simple_execute('slap', @mock_event)
+    refute_nil result
+  end
 end

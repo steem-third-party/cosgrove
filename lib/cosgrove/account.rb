@@ -3,6 +3,7 @@ require 'digest/bubblebabble'
 module Cosgrove
   class Account
     include Cosgrove::Config
+    include Cosgrove::Utils
 
     ACCOUNTS_FILE ||= "#{Cosgrove::PWD}/accounts.yml".freeze
     DISCORD_IDS = 'discord_ids'.freeze
@@ -89,7 +90,7 @@ module Cosgrove
     def self.save_yml!
       return unless !!@yml
       
-      File.open(ACCOUNTS_FILE, 'w') do |f|
+      File.open(ACCOUNTS_FILE, 'w+') do |f|
         f.write @yml.to_yaml
       end
     end
@@ -98,6 +99,10 @@ module Cosgrove
       @yml = if File.exist?(ACCOUNTS_FILE)
         YAML.load_file(ACCOUNTS_FILE)
       else
+        # Initialize
+        File.open(ACCOUNTS_FILE, 'w+') do |f|
+          f.write {}.to_yaml
+        end
         {}
       end
     end

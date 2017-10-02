@@ -18,6 +18,7 @@ module Cosgrove
       super(options)
       
       @on_success_upvote_job = options[:on_success_upvote_job]
+      @on_success_register_job = options[:on_success_register_job]
       
       self.bucket :voting, limit: 4, time_span: 8640, delay: 10
 
@@ -131,6 +132,15 @@ module Cosgrove
         if !!op
           cb_account.add_discord_id(discord_id)
           "Ok.  #{chain.to_s.upcase} account #{account.name} has been registered with <@#{discord_id}>."
+          
+          if !!@on_success_register_job
+            begin
+              @on_success_register_job.call(event, cb_account)
+            rescue => e
+              ap e
+              ap e.backtrace
+            end
+          end
         else
           "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{chain.upcase}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
         end
