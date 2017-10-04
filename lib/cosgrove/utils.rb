@@ -19,15 +19,38 @@ module Cosgrove
       true
     end
     
+    def chain_options(chain)
+      case chain
+      when :steem
+        {
+          chain: :steem,
+          url: steem_api_url,
+          failover_urls: steem_api_failover_urls
+        }
+      when :golos
+        {
+          chain: :golos,
+          url: golos_api_url,
+          failover_urls: golos_api_failover_urls
+        }
+      when :test
+        {
+          chain: :test,
+          url: test_api_url,
+          failover_urls: test_api_failover_urls
+        }
+      end
+    end
+    
     def api(chain)
       reset_api if @cycle_api_at.nil? || @cycle_api_at < 15.minutes.ago
       
       @cycle_api_at ||= Time.now
       
       case chain
-      when :steem then @steem_api ||= Radiator::Api.new(chain: :steem, url: steem_api_url)
-      when :golos then @golos_api ||= Radiator::Api.new(chain: :golos, url: golos_api_url)
-      when :test then @test_api ||= Radiator::Api.new(chain: :test, url: test_api_url)
+      when :steem then @steem_api ||= Radiator::Api.new(chain_options(chain))
+      when :golos then @golos_api ||= Radiator::Api.new(chain_options(chain))
+      when :test then @test_api ||= Radiator::Api.new(chain_options(chain))
       end
     end
     
@@ -37,9 +60,9 @@ module Cosgrove
       @cycle_api_at ||= Time.now
       
       case chain
-      when :steem then @steem_follow_api ||= Radiator::FollowApi.new(chain: :steem, url: steem_api_url)
-      when :golos then @golos_follow_api ||= Radiator::FollowApi.new(chain: :golos, url: golos_api_url)
-      when :test then @test_follow_api ||= Radiator::FollowApi.new(chain: :test, url: test_api_url)
+      when :steem then @steem_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
+      when :golos then @golos_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
+      when :test then @test_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
       end
     end
     
@@ -55,9 +78,9 @@ module Cosgrove
       @cycle_stream_at ||= Time.now
       
       case chain
-      when :steem then @steem_stream ||= Radiator::Stream.new(url: steem_api_url)
-      when :golos then @golos_stream ||= Radiator::Stream.new(url: golos_api_url)
-      when :test then @test_stream ||= Radiator::Stream.new(url: test_api_url)
+      when :steem then @steem_stream ||= Radiator::Stream.new(chain_options(chain))
+      when :golos then @golos_stream ||= Radiator::Stream.new(chain_options(chain))
+      when :test then @test_stream ||= Radiator::Stream.new(chain_options(chain))
       end
     end
     
@@ -100,9 +123,9 @@ module Cosgrove
     
     def new_tx(chain)
       case chain
-      when :steem then Radiator::Transaction.new(chain: :steem, wif: steem_posting_wif, url: steem_api_url)
-      when :golos then Radiator::Transaction.new(chain: :golos, wif: golos_posting_wif, url: golos_api_url)
-      when :test then Radiator::Transaction.new(chain: :test, wif: test_posting_wif, url: test_api_url)
+      when :steem then Radiator::Transaction.new(chain_options(chain).merge(wif: steem_posting_wif))
+      when :golos then Radiator::Transaction.new(chain_options(chain).merge(wif: golos_posting_wif))
+      when :test then Radiator::Transaction.new(chain_options(chain).merge(wif: test_posting_wif))
       end
     end
     
@@ -150,6 +173,31 @@ module Cosgrove
       end
       
       []
+    end
+    
+    def find_comment(slug)
+      author_name, permlink = parse_slug slug
+      comment = nil
+      
+      begin
+        comment = SteemData::Post.where(author: author_name, permlink: permlink).first
+      rescue => e
+        ap e
+      end
+      
+      if comment.nil?
+        begin
+          # Fall back to RPC
+          response = api(:steem).get_content(author_name, permlink)
+          unless response.result.author.empty?
+            comment = response.result
+          end
+        rescue => e
+          ap e
+        end
+      end
+      
+      comment
     end
   end
 end

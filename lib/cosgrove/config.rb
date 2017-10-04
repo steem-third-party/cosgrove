@@ -28,12 +28,20 @@ module Cosgrove
       chain[:steem_api_url]
     end
     
+    def steem_api_failover_urls
+      chain[:steem_api_failover_urls]
+    end
+    
     def golos_api_url
       chain[:golos_api_url]
     end
     
-    def test_api_url
-      chain[:test_api_url]
+    def golos_api_failover_urls
+      chain[:golos_api_failover_urls]
+    end
+    
+    def test_api_failover_urls
+      chain[:test_api_failover_urls]
     end
     
     def steem_account
@@ -67,6 +75,12 @@ module Cosgrove
       return :info unless !!yml[:discord][:log_mode]
       
       yml[:discord][:log_mode].to_sym
+    end
+    
+    def discord_fancy_log
+      return false if !!ENV['HELL_ENABLED']
+      
+      yml[:discord][:fancy_log].to_s == 'true'
     end
     
     def channel_upvote_weight(channel_id)
