@@ -18,7 +18,6 @@ require 'webmock/minitest'
 require 'vcr'
 require 'yaml'
 require 'pry'
-require 'typhoeus/adapters/faraday'
 require 'securerandom'
 
 # Just for testing.

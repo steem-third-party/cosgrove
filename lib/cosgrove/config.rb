@@ -33,7 +33,7 @@ module Cosgrove
     end
     
     def steem_api_failover_urls
-      chain[:steem_api_failover_urls]
+      [chain[:steem_api_failover_urls]].flatten.compact
     end
     
     def golos_api_url
@@ -41,11 +41,15 @@ module Cosgrove
     end
     
     def golos_api_failover_urls
-      chain[:golos_api_failover_urls]
+      [chain[:golos_api_failover_urls]].flatten.compact
+    end
+    
+    def test_api_url
+      chain[:test_api_url]
     end
     
     def test_api_failover_urls
-      chain[:test_api_failover_urls]
+      [chain[:test_api_failover_urls]].flatten.compact
     end
     
     def steem_account

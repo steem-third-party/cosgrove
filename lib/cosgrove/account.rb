@@ -2,8 +2,8 @@ require 'digest/bubblebabble'
 
 module Cosgrove
   class Account
-    include Cosgrove::Config
-    include Cosgrove::Utils
+    include Config
+    include Utils
 
     ACCOUNTS_FILE ||= "#{Cosgrove::PWD}/accounts.yml".freeze
     DISCORD_IDS = 'discord_ids'.freeze

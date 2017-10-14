@@ -4,6 +4,7 @@ require 'yaml'
 require 'action_view'
 require 'radiator'
 require 'awesome_print'
+require 'steem_data'
 # require 'pry'
 
 Bundler.require

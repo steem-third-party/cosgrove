@@ -1,6 +1,6 @@
 module Cosgrove
   module Market
-    include Cosgrove::Support
+    include Support
     include ActionView::Helpers::NumberHelper
 
     def price_feed(chain = :steem)

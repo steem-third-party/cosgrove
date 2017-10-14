@@ -2,8 +2,8 @@ require 'rdiscount'
 
 module Cosgrove
   class CommentJob
-    include Cosgrove::Utils
-    include Cosgrove::Support
+    include Utils
+    include Support
     
     def perform(event, slug, template, message = nil)
       author_name, permlink = parse_slug slug

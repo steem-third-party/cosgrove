@@ -1,8 +1,8 @@
 module Cosgrove
   class UpvoteJob
-    include Cosgrove::Utils
-    include Cosgrove::Support
-    include Cosgrove::Config
+    include Utils
+    include Support
+    include Config
     
     def initialize(options = {})
       @on_success = options[:on_success]

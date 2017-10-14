@@ -1,6 +1,6 @@
 module Cosgrove
   module Support
-    include Cosgrove::Utils
+    include Utils
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::DateHelper
     

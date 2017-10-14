@@ -1,6 +1,6 @@
 module Cosgrove
   module Utils
-    include Cosgrove::Config
+    include Config
     
     def reset_api
       @steem_api = @golos_api = @test_api = nil
@@ -25,13 +25,13 @@ module Cosgrove
         {
           chain: :steem,
           url: steem_api_url,
-          failover_urls: steem_api_failover_urls
+          failover_urls: steem_api_failover_urls.any? ? steem_api_failover_urls : nil
         }
       when :golos
         {
           chain: :golos,
           url: golos_api_url,
-          failover_urls: golos_api_failover_urls
+          failover_urls: golos_api_failover_urls.any? ? golos_api_failover_urls : nil
         }
       when :test
         {
@@ -199,21 +199,21 @@ module Cosgrove
       
       comment
     end
-  end
-  
-  def chain_asset
-    case chain
-    when :steem then 'STEEM'
-    when :golos then 'GOLOS'
-    else; 'TESTS'
+    
+    def core_asset(chain = :steem)
+      case chain
+      when :steem then 'STEEM'
+      when :golos then 'GOLOS'
+      else; 'TESTS'
+      end
     end
-  end
-  
-  def debt_asset
-    case chain
-    when :steem then 'SBD'
-    when :golos then 'GBG'
-    else; 'TBD'
+    
+    def debt_asset(chain = :steem)
+      case chain
+      when :steem then 'SBD'
+      when :golos then 'GBG'
+      else; 'TBD'
+      end
     end
   end
 end
