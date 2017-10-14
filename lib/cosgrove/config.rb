@@ -16,6 +16,10 @@ module Cosgrove
       (yml[:cosgrove][:operators] || '').split(' ')
     end
     
+    def cosgrove_allow_pm_commands
+      yml[:cosgrove][:allow_pm_commands].to_s == 'true'
+    end
+    
     def cosgrove_upvote_weight
       yml[:cosgrove][:upvote_weight]
     end

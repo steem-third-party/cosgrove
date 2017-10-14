@@ -200,4 +200,20 @@ module Cosgrove
       comment
     end
   end
+  
+  def chain_asset
+    case chain
+    when :steem then 'STEEM'
+    when :golos then 'GOLOS'
+    else; 'TESTS'
+    end
+  end
+  
+  def debt_asset
+    case chain
+    when :steem then 'SBD'
+    when :golos then 'GBG'
+    else; 'TBD'
+    end
+  end
 end

@@ -12,8 +12,11 @@ Many (not all) features work on Golos as well.
   * `dynamic` - uses the bot's current voting recharge percent as the upvote percent.
   * `upvote_rules` - uses channel specific rules.
   * `100.00 %` - can be any valid voting percentage.
+  * `disable_comment_voting` - only posts can get votes.
 * Added `CommentJob` for creating automated replies.
 * Added callback `on_success_upvote_job` which can be used to, for example, reply to the post after being upvoted.
+* Market data now uses Bittrex instead of Poloniex.
+* Added `operators` to keep track of steem accounts that can do things like block upvotes (by blockchain mute).
 
 ## Features
 
@@ -33,7 +36,8 @@ $ gem install cosgrove
 ... or in your `Gemfile`
 
 ```ruby
-gem 'steemdata-rb', require: 'steemdata', git: 'git@github.com:steem-third-party/steemdata-rb.git'
+source 'https://rubygems.org'
+
 gem 'cosgrove'
 ```
 
@@ -46,6 +50,7 @@ Add a config file to your `ruby` project called `config.yml`:
   :token: 
   :client_id: 
   :secure: set this
+  :operators: <account names seperated by space>
   :upvote_weight: upvote_rules
   :upvote_rules:
     :channels:
@@ -54,6 +59,7 @@ Add a config file to your `ruby` project called `config.yml`:
       :general_text:
         :channel_id: <Your Favorite Channel ID>
         :upvote_weight: 100.00 %
+        :disable_comment_voting: true
 :chain:
   :steem_account: 
   :steem_posting_wif: 

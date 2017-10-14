@@ -59,6 +59,10 @@ class MockChannel
   
   def start_typing
   end
+  
+  def pm?
+    false
+  end
 end
 
 class MockAuthor

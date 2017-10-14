@@ -73,7 +73,7 @@ module Cosgrove
         'Unable to vote on that.'
       elsif muted.include? author_name
         puts "Won't vote because author muted."
-        'Unable to vote.'
+        'Unable to vote because the author has been muted by the operators.'
       elsif !root_post && channel_disable_comment_voting(event.channel.id)
         puts "Won't vote because comment voting is disabled."
         'Unable to vote.'

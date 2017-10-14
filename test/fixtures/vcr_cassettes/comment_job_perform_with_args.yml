@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://steemd.steemit.com/
+    uri: https://steemd-int.steemit.com/
     body:
       encoding: UTF-8
       string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'

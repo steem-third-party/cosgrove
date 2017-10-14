@@ -57,6 +57,8 @@ module Cosgrove
       end
       
       self.command :verify do |event, key, chain = :steem|
+        return if event.channel.pm? && !allow_pm_commands
+        
         mongo_behind_warning(event)
         if key.nil?
           event.respond "To create an account: https://steemit.com/enter_email?r=#{steem_account}"
@@ -94,6 +96,8 @@ module Cosgrove
       end
       
       self.command :register do |event, account_name, chain = :steem|
+        return if event.channel.pm? && !allow_pm_commands
+        
         mongo_behind_warning(event)
         account = find_account(account_name, event)
         discord_id = event.author.id
@@ -143,11 +147,13 @@ module Cosgrove
           
           "Ok.  #{chain.to_s.upcase} account #{account.name} has been registered with <@#{discord_id}>."
         else
-          "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{chain.upcase}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
+          "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{chain_asset}' or '0.001 #{debt_asset}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
         end
       end
       
       self.command(:upvote, bucket: :voting, rate_limit_message: 'Sorry, you are in cool-down.  Please wait %time% more seconds.') do |event, slug = nil|
+        return if event.channel.pm? && !allow_pm_commands
+        
         slug = Cosgrove::latest_steemit_link[event.channel.name] if slug.nil? || slug.empty? || slug == '^'
         options = {
           on_success: @on_success_upvote_job

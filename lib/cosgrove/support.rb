@@ -50,7 +50,7 @@ module Cosgrove
     def cannot_find_input(event, message_prefix = "Unable to find that.")
       message = [message_prefix]
       
-      message << if (blocks = head_block_number(:steem) - steem_data_head_block_number) > 10
+      message << if (blocks = head_block_number(:steem) - steem_data_head_block_number) > 86400
         elapse = blocks * 3
         "  Mongo is behind by #{time_ago_in_words(elapse.seconds.ago)}.  Try again later."
       else
@@ -113,7 +113,11 @@ module Cosgrove
       page_views = page_views("/#{post.parent_permlink}/@#{post.author}/#{post.permlink}")
       details << "Views: #{page_views}" if !!page_views
       
-      event.respond details.join('; ')
+      begin
+        event.respond details.join('; ')
+      rescue Discordrb::Errors::NoPermission => e
+        puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
+      end
       
       return nil
     end

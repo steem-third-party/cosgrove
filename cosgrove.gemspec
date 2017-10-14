@@ -31,9 +31,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', '~> 0.8', '>= 0.8.7.6'
   spec.add_development_dependency 'byebug', '~> 9.0', '>= 9.0.6'
   spec.add_development_dependency 'pry', '~> 0.10', '>= 0.10.3'
-  spec.add_development_dependency 'awesome_print', '~> 1.7', '>= 1.7.0'
 
-  spec.add_dependency 'radiator', '0.3.0dev5'
+  spec.add_dependency 'radiator', '~> 0.3', '>= 0.3.1'
   spec.add_dependency 'steemdata-rb', '~> 0.0', '>= 0.0.1f'
   spec.add_dependency 'steem_api', '~> 1.1', '>= 1.1.0'
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
@@ -48,4 +47,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mechanize', '~> 2.7', '>= 2.7.5'
   spec.add_dependency 'wolfram-alpha', '~> 0.3', '>= 0.3.1'
   spec.add_dependency 'rmagick', '~> 2.16', '>= 2.16.0'
+  spec.add_dependency 'awesome_print', '~> 1.7', '>= 1.7.0'
 end
