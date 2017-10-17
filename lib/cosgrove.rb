@@ -9,6 +9,8 @@ require 'steem_data'
 
 Bundler.require
 
+defined? Thread.report_on_exception and Thread.report_on_exception = true
+
 SteemData.load
 
 module Cosgrove
