@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
   spec.add_dependency 'ai4r', '~> 1.13', '>= 1.13'
   spec.add_dependency 'mongoid', '~> 6.1', '>= 6.1.0'
-  spec.add_dependency 'ruby-cleverbot-api', '~> 1.0', '>= 1.0.6'
   spec.add_dependency 'steem-slap', '~> 0.0', '>= 0.0.2'
   spec.add_dependency 'activesupport', '~> 5.1', '>= 5.1.1'
   spec.add_dependency 'railties', '~> 5.1', '>= 5.1.1'
