@@ -85,28 +85,7 @@ module Cosgrove
     end
     
     def steem_data_head_block_number
-      latest_settings_block = begin
-        SteemData::Setting.last.last_block
-      rescue => e
-        ap e
-        -1
-      end
-      
-      latest_account_op_block = begin
-        SteemData::AccountOperation.today.last.block
-      rescue => e
-        ap e
-        -1
-      end
-      
-      latest_op_block = begin
-        SteemData::Operation.today.last.block_num
-      rescue => e
-        ap e
-        -1
-      end
-      
-      [latest_settings_block, latest_account_op_block, latest_op_block].min
+      SteemData::Setting.last.last_block
     end
     
     def properties(chain)
