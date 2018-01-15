@@ -29,12 +29,16 @@ module Cosgrove
     end
     
     def mongo_behind_warning(event)
+      elapse = -1
+      
       begin
         message = []
         
         if (blocks = head_block_number(:steem) - steem_data_head_block_number) > 1200
           elapse = blocks * 3
           message << "Mongo is behind by #{time_ago_in_words(elapse.seconds.ago)}."
+        else
+          0
         end
         
         if message.size > 0
@@ -45,6 +49,8 @@ module Cosgrove
         sleep 15
         event.respond Cosgrove::SnarkCommands::WITTY.sample
       end
+      
+      elapse
     end
     
     def cannot_find_input(event, message_prefix = "Unable to find that.")
@@ -62,16 +68,31 @@ module Cosgrove
     
     def append_link_details(event, slug)
       author_name, permlink = parse_slug slug
+      created = nil
+      cashout_time = nil
       
-      post = SteemData::Post.where(author: author_name, permlink: permlink).last
+      if slug =~ /steemit.com/
+        chain = :steem
+      elsif slug =~ /golos.io/
+        chain = :golos
+      elsif slug =~ /golos.blog/
+        chain = :golos
+      else
+        return # silntlly ignore this slug
+      end
+      
+      post = case chain
+      when :steem then SteemData::Post.where(author: author_name, permlink: permlink).last
+      when :golos then GolosCloud::Comment.where(author: author_name, permlink: permlink).last
+      end
       
       if post.nil?
         # Fall back to RPC
-        response = api(:steem).get_content(author_name, permlink)
-        unless response.result.author.empty?
-          post = response.result
-          created = Time.parse(post.created + 'Z')
-          cashout_time = Time.parse(post.cashout_time + 'Z')
+        api(chain).get_content(author_name, permlink) do |content, errors|
+          unless content.author.empty?
+            created = Time.parse(content.created + 'Z')
+            cashout_time = Time.parse(content.cashout_time + 'Z')
+          end
         end
       end
       
@@ -98,7 +119,10 @@ module Cosgrove
         
         # Only append this detail of the post less than an hour old.
         if created > 1.hour.ago
-          votes = SteemData::AccountOperation.type('vote').starting(post.created)
+          votes = case chain
+          when :steem then SteemData::AccountOperation.type('vote').starting(post.created)
+          when :golos then GolosCloud::Vote.where('timestamp > ?', post.created)
+          end
           total_votes = votes.count
           total_voters = votes.distinct(:voter).size
             
@@ -115,7 +139,7 @@ module Cosgrove
       
       begin
         event.respond details.join('; ')
-      rescue Discordrb::Errors::NoPermission => e
+      rescue Discordrb::Errors::NoPermission => _
         puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
       end
       
@@ -124,19 +148,41 @@ module Cosgrove
     
     def find_account(key, event = nil, chain = :steem)
       key = key.to_s.downcase
+      chain = chain.to_sym
       
-      if (accounts = SteemData::Account.where(name: key)).any?
-        return accounts.first
-      elsif !!(cb_account = Cosgrove::Account.find_by_discord_id(key, chain))
-        return SteemData::Account.find_by(name: cb_account.account_name)
-      else
-        # Fall back to RPC
-        if !!key
-          response = api(chain).get_accounts([key])
-          return account = response.result.first
+      raise "Required argument: chain" if chain.nil?
+      
+      if chain == :steem
+        account = if (accounts = SteemData::Account.where(name: key)).any?
+          accounts.first
         end
+      end
+      
+      if account.nil?
+        account = if !!(cb_account = Cosgrove::Account.find_by_discord_id(key, chain))
+          cb_account.chain_account
+        end
+      end
+      
+      if account.nil?
+        account = if !!key
+          if chain == :steem && (accounts = SteemApi::Account.where(name: key)).any?
+            accounts.first
+          elsif chain == :golos && (accounts = GolosCloud::Account.where(name: key)).any?
+            accounts.first
+          else
+            # Fall back to RPC
+            api(chain).get_accounts([key]) do |_accounts, errors|
+              _accounts.first
+            end
+          end
+        end
+      end
         
-        unknown_account(key, event) unless !!account
+      if account.nil?
+        unknown_account(key, event)
+      else
+        account
       end
     end
     
@@ -204,9 +250,12 @@ module Cosgrove
         count = -1
         until count == ignoring.size
           count = ignoring.size
-          response = follow_api(chain).get_following(a, ignoring.last, 'ignore', 100)
-          ignoring += response.result.map(&:following)
-          ignoring = ignoring.uniq
+          follow_api(chain).get_following(a, ignoring.last, 'ignore', 100) do |ignores, errors|
+            next unless defined? ignores.following
+            
+            ignoring += ignores.map(&:following)
+            ignoring = ignoring.uniq
+          end
         end
         muted += ignoring
       end

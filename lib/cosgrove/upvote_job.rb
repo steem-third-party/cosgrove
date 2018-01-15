@@ -22,7 +22,13 @@ module Cosgrove
       muters << steem_account
       muted = muted by: muters, chain: :steem
       
-      posts = SteemData::Post.root_posts.where(author: author_name, permlink: permlink)
+      post = find_comment(author: author_name, permlink: permlink)
+      
+      if post.nil?
+        cannot_find_input(event)
+        return
+      end
+      
       votes_today = SteemData::AccountOperation.type('vote').where(voter: steem_account).today
       today_count = votes_today.count
       author_count = votes_today.where(author: author_name).count
@@ -32,26 +38,14 @@ module Cosgrove
         author_count.to_f / today_count
       end
       
-      post = posts.first
-      
-      if post.nil?
-        # Fall back to RPC
-        response = api(:steem).get_content(author_name, permlink)
-        unless response.result.author.empty?
-          post = response.result
-          created = Time.parse(post.created + 'Z')
-          cashout_time = Time.parse(post.cashout_time + 'Z')
-        end
-      end
-      
-      if post.nil?
-        cannot_find_input(event)
-        return
-      end
-      
       created ||= post.created
       cashout_time ||= post.cashout_time
       root_post = post.parent_author == ''
+      
+      if created.class == String
+        created = Time.parse(created + 'Z')
+        cashout_time = Time.parse(cashout_time + 'Z')
+      end
       
       nope = if created > 1.minute.ago
         "Give it a second!  It's going to SPACE!  Can you give it a second to come back from space?"
@@ -103,19 +97,63 @@ module Cosgrove
       }
 
       tx = new_tx :steem
-      op = Radiator::Operation.new(vote)
-      tx.operations << op
-      response = tx.process(true)
-
-      ap response.to_json
-
-      if !!response.error
-        'Unable to vote right now.  Maybe I already voted on that.  Try again later.'
-      elsif !!response.result.id
-        # if created > 30.minutes.ago
-        #   event.respond "*#{SteemSlap.slap(event.author.display_name)}*"
-        # end
+      tx.operations << vote
+      friendy_error = nil
+      
+      loop do
+        begin
+          response = tx.process(true)
+        rescue => e
+          puts "Unable to vote: #{e}"
+          ap e
+        end
         
+        if !!response && !!response.error
+          message = response.error.message
+          if message.to_s =~ /missing required posting authority/
+            friendy_error = "Failed: Check posting key."
+            break
+          elsif message.to_s =~ /You have already voted in a similar way./
+            friendy_error = "Failed: duplicate vote."
+            break
+          elsif message.to_s =~ /Can only vote once every 3 seconds./
+            puts "Retrying: voting too quickly."
+            sleep 3
+            redo
+          elsif message.to_s =~ /Voting weight is too small, please accumulate more voting power or steem power./
+            friendy_error = "Failed: voting weight too small"
+            break
+          elsif message.to_s =~ /unknown key/
+            friendy_error = "Failed: unknown key (testing?)"
+            break
+          elsif message.to_s =~ /tapos_block_summary/
+            puts "Retrying vote/comment: tapos_block_summary (?)"
+            redo
+          elsif message.to_s =~ /now < trx.expiration/
+            puts "Retrying vote/comment: now < trx.expiration (?)"
+            redo
+          elsif message.to_s =~ /signature is not canonical/
+            puts "Retrying vote/comment: signature was not canonical (bug in Radiator?)"
+            redo
+          elsif message.to_s =~ /STEEMIT_UPVOTE_LOCKOUT_HF17/
+            friendy_error = "Failed: upvote lockout (last twelve hours before payout)"
+            break
+          else
+            friendy_error = 'Unable to vote right now.  Maybe I already voted on that.  Try again later.'
+            ap e
+            ap e.backtrace
+            break
+          end
+        end
+        
+        break
+      end
+
+      if !!friendy_error
+        friendy_error
+      elsif !!response.result.id
+        ap response.to_json
+
         if !!@on_success
           begin
             @on_success.call(event, "@#{post.author}/#{post.permlink}")

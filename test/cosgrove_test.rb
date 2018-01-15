@@ -3,7 +3,10 @@ require 'test_helper'
 module Cosgrove
   class CosgroveTest < Cosgrove::Test
     def setup
-      @bot = Cosgrove.new
+    end
+    
+    def test_known_chains
+      assert_equal %i(steem golos test), Cosgrove::KNOWN_CHAINS
     end
   end
 end

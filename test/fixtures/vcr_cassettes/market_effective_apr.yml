@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:06:54 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Cache-Hit:
+      - steemd.database_api.get_dynamic_global_properties
+      X-Jussi-Request-Id:
+      - 1515870414.370-7996871-436-172.31.44.249-47.208.249.50
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: ASCII-8BIT
+      string: '{"jsonrpc":"2.0","result":{"id":0,"head_block_number":18949611,"head_block_id":"012125eb60b123513b248b3994e5c582836588db","time":"2018-01-13T19:06:51","current_witness":"good-karma","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"263768666.276
+        STEEM","current_supply":"262619083.879 STEEM","confidential_supply":"0.000
+        STEEM","current_sbd_supply":"5999670.532 SBD","confidential_sbd_supply":"0.000
+        SBD","total_vesting_fund_steem":"199303670.862 STEEM","total_vesting_shares":"408152314967.771488
+        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"278708388.080985
+        VESTS","pending_rewarded_vesting_steem":"135388.878 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19011737,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":18949592,"vote_power_reserve_rate":10,"current_reserve_ratio":200000000,"average_block_size":14752,"max_virtual_bandwidth":"264241152000000000000"},"id":1}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:06:54 GMT
+recorded_with: VCR 3.0.3

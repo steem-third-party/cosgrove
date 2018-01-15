@@ -2,6 +2,10 @@ module Cosgrove
   module Utils
     include Config
     
+    def cycle_api_at
+      @cycle_api_at if defined? @cycle_api_at
+    end
+    
     def reset_api
       @steem_api = @golos_api = @test_api = nil
       @steem_folow_api = @golos_follow_api = @test_folow_api = nil
@@ -9,12 +13,9 @@ module Cosgrove
     end
     
     def ping_api(chain)
-      response = api(chain).get_config
-      
-      reset_api if !!response.error
-      
-      result = response.result
-      reset_api unless result.keys.any?
+      api(chain).get_config do |config, errors|
+        reset_api if !!errors || config.keys.none?
+      end
       
       true
     end
@@ -43,7 +44,7 @@ module Cosgrove
     end
     
     def api(chain)
-      reset_api if @cycle_api_at.nil? || @cycle_api_at < 15.minutes.ago
+      reset_api if cycle_api_at.nil? || cycle_api_at < 15.minutes.ago
       
       @cycle_api_at ||= Time.now
       
@@ -55,7 +56,7 @@ module Cosgrove
     end
     
     def follow_api(chain)
-      reset_api if @cycle_api_at.nil? || @cycle_api_at < 15.minutes.ago
+      reset_api if cycle_api_at.nil? || cycle_api_at < 15.minutes.ago
       
       @cycle_api_at ||= Time.now
       
@@ -66,6 +67,10 @@ module Cosgrove
       end
     end
     
+    def cycle_stream_at
+      @cycle_stream_at if defined? @cycle_stream_at
+    end
+    
     def reset_stream
       @steem_stream = @golos_stream = @test_stream = nil
       @steem_folow_stream = @golos_follow_stream = @test_folow_stream = nil
@@ -73,7 +78,7 @@ module Cosgrove
     end
     
     def stream(chain)
-      reset_stream if @cycle_stream_at.nil? || @cycle_stream_at < 15.minutes.ago
+      reset_stream if cycle_stream_at.nil? || cycle_stream_at < 15.minutes.ago
       
       @cycle_stream_at ||= Time.now
       
@@ -85,7 +90,11 @@ module Cosgrove
     end
     
     def steem_data_head_block_number
-      SteemData::Setting.last.last_block
+      begin
+        SteemData::Setting.last.last_block
+      rescue
+        -1
+      end
     end
     
     def properties(chain)
@@ -154,29 +163,128 @@ module Cosgrove
       []
     end
     
-    def find_comment(slug)
+    def find_comment_by_slug(slug)
       author_name, permlink = parse_slug slug
-      comment = nil
+      find_comment(chain: :steem, author_name: author_name, permlink: permlink)
+    end
+    
+    def find_comment(options)
+      chain = options[:chain]
+      author_name = options[:author_name]
+      permlink = options[:permlink]
+      parent_permlink = options[:parent_permlink]
       
-      begin
-        comment = SteemData::Post.where(author: author_name, permlink: permlink).first
-      rescue => e
-        ap e
+      post = if chain == :steem
+        posts = SteemData::Post.root_posts.where(author: author_name)
+        posts = posts.where(permlink: permlink) if !!permlink
+        posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+        
+        posts.first
       end
       
-      if comment.nil?
-        begin
-          # Fall back to RPC
-          response = api(:steem).get_content(author_name, permlink)
-          unless response.result.author.empty?
-            comment = response.result
-          end
-        rescue => e
-          ap e
+      if post.nil?
+        post = case chain
+        when :steem
+          posts = SteemApi::Comment.where(author: author_name)
+          posts = posts.where(permlink: permlink) if !!permlink
+          posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+          
+          posts.first
+        when :golos
+          posts = GolosCloud::Comment.where(author: author_name)
+          posts = posts.where(permlink: permlink) if !!permlink
+          posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+          
+          posts.first
         end
       end
       
-      comment
+      if post.nil? && !!author_name && !!permlink
+        # Fall back to RPC
+        api(chain).get_content(author_name, permlink) do |content, errors|
+          unless content.author.empty?
+            post = content
+          end
+        end
+      end
+      
+      post
+    end
+    
+    def find_author(options)
+      chain = options[:chain]
+      author_name = options[:author_name]
+      
+      author = SteemData::Account.where(name: author_name).last
+      
+      if author.nil?
+        author = begin
+          SteemApi::Account.where(name: author_name).last
+        rescue => e
+          puts e
+        end
+      end
+      
+      if author.nil?
+        author = api(chain).get_accounts([author_name]) do |accounts, errors|
+          accounts.last
+        end
+      end
+      
+      author
+    end
+    
+    def find_transfer(options)
+      chain = options[:chain]
+      from = options[:from]
+      to = options[:to]
+      memo_key = options[:memo].to_s.strip
+      
+      op = case chain
+      when :steem
+        transfers = SteemData::AccountOperation.type('transfer').
+          where(account: steem_account, from: from, to: steem_account, memo: {'$regex' => ".*#{memo_key}.*"})
+      
+        if transfers.any?
+          transfers.last
+        else
+          SteemApi::Tx::Transfer.
+            where(from: from).
+            where(to: to).
+            where("memo LIKE ?", "%#{memo_key}%").last
+        end
+      when :golos
+        GolosCloud::Tx::Transfer.
+          where(from: from).
+          where(to: to).
+          where("memo LIKE ?", "%#{memo_key}%").last
+      end
+      
+      if op.nil?
+        # Fall back to RPC.  The transaction is so new, SteemData hasn't seen it
+        # yet, SteemData is behind, or there is no such transfer.
+        
+        api(chain).get_account_history(steem_account, -1, 10000) do |history, error|
+          if !!error
+            ap error
+            return "Try again later."
+          end
+          
+          op = history.map do |trx|
+            e = trx.last.op
+            type = e.first
+            next unless type == 'transfer'
+            o = e.last
+            next unless o.from == from
+            next unless o.to == steem_account
+            next unless o.memo =~ /.*#{memo_key}.*/
+            
+            o
+          end.compact.last
+        end
+      end
+
+      op
     end
     
     def core_asset(chain = :steem)

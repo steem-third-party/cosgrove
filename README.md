@@ -65,7 +65,7 @@ Add a config file to your `ruby` project called `config.yml`:
   :steem_posting_wif: 
   :golos_account: 
   :golos_posting_wif: 
-  :steem_api_url: https://steemd.steemit.com
+  :steem_api_url: https://api.steemit.com
   :golos_api_url: https://ws.golos.io
 :discord:
   :log_mode: info

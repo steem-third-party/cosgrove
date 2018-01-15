@@ -1,0 +1,165 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ws.golos.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_feed_history",[]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 13 Jan 2018 20:29:15 GMT
+      Content-Length:
+      - '3773'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"result":{"id":0,"current_median_history":{"base":"10.097 GBG","quote":"1.000
+        GOLOS"},"price_history":[{"base":"1.000 GBG","quote":"0.094 GOLOS"},{"base":"10.694
+        GBG","quote":"1.000 GOLOS"},{"base":"11.074 GBG","quote":"1.000 GOLOS"},{"base":"10.960
+        GBG","quote":"1.000 GOLOS"},{"base":"10.960 GBG","quote":"1.000 GOLOS"},{"base":"11.105
+        GBG","quote":"1.000 GOLOS"},{"base":"11.136 GBG","quote":"1.000 GOLOS"},{"base":"11.074
+        GBG","quote":"1.000 GOLOS"},{"base":"11.163 GBG","quote":"1.000 GOLOS"},{"base":"11.169
+        GBG","quote":"1.000 GOLOS"},{"base":"11.169 GBG","quote":"1.000 GOLOS"},{"base":"11.136
+        GBG","quote":"1.000 GOLOS"},{"base":"11.125 GBG","quote":"1.000 GOLOS"},{"base":"11.136
+        GBG","quote":"1.000 GOLOS"},{"base":"11.136 GBG","quote":"1.000 GOLOS"},{"base":"10.719
+        GBG","quote":"1.000 GOLOS"},{"base":"10.585 GBG","quote":"1.000 GOLOS"},{"base":"10.681
+        GBG","quote":"1.000 GOLOS"},{"base":"10.162 GBG","quote":"1.000 GOLOS"},{"base":"9.769
+        GBG","quote":"1.000 GOLOS"},{"base":"9.586 GBG","quote":"1.000 GOLOS"},{"base":"1.000
+        GBG","quote":"0.102 GOLOS"},{"base":"1.000 GBG","quote":"0.102 GOLOS"},{"base":"9.913
+        GBG","quote":"1.000 GOLOS"},{"base":"10.120 GBG","quote":"1.000 GOLOS"},{"base":"9.914
+        GBG","quote":"1.000 GOLOS"},{"base":"10.049 GBG","quote":"1.000 GOLOS"},{"base":"9.860
+        GBG","quote":"1.000 GOLOS"},{"base":"10.083 GBG","quote":"1.000 GOLOS"},{"base":"9.860
+        GBG","quote":"1.000 GOLOS"},{"base":"9.860 GBG","quote":"1.000 GOLOS"},{"base":"9.860
+        GBG","quote":"1.000 GOLOS"},{"base":"10.085 GBG","quote":"1.000 GOLOS"},{"base":"10.007
+        GBG","quote":"1.000 GOLOS"},{"base":"10.054 GBG","quote":"1.000 GOLOS"},{"base":"10.054
+        GBG","quote":"1.000 GOLOS"},{"base":"9.603 GBG","quote":"1.000 GOLOS"},{"base":"9.755
+        GBG","quote":"1.000 GOLOS"},{"base":"9.691 GBG","quote":"1.000 GOLOS"},{"base":"9.691
+        GBG","quote":"1.000 GOLOS"},{"base":"9.346 GBG","quote":"1.000 GOLOS"},{"base":"1.000
+        GBG","quote":"0.106 GOLOS"},{"base":"9.550 GBG","quote":"1.000 GOLOS"},{"base":"9.356
+        GBG","quote":"1.000 GOLOS"},{"base":"9.807 GBG","quote":"1.000 GOLOS"},{"base":"9.856
+        GBG","quote":"1.000 GOLOS"},{"base":"9.892 GBG","quote":"1.000 GOLOS"},{"base":"9.843
+        GBG","quote":"1.000 GOLOS"},{"base":"9.277 GBG","quote":"1.000 GOLOS"},{"base":"9.320
+        GBG","quote":"1.000 GOLOS"},{"base":"9.778 GBG","quote":"1.000 GOLOS"},{"base":"9.776
+        GBG","quote":"1.000 GOLOS"},{"base":"9.920 GBG","quote":"1.000 GOLOS"},{"base":"9.914
+        GBG","quote":"1.000 GOLOS"},{"base":"9.766 GBG","quote":"1.000 GOLOS"},{"base":"9.982
+        GBG","quote":"1.000 GOLOS"},{"base":"9.966 GBG","quote":"1.000 GOLOS"},{"base":"10.027
+        GBG","quote":"1.000 GOLOS"},{"base":"9.919 GBG","quote":"1.000 GOLOS"},{"base":"10.098
+        GBG","quote":"1.000 GOLOS"},{"base":"10.093 GBG","quote":"1.000 GOLOS"},{"base":"10.286
+        GBG","quote":"1.000 GOLOS"},{"base":"10.097 GBG","quote":"1.000 GOLOS"},{"base":"10.097
+        GBG","quote":"1.000 GOLOS"},{"base":"10.097 GBG","quote":"1.000 GOLOS"},{"base":"1.000
+        GBG","quote":"0.098 GOLOS"},{"base":"10.219 GBG","quote":"1.000 GOLOS"},{"base":"1.000
+        GBG","quote":"0.098 GOLOS"},{"base":"1.000 GBG","quote":"0.098 GOLOS"},{"base":"10.324
+        GBG","quote":"1.000 GOLOS"},{"base":"10.368 GBG","quote":"1.000 GOLOS"},{"base":"10.568
+        GBG","quote":"1.000 GOLOS"},{"base":"10.511 GBG","quote":"1.000 GOLOS"},{"base":"10.346
+        GBG","quote":"1.000 GOLOS"},{"base":"10.429 GBG","quote":"1.000 GOLOS"},{"base":"10.408
+        GBG","quote":"1.000 GOLOS"},{"base":"10.489 GBG","quote":"1.000 GOLOS"},{"base":"10.619
+        GBG","quote":"1.000 GOLOS"},{"base":"10.447 GBG","quote":"1.000 GOLOS"},{"base":"10.447
+        GBG","quote":"1.000 GOLOS"},{"base":"10.555 GBG","quote":"1.000 GOLOS"},{"base":"10.544
+        GBG","quote":"1.000 GOLOS"},{"base":"10.544 GBG","quote":"1.000 GOLOS"},{"base":"10.440
+        GBG","quote":"1.000 GOLOS"}]}}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 20:29:15 GMT
+- request:
+    method: post
+    uri: https://ws.golos.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 13 Jan 2018 20:29:15 GMT
+      Content-Length:
+      - '968'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":2,"result":{"id":0,"head_block_number":12984024,"head_block_id":"00c61ed8247612549086d02997880a81f70af95d","time":"2018-01-13T20:29:15","current_witness":"arcange","total_pow":634637,"num_pow_witnesses":172,"virtual_supply":"132854641.903
+        GOLOS","current_supply":"131504031.778 GOLOS","confidential_supply":"0.000
+        GOLOS","current_sbd_supply":"13637110.439 GBG","confidential_sbd_supply":"0.000
+        GBG","total_vesting_fund_steem":"97052555.749 GOLOS","total_vesting_shares":"359174520259.247762
+        GESTS","total_reward_fund_steem":"38113.520 GOLOS","total_reward_shares2":"4430233186779428859445762409391","sbd_interest_rate":1000,"sbd_print_rate":10000,"average_block_size":1625,"maximum_block_size":65536,"current_aslot":13028985,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":12984009,"max_virtual_bandwidth":"5986734968066277376","current_reserve_ratio":20000,"vote_regeneration_per_day":40}}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 20:29:15 GMT
+- request:
+    method: post
+    uri: https://ws.golos.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":3,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 13 Jan 2018 20:29:16 GMT
+      Content-Length:
+      - '968'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":3,"result":{"id":0,"head_block_number":12984024,"head_block_id":"00c61ed8247612549086d02997880a81f70af95d","time":"2018-01-13T20:29:15","current_witness":"arcange","total_pow":634637,"num_pow_witnesses":172,"virtual_supply":"132854641.903
+        GOLOS","current_supply":"131504031.778 GOLOS","confidential_supply":"0.000
+        GOLOS","current_sbd_supply":"13637110.439 GBG","confidential_sbd_supply":"0.000
+        GBG","total_vesting_fund_steem":"97052555.749 GOLOS","total_vesting_shares":"359174520259.247762
+        GESTS","total_reward_fund_steem":"38113.520 GOLOS","total_reward_shares2":"4430233186779428859445762409391","sbd_interest_rate":1000,"sbd_print_rate":10000,"average_block_size":1625,"maximum_block_size":65536,"current_aslot":13028985,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":12984009,"max_virtual_bandwidth":"5986734968066277376","current_reserve_ratio":20000,"vote_regeneration_per_day":40}}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 20:29:16 GMT
+recorded_with: VCR 3.0.3

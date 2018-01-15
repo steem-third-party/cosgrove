@@ -6,23 +6,15 @@ module Cosgrove
     include Support
     
     def perform(event, slug, template, message = nil)
+      chain = :steem
       author_name, permlink = parse_slug slug
-      muted = muted by: steem_account, chain: :steem
+      muted = muted by: steem_account, chain: chain
       
-      posts = SteemData::Post.root_posts.where(author: author_name, permlink: permlink)
+      author = find_author(chain: chain, author_name: author_name)
       
-      post = posts.first
-      author = SteemData::Account.find_by(name: author_name)
+      return if author.nil?
       
-      if post.nil?
-        # Fall back to RPC
-        response = api(:steem).get_content(author_name, permlink)
-        unless response.result.author.empty?
-          post = response.result
-          created = Time.parse(post.created + 'Z')
-          cashout_time = Time.parse(post.cashout_time + 'Z')
-        end
-      end
+      post = find_comment(chain: chain, author: author_name, permlink: permlink)
       
       if post.nil?
         cannot_find_input(event)
@@ -31,6 +23,11 @@ module Cosgrove
       
       created ||= post.created
       cashout_time ||= post.cashout_time
+      
+      if created.class == String
+        created = Time.parse(created + 'Z')
+        cashout_time = Time.parse(cashout_time + 'Z')
+      end
       
       nope = if post.nil?
         "Sorry, couldn't find that."
@@ -53,7 +50,7 @@ module Cosgrove
         'Unable to vote.'
       # elsif template == :welcome && author.post_count != 1
       #   'Sorry, this function is intended to welcome new authors.'
-      elsif SteemData::Post.where(author: steem_account, parent_permlink: post.permlink).any?
+      elsif find_comment(chain: :steem, author: steem_account, parent_permlink: post.permlink).any?
         title = post.title
         title = post.permlink if title.empty?
         "I already commented on #{title} by #{post.author}."

@@ -1,0 +1,563 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_STEEM&depth=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dec77694b7c3a332009f56e0b63ce380a1515870611; expires=Sun, 13-Jan-19
+        19:10:11 GMT; path=/; domain=.poloniex.com; HttpOnly
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa77998ef6d8a-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"asks":[["0.00041759",428.7521826],["0.00041760",17.78895567],["0.00041900",1],["0.00041939",0.70378441],["0.00041999",0.27507546],["0.00042000",1],["0.00042044",29.46011002],["0.00042065",465.19029804],["0.00042100",0.29110367],["0.00042122",1.52655439]],"bids":[["0.00041758",170.92801889],["0.00041751",0.48670729],["0.00041744",13.42875623],["0.00041688",27.045765],["0.00041663",1.91973572],["0.00041660",86.6195917],["0.00041659",2.96257555],["0.00041658",1101.72027598],["0.00041575",21],["0.00041481",0.24372604]],"isFrozen":"0","seq":71821340}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+- request:
+    method: get
+    uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_SBD&depth=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dec77694b7c3a332009f56e0b63ce380a1515870611; expires=Sun, 13-Jan-19
+        19:10:11 GMT; path=/; domain=.poloniex.com; HttpOnly
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa77ac9636d8a-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"asks":[["0.00046576",8.37847281],["0.00046577",130.68931117],["0.00046582",44.99183918],["0.00046627",104.34673842],["0.00046628",576.88547175],["0.00046839",1.06539816],["0.00046885",4.12471302],["0.00046900",67.31689],["0.00046931",1.7899492],["0.00046937",1.11543948]],"bids":[["0.00045966",21.65747562],["0.00045964",42.64392325],["0.00045930",0.4354],["0.00045279",15.2817147],["0.00045144",0.4338954],["0.00045134",10.559392],["0.00045001",204.86768108],["0.00045000",20.60862582],["0.00044950",0.4345],["0.00044932",0.7837]],"isFrozen":"0","seq":18700265}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+- request:
+    method: get
+    uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d411a520e75ef56a20885c28c6aa0c5231515870611; expires=Sun, 13-Jan-19
+        19:10:11 GMT; path=/; domain=.poloniex.com; HttpOnly
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa77bed3f6c22-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"asks":[["14300.52352987",0.48186466],["14300.52352990",0.26558163],["14300.52352992",1.00766127],["14300.52352996",0.00407569],["14300.52353000",0.03389655],["14309.54278100",0.0002164],["14310.85428358",0.41170523],["14315.99617575",0.9],["14318.90829250",0.00096811],["14322.00000000",0.03978945]],"bids":[["14270.00000038",0.940508],["14270.00000000",0.25784363],["14269.99997640",0.00021608],["14263.93554823",0.53441837],["14263.93554820",0.00021617],["14263.44614628",0.02734263],["14254.50961030",0.00021631],["14250.00000028",1.589],["14250.00000027",0.2291327],["14250.00000000",0.10189474]],"isFrozen":"0","seq":185527064}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+- request:
+    method: get
+    uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-golos
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:12 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '249'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dc6c931a4c72eaf21fb2da4debef5cb811515870612; expires=Sun, 13-Jan-19
+        19:10:12 GMT; path=/; domain=.bittrex.com; HttpOnly
+      Cache-Control:
+      - public, max-age=1
+      Expires:
+      - Sat, 13 Jan 2018 19:10:10 GMT
+      Last-Modified:
+      - Sat, 13 Jan 2018 19:10:09 GMT
+      Vary:
+      - "*, Accept-Encoding"
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      Cf-Cache-Status:
+      - EXPIRED
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa77d295e92b2-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GOLOS","High":0.00002997,"Low":0.00002785,"Volume":378458.54540860,"Last":0.00002997,"BaseVolume":10.97431177,"TimeStamp":"2018-01-13T19:09:48.81","Bid":0.00002955,"Ask":0.00002997,"OpenBuyOrders":326,"OpenSellOrders":1675,"PrevDay":0.00002798,"Created":"2017-01-19T23:23:12.41"}]}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:12 GMT
+- request:
+    method: get
+    uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-gbg
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:13 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '252'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d3c585a650526350a8581b7d5ec58edca1515870612; expires=Sun, 13-Jan-19
+        19:10:12 GMT; path=/; domain=.bittrex.com; HttpOnly
+      Cache-Control:
+      - public, max-age=1
+      Expires:
+      - Sat, 13 Jan 2018 19:10:16 GMT
+      Last-Modified:
+      - Sat, 13 Jan 2018 19:10:15 GMT
+      Vary:
+      - "*, Accept-Encoding"
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      Cf-Cache-Status:
+      - EXPIRED
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa77f69446d84-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GBG","High":0.00002866,"Low":0.00002576,"Volume":599321.28285285,"Last":0.00002663,"BaseVolume":16.21298020,"TimeStamp":"2018-01-13T19:09:50.983","Bid":0.00002600,"Ask":0.00002661,"OpenBuyOrders":315,"OpenSellOrders":2315,"PrevDay":0.00002837,"Created":"2017-02-12T00:38:21.023"}]}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:13 GMT
+- request:
+    method: get
+    uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=usdt-btc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:13 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '266'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dfdc49640e34d25a82f883008ce6f68ba1515870613; expires=Sun, 13-Jan-19
+        19:10:13 GMT; path=/; domain=.bittrex.com; HttpOnly
+      Cache-Control:
+      - public, max-age=1
+      Expires:
+      - Sat, 13 Jan 2018 19:10:15 GMT
+      Last-Modified:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Vary:
+      - "*, Accept-Encoding"
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      Cf-Cache-Status:
+      - HIT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa7887afa929a-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"success":true,"message":"","result":[{"MarketName":"USDT-BTC","High":14583.00000000,"Low":13415.00000003,"Volume":3075.43640544,"Last":14295.00000000,"BaseVolume":43371840.13398485,"TimeStamp":"2018-01-13T19:10:11.267","Bid":14295.00000000,"Ask":14310.68168495,"OpenBuyOrders":5368,"OpenSellOrders":5836,"PrevDay":13415.00000001,"Created":"2015-12-11T06:31:40.633"}]}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:13 GMT
+- request:
+    method: get
+    uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-steem
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '256'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dabe93a71c809b2e2d13326dc490e14b81515870613; expires=Sun, 13-Jan-19
+        19:10:13 GMT; path=/; domain=.bittrex.com; HttpOnly
+      Cache-Control:
+      - public, max-age=1
+      Expires:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Last-Modified:
+      - Sat, 13 Jan 2018 19:10:13 GMT
+      Vary:
+      - "*, Accept-Encoding"
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      Cf-Cache-Status:
+      - EXPIRED
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa7891e9451b2-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-STEEM","High":0.00046379,"Low":0.00038309,"Volume":2173636.08086008,"Last":0.00041821,"BaseVolume":929.28387083,"TimeStamp":"2018-01-13T19:10:16.097","Bid":0.00041788,"Ask":0.00041821,"OpenBuyOrders":1592,"OpenSellOrders":6399,"PrevDay":0.00038666,"Created":"2016-04-17T01:22:13.35"}]}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:14 GMT
+- request:
+    method: get
+    uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-sbd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '256'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d70e1572510a1927cf3f697767247f0e91515870614; expires=Sun, 13-Jan-19
+        19:10:14 GMT; path=/; domain=.bittrex.com; HttpOnly
+      Cache-Control:
+      - public, max-age=1
+      Expires:
+      - Sat, 13 Jan 2018 19:10:15 GMT
+      Last-Modified:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Vary:
+      - "*, Accept-Encoding"
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      Cf-Cache-Status:
+      - EXPIRED
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa78c79269312-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-SBD","High":0.00052100,"Low":0.00044128,"Volume":214971.35217861,"Last":0.00047274,"BaseVolume":103.97563428,"TimeStamp":"2018-01-13T19:10:15.173","Bid":0.00046254,"Ask":0.00047132,"OpenBuyOrders":256,"OpenSellOrders":2416,"PrevDay":0.00045566,"Created":"2016-07-09T19:02:08.943"}]}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:14 GMT
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_feed_history",[]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:14 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Cache-Hit:
+      - steemd.database_api.get_feed_history
+      X-Jussi-Request-Id:
+      - 1515870614.816-8491121-422-172.31.18.180-47.208.249.50
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: ASCII-8BIT
+      string: '{"jsonrpc":"2.0","result":{"id":0,"current_median_history":{"base":"5.219
+        SBD","quote":"1.000 STEEM"},"price_history":[{"base":"5.422 SBD","quote":"1.000
+        STEEM"},{"base":"5.050 SBD","quote":"1.000 STEEM"},{"base":"5.190 SBD","quote":"1.000
+        STEEM"},{"base":"5.219 SBD","quote":"1.000 STEEM"},{"base":"5.195 SBD","quote":"1.000
+        STEEM"},{"base":"5.224 SBD","quote":"1.000 STEEM"},{"base":"5.208 SBD","quote":"1.000
+        STEEM"},{"base":"5.054 SBD","quote":"1.000 STEEM"},{"base":"5.026 SBD","quote":"1.000
+        STEEM"},{"base":"5.305 SBD","quote":"1.000 STEEM"},{"base":"5.288 SBD","quote":"1.000
+        STEEM"},{"base":"5.288 SBD","quote":"1.000 STEEM"},{"base":"5.273 SBD","quote":"1.000
+        STEEM"},{"base":"5.288 SBD","quote":"1.000 STEEM"},{"base":"5.339 SBD","quote":"1.000
+        STEEM"},{"base":"5.324 SBD","quote":"1.000 STEEM"},{"base":"5.260 SBD","quote":"1.000
+        STEEM"},{"base":"5.219 SBD","quote":"1.000 STEEM"},{"base":"5.092 SBD","quote":"1.000
+        STEEM"},{"base":"5.092 SBD","quote":"1.000 STEEM"},{"base":"4.971 SBD","quote":"1.000
+        STEEM"},{"base":"4.313 SBD","quote":"1.000 STEEM"},{"base":"4.298 SBD","quote":"1.000
+        STEEM"},{"base":"4.354 SBD","quote":"1.000 STEEM"},{"base":"4.441 SBD","quote":"1.000
+        STEEM"},{"base":"4.746 SBD","quote":"1.000 STEEM"},{"base":"4.757 SBD","quote":"1.000
+        STEEM"},{"base":"4.629 SBD","quote":"1.000 STEEM"},{"base":"4.540 SBD","quote":"1.000
+        STEEM"},{"base":"4.557 SBD","quote":"1.000 STEEM"},{"base":"4.664 SBD","quote":"1.000
+        STEEM"},{"base":"4.733 SBD","quote":"1.000 STEEM"},{"base":"4.802 SBD","quote":"1.000
+        STEEM"},{"base":"4.904 SBD","quote":"1.000 STEEM"},{"base":"4.895 SBD","quote":"1.000
+        STEEM"},{"base":"4.875 SBD","quote":"1.000 STEEM"},{"base":"4.885 SBD","quote":"1.000
+        STEEM"},{"base":"4.713 SBD","quote":"1.000 STEEM"},{"base":"4.635 SBD","quote":"1.000
+        STEEM"},{"base":"4.611 SBD","quote":"1.000 STEEM"},{"base":"4.336 SBD","quote":"1.000
+        STEEM"},{"base":"4.249 SBD","quote":"1.000 STEEM"},{"base":"4.229 SBD","quote":"1.000
+        STEEM"},{"base":"4.336 SBD","quote":"1.000 STEEM"},{"base":"4.382 SBD","quote":"1.000
+        STEEM"},{"base":"4.508 SBD","quote":"1.000 STEEM"},{"base":"4.557 SBD","quote":"1.000
+        STEEM"},{"base":"4.788 SBD","quote":"1.000 STEEM"},{"base":"4.891 SBD","quote":"1.000
+        STEEM"},{"base":"4.905 SBD","quote":"1.000 STEEM"},{"base":"4.931 SBD","quote":"1.000
+        STEEM"},{"base":"4.990 SBD","quote":"1.000 STEEM"},{"base":"5.306 SBD","quote":"1.000
+        STEEM"},{"base":"5.513 SBD","quote":"1.000 STEEM"},{"base":"5.563 SBD","quote":"1.000
+        STEEM"},{"base":"5.409 SBD","quote":"1.000 STEEM"},{"base":"5.426 SBD","quote":"1.000
+        STEEM"},{"base":"5.322 SBD","quote":"1.000 STEEM"},{"base":"5.196 SBD","quote":"1.000
+        STEEM"},{"base":"5.264 SBD","quote":"1.000 STEEM"},{"base":"5.264 SBD","quote":"1.000
+        STEEM"},{"base":"5.377 SBD","quote":"1.000 STEEM"},{"base":"5.402 SBD","quote":"1.000
+        STEEM"},{"base":"5.365 SBD","quote":"1.000 STEEM"},{"base":"5.359 SBD","quote":"1.000
+        STEEM"},{"base":"5.414 SBD","quote":"1.000 STEEM"},{"base":"5.715 SBD","quote":"1.000
+        STEEM"},{"base":"6.220 SBD","quote":"1.000 STEEM"},{"base":"6.128 SBD","quote":"1.000
+        STEEM"},{"base":"6.221 SBD","quote":"1.000 STEEM"},{"base":"6.308 SBD","quote":"1.000
+        STEEM"},{"base":"6.241 SBD","quote":"1.000 STEEM"},{"base":"6.243 SBD","quote":"1.000
+        STEEM"},{"base":"6.271 SBD","quote":"1.000 STEEM"},{"base":"6.243 SBD","quote":"1.000
+        STEEM"},{"base":"6.243 SBD","quote":"1.000 STEEM"},{"base":"6.174 SBD","quote":"1.000
+        STEEM"},{"base":"6.200 SBD","quote":"1.000 STEEM"},{"base":"6.174 SBD","quote":"1.000
+        STEEM"},{"base":"6.025 SBD","quote":"1.000 STEEM"},{"base":"5.922 SBD","quote":"1.000
+        STEEM"},{"base":"5.922 SBD","quote":"1.000 STEEM"},{"base":"5.922 SBD","quote":"1.000
+        STEEM"},{"base":"6.018 SBD","quote":"1.000 STEEM"}]},"id":1}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:14 GMT
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:15 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Cache-Hit:
+      - steemd.database_api.get_dynamic_global_properties
+      X-Jussi-Request-Id:
+      - 1515870615.188-8506336-436-172.31.18.180-47.208.249.50
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: ASCII-8BIT
+      string: '{"jsonrpc":"2.0","result":{"id":0,"head_block_number":18949678,"head_block_id":"0121262e34aaa27ed48efe5cebe00709c5d78bb3","time":"2018-01-13T19:10:12","current_witness":"aggroed","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"263768817.470
+        STEEM","current_supply":"262619208.870 STEEM","confidential_supply":"0.000
+        STEEM","current_sbd_supply":"5999807.284 SBD","confidential_sbd_supply":"0.000
+        SBD","total_vesting_fund_steem":"199303813.225 STEEM","total_vesting_shares":"408152559999.734422
+        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"278502493.940165
+        VESTS","pending_rewarded_vesting_steem":"135288.341 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19011804,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":18949659,"vote_power_reserve_rate":10,"current_reserve_ratio":200000000,"average_block_size":14147,"max_virtual_bandwidth":"264241152000000000000"},"id":2}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:15 GMT
+recorded_with: VCR 3.0.3

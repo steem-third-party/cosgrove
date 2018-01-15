@@ -120,7 +120,7 @@ module Cosgrove
     end
   private
     def chain
-      @chain ||= yml[:chain]
+      @chain_hash ||= yml[:chain]
     end
     
     def yml

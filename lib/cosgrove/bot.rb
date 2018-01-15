@@ -58,6 +58,7 @@ module Cosgrove
       
       self.command :verify do |event, key, chain = :steem|
         return if event.channel.pm? && !cosgrove_allow_pm_commands
+        cb_account = nil
         
         mongo_behind_warning(event)
         if key.nil?
@@ -72,11 +73,9 @@ module Cosgrove
         else
           discord_id = key.split('@').last.split('>').first.to_i
           cb_account = Cosgrove::Account.find_by_discord_id(discord_id, chain)
-          
-          account = if !!cb_account
-            find_account(cb_account.account_name, event)
-          end
         end
+        
+        account = cb_account.chain_account if account.nil? && !!cb_account
         
         if !!account && !!cb_account && cb_account.discord_ids.any?
           if cb_account.hidden?
@@ -99,10 +98,19 @@ module Cosgrove
         return if event.channel.pm? && !cosgrove_allow_pm_commands
         
         mongo_behind_warning(event)
-        account = find_account(account_name, event)
         discord_id = event.author.id
         
-        return nil unless !!account
+        if discord_id.to_i == 0
+          event.respond 'Problem with discord id.'
+          return
+        end
+        
+        account = find_account(account_name, event, chain)
+        
+        if account.nil?
+          event.respond 'Try again later.'
+          return
+        end
         
         cb_account = Cosgrove::Account.new(account.name, chain)
         
@@ -112,26 +120,7 @@ module Cosgrove
         end
         
         memo_key = cb_account.memo_key(discord_id)
-        op = SteemData::AccountOperation.type('transfer').
-          where(account: steem_account, from: account.name, to: steem_account, memo: {'$regex' => ".*#{memo_key}.*"}).last
-          
-        if op.nil?
-          # Fall back to RPC.  The transaction is so new, SteemData hasn't seen it
-          # yet, SteemData is behind, or there is no such transfer.
-          
-          response = api(chain).get_account_history(steem_account, -1000, 1000)
-          op = response.result.map do |history|
-            e = history.last.op
-            type = e.first
-            next unless type == 'transfer'
-            o = e.last
-            next unless o.from == account.name
-            next unless o.to == steem_account
-            next unless o.memo =~ /.*#{memo_key}.*/
-            
-            o
-          end.compact.last
-        end
+        op = find_transfer(chain: chain, account: steem_account, from: account.name, to: steem_account, memo_key: memo_key)
           
         if !!op
           cb_account.add_discord_id(discord_id)

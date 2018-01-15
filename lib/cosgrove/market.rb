@@ -4,18 +4,19 @@ module Cosgrove
     include ActionView::Helpers::NumberHelper
 
     def price_feed(chain = :steem)
-      feed_history = api(chain).get_feed_history.result
-      base_per_mvest = api(chain).steem_per_mvest
-      
-      current_median_history = feed_history.current_median_history
-      base = current_median_history.base
-      base = base.split(' ').first.to_f
-      quote = current_median_history.quote
-      quote = quote.split(' ').first.to_f
-      
-      base_per_debt = (base / quote) * base_per_mvest
-      
-      [base_per_mvest, base_per_debt]
+      api(chain).get_feed_history do |feed_history|
+        base_per_mvest = api(chain).steem_per_mvest
+        
+        current_median_history = feed_history.current_median_history
+        base = current_median_history.base
+        base = base.split(' ').first.to_f
+        quote = current_median_history.quote
+        quote = quote.split(' ').first.to_f
+        
+        base_per_debt = (base / quote) * base_per_mvest
+        
+        [base_per_mvest, base_per_debt]
+      end
     end
     
     # https://api.vaultoro.com/#api-Basic_API-getMarkets
@@ -113,13 +114,12 @@ module Cosgrove
           if a =~ /.*\*$/
             wildcards = true
             lower_bound_name = a.split('*').first
-            response = api(chain).lookup_accounts(a, 1000)
-            result = response.result
-            
-            if result.any?
-              account_names -= [a]
-              account_names += [lower_bound_name]
-              account_names += result.map { |name| name if name =~ /#{lower_bound_name}.*/ }.compact
+            api(chain).lookup_accounts(a, 1000) do |names, error|
+              if names.any?
+                account_names -= [a]
+                account_names += [lower_bound_name]
+                account_names += names.map { |name| name if name =~ /#{lower_bound_name}.*/ }.compact
+              end
             end
           end
         end
@@ -128,10 +128,21 @@ module Cosgrove
         accounts = SteemData::Account.where(:name.in => account_names)
         account = accounts.last
         
+        if accounts.size == 0
+          accounts = SteemApi::Account.where(name: account_names)
+          account = accounts.limit(1).last
+        end
+        
         if accounts.count == account_names.size
-          vests = accounts.sum('vesting_shares.amount')
-          delegated_vests = accounts.sum('delegated_vesting_shares.amount')
-          received_vests = accounts.sum('received_vesting_shares.amount')
+          if accounts.kind_of? Mongoid::Criteria
+            vests = accounts.sum('vesting_shares.amount')
+            delegated_vests = accounts.sum('delegated_vesting_shares.amount')
+            received_vests = accounts.sum('received_vesting_shares.amount')
+          else
+            vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
+            delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
+            received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
+          end
         elsif !wildcards
           valid_names = accounts.distinct(:name)
           unknown_names = account_names - valid_names
@@ -141,11 +152,12 @@ module Cosgrove
         if accounts.count == 1 && vests == 0.0
           # Falling back to RPC because balance is out of date and we only want
           # a single account.
-          response = api(:steem).get_accounts([account.name])
-          account = response.result.first
-          vests = account.vesting_shares.split(' ').first.to_f
-          delegated_vests = account.delegated_vesting_shares.split(' ').first.to_f
-          received_vests = account.received_vesting_shares.split(' ').first.to_f
+          api(:steem).get_accounts([account.name]) do |accounts|
+            account = accounts.first
+            vests = account.vesting_shares.split(' ').first.to_f
+            delegated_vests = account.delegated_vesting_shares.split(' ').first.to_f
+            received_vests = account.received_vesting_shares.split(' ').first.to_f
+          end
         end
         
         mvests = vests / 1000000
@@ -177,9 +189,13 @@ module Cosgrove
           "**#{pluralize(accounts.count, 'account')}:** `#{balance.join(' ')}`"
         end
       when :golos
-        response = api(:golos).get_accounts(account_names)
-        account = response.result.first
-        gests = account.vesting_shares.split(' ').first.to_f
+        account = nil
+        gests = nil
+        
+        api(:golos).get_accounts(account_names) do |accounts, error|
+          account = accounts.first
+          gests = account.vesting_shares.split(' ').first.to_f
+        end
         
         mgests = gests / 1000000
         golos = base_per_mvest * mgests
@@ -203,10 +219,10 @@ module Cosgrove
       
       case chain
       when :steem
-        response = api(chain).get_reward_fund 'post'
-        reward_fund = response.result
-        total = reward_fund.reward_balance
-        total = total.split(' ').first.to_f
+        total = api(chain).get_reward_fund('post') do |reward_fund|
+          reward_fund.reward_balance.split(' ').first.to_f
+        end
+        
         total_usd = (total / base_per_mvest) * base_per_debt
         btx_total_usd = total * btx_usdt_steem
         
@@ -216,10 +232,10 @@ module Cosgrove
         
         "Total Reward Fund: `#{total} STEEM (Worth: #{total_usd} internally; #{btx_total_usd} on Bittrex)`"
       when :golos
-        response = api(chain).get_dynamic_global_properties
-        properties = response.result
-        total = properties.total_reward_fund_steem
-        total = total.split(' ').first.to_f
+        total = api(chain).get_dynamic_global_properties do |properties|
+          properties.total_reward_fund_steem.split(' ').first.to_f
+        end
+        
         total_gbg = (total / base_per_mvest) * base_per_debt
         btx_total_usd = total * btx_usdt_golos
         
@@ -258,10 +274,9 @@ module Cosgrove
       sum_promoted = promoted.sum('amount.amount')
       
       base_per_mvest, base_per_debt = price_feed(chain)
-      response = api(chain).get_reward_fund 'post'
-      reward_fund = response.result
-      total = reward_fund.reward_balance
-      total = total.split(' ').first.to_f
+      total = api(chain).get_reward_fund('post') do |reward_fund|
+        reward_fund.reward_balance.split(' ').first.to_f
+      end
       
       total_usd = (total / base_per_mvest) * base_per_debt
       ratio = (sum_promoted / total_usd) * 100
@@ -274,23 +289,22 @@ module Cosgrove
     
     def supply(chain)
       base_per_mvest, base_per_debt = price_feed(chain)
-
-      response = api(chain).get_dynamic_global_properties
-      properties = response.result
+      properties = api(chain).get_dynamic_global_properties do |_properties, error|
+        _properties
+      end
+      
       current_supply = properties.current_supply.split(' ').first.to_f
       current_debt_supply = properties.current_sbd_supply.split(' ').first.to_f
       total_vesting_fund_steem = properties.total_vesting_fund_steem.split(' ').first.to_f
-      
       total_base = (current_supply / base_per_mvest) * base_per_debt
       ratio = (current_debt_supply / total_base) * 100
       
       supply = []
       case chain
       when :steem
-        response = api(chain).get_reward_fund 'post'
-        reward_fund = response.result
-        reward_balance = reward_fund.reward_balance
-        reward_balance = reward_balance.split(' ').first.to_f
+        reward_balance = api(chain).get_reward_fund('post') do |reward_fund|
+          reward_fund.reward_balance.split(' ').first.to_f
+        end
         
         liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
         ratio_liquid = (liquid_supply / current_supply) * 100
@@ -306,7 +320,6 @@ module Cosgrove
         supply << ["#{current_debt_supply} SBD (#{ratio} of supply)"]
         supply << ["#{liquid_supply} Liquid STEEM (#{ratio_liquid} of supply)"]
       when :golos
-        properties = response.result
         reward_balance = properties.total_reward_fund_steem
         reward_balance = reward_balance.split(' ').first.to_f
         
@@ -324,7 +337,6 @@ module Cosgrove
         supply << ["#{current_debt_supply} GBG (#{ratio} of supply)"]
         supply << ["#{liquid_supply} Liquid GOLOS (#{ratio_liquid} of supply)"]
       when :test
-        properties = response.result
         reward_balance = properties.total_reward_fund_steem
         reward_balance = reward_balance.split(' ').first.to_f
         
@@ -358,9 +370,9 @@ module Cosgrove
     
     def debt_exchange_rate(chain = :steem, limit = 19)
       chain = chain.to_sym
-      response = api(chain).get_witnesses_by_vote('', limit)
-      witnesses = response.result
-      rates = witnesses.map(&:sbd_exchange_rate)
+      rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
+        witnesses.map(&:sbd_exchange_rate)
+      end
       
       symbol = case chain
       when :steem then 'SBD'
@@ -382,9 +394,9 @@ module Cosgrove
     
     def apr(chain = :steem, limit = 19)
       chain = chain.to_sym
-      response = api(chain).get_witnesses_by_vote('', limit)
-      witnesses = response.result
-      rates = witnesses.map(&:props).map { |p| p['sbd_interest_rate'] }
+      rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
+        witnesses.map(&:props).map { |p| p['sbd_interest_rate'] }
+      end
       
       rate = rates.sum / rates.size
       rate = rate / 100.0
@@ -393,9 +405,9 @@ module Cosgrove
     
     def effective_apr(chain = :steem)
       chain = chain.to_sym
-      response = api(chain).get_dynamic_global_properties
-      properties = response.result
-      rate = properties.sbd_interest_rate
+      rate = api(chain).get_dynamic_global_properties do |properties|
+        properties.sbd_interest_rate
+      end
       
       rate = rate / 100.0
       number_to_percentage(rate, precision: 3)
@@ -403,9 +415,9 @@ module Cosgrove
     
     def effective_price(chain = :steem)
       chain = chain.to_sym
-      response = api(chain).get_feed_history
-      feed_history = response.result
-      current_median_history = feed_history.current_median_history
+      current_median_history = api(chain).get_feed_history do |feed_history|
+        feed_history.current_median_history
+      end
       
       b = current_median_history.base.split(' ').first.to_f
       q = current_median_history.quote.split(' ').first.to_f

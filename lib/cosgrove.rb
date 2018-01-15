@@ -5,13 +5,18 @@ require 'action_view'
 require 'radiator'
 require 'awesome_print'
 require 'steem_data'
-# require 'pry'
+# require 'irb' # for binding.irb
+# require 'pry' # for binding.pry
 
 Bundler.require
 
 defined? Thread.report_on_exception and Thread.report_on_exception = true
 
 SteemData.load
+
+# This will cause a nil to be returned instead of raising an error, allowing us
+# to fall back to SteemApi and/or RPC.
+Mongoid.raise_not_found_error = false
 
 module Cosgrove
   PWD = Dir.pwd.freeze

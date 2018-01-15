@@ -8,13 +8,13 @@ module Cosgrove
     ACCOUNTS_FILE ||= "#{Cosgrove::PWD}/accounts.yml".freeze
     DISCORD_IDS = 'discord_ids'.freeze
     
-    attr_accessor :chain, :account_name, :discord_ids
+    attr_accessor :account_name, :discord_ids
     
     def initialize(account_name, chain = :steem)
-      raise "Unknown Chain: #{chain}" unless Cosgrove::KNOWN_CHAINS.include? chain.to_sym
+      @chain = chain.to_sym
+      raise "Unknown Chain: #{@chain}" unless Cosgrove::KNOWN_CHAINS.include? @chain
       
       @account_name = account_name.to_s.downcase
-      @chain = chain
       @discord_ids = []
       
       if !!details
@@ -27,6 +27,8 @@ module Cosgrove
       
       discord_id = discord_id.to_s.split('@').last.split('>').first.to_i
       
+      return nil if discord_id == 0
+      
       Account.yml[chain.to_s].each do |k, v|
         ids = v[DISCORD_IDS]
         return Account.new(k, chain) if !!ids && ids.include?(discord_id)
@@ -38,7 +40,7 @@ module Cosgrove
     def self.find_by_memo_key(memo_key, secure, chain = :steem)
       Account.yml[chain.to_s].each do |k, v|
         v[DISCORD_IDS].each do |discord_id|
-          return Account.new(k, chain) if Account.gen_memo_key(k, discord_id, chain, secure) == memo_key
+          return Account.new(k, chain) if Account.gen_memo_key(k, discord_id, secure, chain) == memo_key
         end
       end
       
@@ -75,9 +77,12 @@ module Cosgrove
     end
     
     def chain_account
+      return @chain_account if !!@chain_account
+      
       if !!@account_name
-        response = api(chain).get_accounts([@account_name])
-        account = response.result.first
+        api(@chain).get_accounts([@account_name]) do |accounts, errors|
+          @chain_account = accounts.first
+        end
       end
     end
   private

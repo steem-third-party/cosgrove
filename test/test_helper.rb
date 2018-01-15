@@ -1,24 +1,18 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-if ENV["HELL_ENABLED"] || ENV['CODECLIMATE_REPO_TOKEN']
+if ENV["HELL_ENABLED"]
+  require 'minitest/benchmark'
   require 'simplecov'
-  # if ENV['CODECLIMATE_REPO_TOKEN']
-  #   require "codeclimate-test-reporter"
-  #   SimpleCov.start CodeClimate::TestReporter.configuration.profile
-  #   CodeClimate::TestReporter.start
-  # else
-    SimpleCov.start
-  # end
+  SimpleCov.start
   SimpleCov.merge_timeout 3600
 end
 
-require 'cosgrove'
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'vcr'
 require 'yaml'
-require 'pry'
 require 'securerandom'
+require 'cosgrove'
 
 # Just for testing.
 COSGROVE_DISCORD_ID = 273608642232582144
@@ -147,7 +141,7 @@ module Cosgrove
           steem_posting_wif: '5ffaed497ad3e693efe3139e63fcc2cdc15151046b99dc4d78',
           golos_account: '',
           golos_posting_wif: '',
-          steem_api_url: 'https://steemd.steemit.com',
+          steem_api_url: 'https://api.steemit.com',
           golos_api_url: 'https://ws.golos.io',
           test_api_url: 'https://test.steem.ws',
         },
@@ -175,8 +169,24 @@ module Cosgrove
 end
 
 class Cosgrove::Test < MiniTest::Test
-  VCR_RECORD_MODE = :once
+  VCR_RECORD_MODE = (ENV['VCR_RECORD_MODE'] || 'once').to_sym
   # VCR_RECORD_MODE = :new_episodes
+  
+  def bot
+    options = {
+      name: 'CosgroveBot',
+      log_mode: :debug,
+      token: 'token',
+      client_id: 'client_id',
+      prefix: '$',
+    }
+    
+    @bot ||= Cosgrove::Bot.new(options)
+  end
+  
+  def mock_event
+    @mock_event ||= MockEvent.new(bot: bot)
+  end
 
   def save filename, result
     f = File.open("#{File.dirname(__FILE__)}/support/#{filename}", 'w+')

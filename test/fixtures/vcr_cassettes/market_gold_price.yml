@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.vaultoro.com/markets
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 13 Jan 2018 19:10:10 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "status": "success",
+          "data": {
+            "MarketCurrency": "GLD",
+            "BaseCurrency": "BTC",
+            "MarketCurrencyLong": "Gold",
+            "BaseCurrencyLong": "Bitcoin",
+            "MinTradeSize": 1e-8,
+            "MarketName": "BTC-GLD",
+            "IsActive": true,
+            "MinUnitQty": 0.0002,
+            "MinPrice": 0.000002,
+            "LastPrice": "0.00349989",
+            "24hLow": "0.00313000",
+            "24hHigh": "0.00364899",
+            "24hVolume": "5530.245"
+          }
+        }
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+- request:
+    method: get
+    uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 13 Jan 2018 19:10:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d8638687d2d3187b7384422b1d0e1f11b1515870611; expires=Sun, 13-Jan-19
+        19:10:11 GMT; path=/; domain=.poloniex.com; HttpOnly
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3dcaa777fd259330-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"asks":[["14300.52352987",0.48195753],["14300.52352990",0.26558163],["14300.52352992",1.00766127],["14300.52352996",0.00407569],["14300.52353000",0.03389655],["14309.54278100",0.0002164],["14310.85428358",0.41170523],["14315.99617575",0.9],["14318.90829250",0.00096811],["14322.00000000",0.03978945]],"bids":[["14270.00000038",0.940508],["14270.00000000",0.25784363],["14269.99997640",0.00021608],["14263.93554823",0.53441837],["14263.93554820",0.00021617],["14263.44614628",0.02734263],["14254.50961030",0.00021631],["14250.00000028",1.589],["14250.00000027",0.2291327],["14250.00000000",0.10189474]],"isFrozen":"0","seq":185527063}'
+    http_version: 
+  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+recorded_with: VCR 3.0.3
