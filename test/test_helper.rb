@@ -141,7 +141,7 @@ module Cosgrove
           steem_posting_wif: '5ffaed497ad3e693efe3139e63fcc2cdc15151046b99dc4d78',
           golos_account: '',
           golos_posting_wif: '',
-          steem_api_url: 'https://api.steemit.com',
+          steem_api_url: 'https://gtg.steem.house:8090',
           golos_api_url: 'https://ws.golos.io',
           test_api_url: 'https://test.steem.ws',
         },

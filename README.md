@@ -8,15 +8,8 @@ Many (not all) features work on Golos as well.
 
 ## New features
 
-* Added the ability for each discord channel to have its own upvote weight, as well as have a default.  Upvote voting weight can be:
-  * `dynamic` - uses the bot's current voting recharge percent as the upvote percent.
-  * `upvote_rules` - uses channel specific rules.
-  * `100.00 %` - can be any valid voting percentage.
-  * `disable_comment_voting` - only posts can get votes.
-* Added `CommentJob` for creating automated replies.
-* Added callback `on_success_upvote_job` which can be used to, for example, reply to the post after being upvoted.
-* Market data now uses Bittrex instead of Poloniex.
-* Added `operators` to keep track of steem accounts that can do things like block upvotes (by blockchain mute).
+* Added support for SteemApi as a fallback to SteemData.
+* Gem updates.
 
 ## Features
 
@@ -26,6 +19,15 @@ Many (not all) features work on Golos as well.
   * `$verify <account> [chain]` - check `account` association with Discord users (`chain` default `steem`)
 * **Up Voting**
   * `$upvote [url]` - upvote from cosgrove; empty or `^` to upvote last steemit link
+  * The ability for each discord channel to have its own upvote weight, as well as have a default.  Upvote voting weight can be:
+    * `dynamic` - uses the bot's current voting recharge percent as the upvote percent.
+    * `upvote_rules` - uses channel specific rules.
+    * `100.00 %` - can be any valid voting percentage.
+    * `disable_comment_voting` - only posts can get votes.
+  * `CommentJob` for creating automated replies.
+  * Callback `on_success_upvote_job` which can be used to, for example, reply to the post after being upvoted.
+  * Market data now uses Bittrex instead of Poloniex.
+  * `operators` to keep track of steem accounts that can do things like block upvotes (by blockchain mute).
 
 ## Installation
 
@@ -127,6 +129,10 @@ bot.run
 </center>
 
 See my previous Ruby How To posts in: [#radiator](https://steemit.com/created/radiator) [#ruby](https://steemit.com/created/ruby)
+
+Also see:
+* [Introducing: Cosgrove - A STEEM Centric Discord Bot Framework](https://steemit.com/radiator/@inertia/introducing-cosgrove-a-steem-centric-discord-bot-framework)
+* [How to Write a Discord Bot in Ruby](https://steemit.com/radiator/@inertia/how-to-write-a-discord-bot-in-ruby)
 
 ## Get in touch!
 
