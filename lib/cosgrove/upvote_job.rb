@@ -105,6 +105,7 @@ module Cosgrove
       tx = new_tx :steem
       tx.operations << vote
       friendy_error = nil
+      response = nil
       
       loop do
         begin
@@ -146,8 +147,7 @@ module Cosgrove
             break
           else
             friendy_error = 'Unable to vote right now.  Maybe I already voted on that.  Try again later.'
-            ap e
-            ap e.backtrace
+            ap response.error
             break
           end
         end

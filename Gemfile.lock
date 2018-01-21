@@ -16,7 +16,7 @@ GIT
 PATH
   remote: .
   specs:
-    cosgrove (0.0.3.2)
+    cosgrove (0.0.3.3)
       activesupport (~> 5.1, >= 5.1.1)
       ai4r (~> 1.13, >= 1.13)
       awesome_print (~> 1.7, >= 1.7.0)
