@@ -47,6 +47,12 @@ module Cosgrove
         cashout_time = Time.parse(cashout_time + 'Z')
       end
       
+      active_votes = if post.active_votes.class == String
+        active_votes = JSON[post.active_votes]
+      else
+        post.active_votes
+      end
+      
       nope = if created > 1.minute.ago
         "Give it a second!  It's going to SPACE!  Can you give it a second to come back from space?"
       elsif created > 20.minutes.ago
@@ -59,7 +65,7 @@ module Cosgrove
       elsif post.json_metadata.include?('nsfw')
         puts "Won't vote because json_metadata includes: nsfw"
         'Unable to vote on that.'
-      elsif post.active_votes.map{ |v| v['voter'] }.include?('blacklist-a')
+      elsif active_votes.map{ |v| v['voter'] }.include?('blacklist-a')
         puts "Won't vote blacklist-a voted."
         'Unable to vote on that.'
       elsif (rep = to_rep(post.author_reputation).to_f) < 25.0
@@ -77,7 +83,7 @@ module Cosgrove
         'Unable to vote.  Your account has been resticted.'
       elsif today_count > 10 && vote_ratio > 0.1
         "Maybe later.  It seems like I've been voting for #{author_name} quite a bit lately."
-      elsif post.active_votes.map{ |v| v['voter'] }.include?(steem_account)
+      elsif active_votes.map{ |v| v['voter'] }.include?(steem_account)
         title = post.title
         title = post.permlink if title.empty?
         "I already voted on #{title} by #{post.author}."
