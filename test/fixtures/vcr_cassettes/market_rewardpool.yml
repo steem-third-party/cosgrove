@@ -614,4 +614,186 @@ http_interactions:
         STEEM","recent_claims":"376647749400556294","last_update":"2018-01-13T19:03:30","content_constant":"2000000000000","percent_curation_rewards":2500,"percent_content_rewards":10000,"author_reward_curve":"linear","curation_reward_curve":"square_root"},"id":3}'
     http_version: 
   recorded_at: Sat, 13 Jan 2018 19:03:34 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_feed_history",[]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+      Host:
+      - gtg.steem.house:8090
+      Content-Length:
+      - '88'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 21 Jan 2018 18:49:04 GMT
+      Content-Length:
+      - '3724'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"result":{"id":0,"current_median_history":{"base":"4.863 SBD","quote":"1.000
+        STEEM"},"price_history":[{"base":"4.032 SBD","quote":"1.000 STEEM"},{"base":"3.935
+        SBD","quote":"1.000 STEEM"},{"base":"3.896 SBD","quote":"1.000 STEEM"},{"base":"4.055
+        SBD","quote":"1.000 STEEM"},{"base":"4.038 SBD","quote":"1.000 STEEM"},{"base":"4.171
+        SBD","quote":"1.000 STEEM"},{"base":"4.251 SBD","quote":"1.000 STEEM"},{"base":"4.262
+        SBD","quote":"1.000 STEEM"},{"base":"4.273 SBD","quote":"1.000 STEEM"},{"base":"4.400
+        SBD","quote":"1.000 STEEM"},{"base":"4.405 SBD","quote":"1.000 STEEM"},{"base":"4.423
+        SBD","quote":"1.000 STEEM"},{"base":"4.331 SBD","quote":"1.000 STEEM"},{"base":"4.284
+        SBD","quote":"1.000 STEEM"},{"base":"4.352 SBD","quote":"1.000 STEEM"},{"base":"4.323
+        SBD","quote":"1.000 STEEM"},{"base":"4.157 SBD","quote":"1.000 STEEM"},{"base":"4.075
+        SBD","quote":"1.000 STEEM"},{"base":"4.162 SBD","quote":"1.000 STEEM"},{"base":"4.287
+        SBD","quote":"1.000 STEEM"},{"base":"4.376 SBD","quote":"1.000 STEEM"},{"base":"4.171
+        SBD","quote":"1.000 STEEM"},{"base":"4.210 SBD","quote":"1.000 STEEM"},{"base":"4.341
+        SBD","quote":"1.000 STEEM"},{"base":"4.350 SBD","quote":"1.000 STEEM"},{"base":"4.358
+        SBD","quote":"1.000 STEEM"},{"base":"4.386 SBD","quote":"1.000 STEEM"},{"base":"4.396
+        SBD","quote":"1.000 STEEM"},{"base":"4.396 SBD","quote":"1.000 STEEM"},{"base":"4.477
+        SBD","quote":"1.000 STEEM"},{"base":"4.534 SBD","quote":"1.000 STEEM"},{"base":"4.707
+        SBD","quote":"1.000 STEEM"},{"base":"4.791 SBD","quote":"1.000 STEEM"},{"base":"4.822
+        SBD","quote":"1.000 STEEM"},{"base":"5.057 SBD","quote":"1.000 STEEM"},{"base":"4.863
+        SBD","quote":"1.000 STEEM"},{"base":"4.692 SBD","quote":"1.000 STEEM"},{"base":"4.632
+        SBD","quote":"1.000 STEEM"},{"base":"4.583 SBD","quote":"1.000 STEEM"},{"base":"4.642
+        SBD","quote":"1.000 STEEM"},{"base":"4.662 SBD","quote":"1.000 STEEM"},{"base":"4.673
+        SBD","quote":"1.000 STEEM"},{"base":"4.893 SBD","quote":"1.000 STEEM"},{"base":"5.367
+        SBD","quote":"1.000 STEEM"},{"base":"5.470 SBD","quote":"1.000 STEEM"},{"base":"5.393
+        SBD","quote":"1.000 STEEM"},{"base":"5.325 SBD","quote":"1.000 STEEM"},{"base":"5.170
+        SBD","quote":"1.000 STEEM"},{"base":"5.223 SBD","quote":"1.000 STEEM"},{"base":"5.296
+        SBD","quote":"1.000 STEEM"},{"base":"5.325 SBD","quote":"1.000 STEEM"},{"base":"5.405
+        SBD","quote":"1.000 STEEM"},{"base":"5.495 SBD","quote":"1.000 STEEM"},{"base":"5.508
+        SBD","quote":"1.000 STEEM"},{"base":"5.396 SBD","quote":"1.000 STEEM"},{"base":"5.425
+        SBD","quote":"1.000 STEEM"},{"base":"5.385 SBD","quote":"1.000 STEEM"},{"base":"5.349
+        SBD","quote":"1.000 STEEM"},{"base":"5.373 SBD","quote":"1.000 STEEM"},{"base":"5.406
+        SBD","quote":"1.000 STEEM"},{"base":"5.429 SBD","quote":"1.000 STEEM"},{"base":"5.445
+        SBD","quote":"1.000 STEEM"},{"base":"5.415 SBD","quote":"1.000 STEEM"},{"base":"5.422
+        SBD","quote":"1.000 STEEM"},{"base":"5.427 SBD","quote":"1.000 STEEM"},{"base":"5.477
+        SBD","quote":"1.000 STEEM"},{"base":"5.570 SBD","quote":"1.000 STEEM"},{"base":"5.570
+        SBD","quote":"1.000 STEEM"},{"base":"5.539 SBD","quote":"1.000 STEEM"},{"base":"5.354
+        SBD","quote":"1.000 STEEM"},{"base":"5.343 SBD","quote":"1.000 STEEM"},{"base":"5.196
+        SBD","quote":"1.000 STEEM"},{"base":"5.136 SBD","quote":"1.000 STEEM"},{"base":"4.978
+        SBD","quote":"1.000 STEEM"},{"base":"4.939 SBD","quote":"1.000 STEEM"},{"base":"4.873
+        SBD","quote":"1.000 STEEM"},{"base":"4.849 SBD","quote":"1.000 STEEM"},{"base":"5.118
+        SBD","quote":"1.000 STEEM"},{"base":"5.311 SBD","quote":"1.000 STEEM"},{"base":"5.274
+        SBD","quote":"1.000 STEEM"},{"base":"5.177 SBD","quote":"1.000 STEEM"},{"base":"5.069
+        SBD","quote":"1.000 STEEM"},{"base":"4.960 SBD","quote":"1.000 STEEM"},{"base":"4.768
+        SBD","quote":"1.000 STEEM"}]}}'
+    http_version: 
+  recorded_at: Sun, 21 Jan 2018 18:49:04 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 21 Jan 2018 18:49:12 GMT
+      Content-Length:
+      - '1046'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":2,"result":{"id":0,"head_block_number":19179540,"head_block_id":"0124a814e8ed401016c8a8f6f0ba9c6ace0605ac","time":"2018-01-21T18:49:03","current_witness":"someguy123","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"264376863.125
+        STEEM","current_supply":"262997705.867 STEEM","confidential_supply":"0.000
+        STEEM","current_sbd_supply":"6706841.748 SBD","confidential_sbd_supply":"0.000
+        SBD","total_vesting_fund_steem":"197881014.716 STEEM","total_vesting_shares":"405079058646.855760
+        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"283231669.012922
+        VESTS","pending_rewarded_vesting_steem":"137618.368 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19241781,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":19179521,"vote_power_reserve_rate":10,"current_reserve_ratio":4653195,"average_block_size":15490,"max_virtual_bandwidth":"6147828036403200000"}}'
+    http_version: 
+  recorded_at: Sun, 21 Jan 2018 18:49:12 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_reward_fund",["post"]],"id":3,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 21 Jan 2018 18:49:13 GMT
+      Content-Length:
+      - '317'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":3,"result":{"id":0,"name":"post","reward_balance":"720224.824
+        STEEM","recent_claims":"372993445252863575","last_update":"2018-01-21T18:49:03","content_constant":"2000000000000","percent_curation_rewards":2500,"percent_content_rewards":10000,"author_reward_curve":"linear","curation_reward_curve":"square_root"}}'
+    http_version: 
+  recorded_at: Sun, 21 Jan 2018 18:49:13 GMT
 recorded_with: VCR 3.0.3

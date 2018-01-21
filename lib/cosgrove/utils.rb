@@ -169,7 +169,7 @@ module Cosgrove
     end
     
     def find_comment(options)
-      chain = options[:chain]
+      chain = options[:chain] || :steem
       author_name = options[:author_name]
       permlink = options[:permlink]
       parent_permlink = options[:parent_permlink]

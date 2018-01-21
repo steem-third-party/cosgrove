@@ -14,7 +14,7 @@ module Cosgrove
       
       return if author.nil?
       
-      post = find_comment(chain: chain, author: author_name, permlink: permlink)
+      post = find_comment(chain: chain, author_name: author_name, permlink: permlink)
       
       if post.nil?
         cannot_find_input(event)
@@ -50,7 +50,7 @@ module Cosgrove
         'Unable to vote.'
       # elsif template == :welcome && author.post_count != 1
       #   'Sorry, this function is intended to welcome new authors.'
-      elsif find_comment(chain: :steem, author: steem_account, parent_permlink: post.permlink).any?
+      elsif find_comment(chain: :steem, author_name: steem_account, parent_permlink: post.permlink).any?
         title = post.title
         title = post.permlink if title.empty?
         "I already commented on #{title} by #{post.author}."

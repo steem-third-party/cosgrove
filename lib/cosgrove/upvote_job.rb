@@ -22,7 +22,7 @@ module Cosgrove
       muters << steem_account
       muted = muted by: muters, chain: :steem
       
-      post = find_comment(author: author_name, permlink: permlink)
+      post = find_comment(chain: :steem, author_name: author_name, permlink: permlink)
       
       if post.nil?
         cannot_find_input(event)

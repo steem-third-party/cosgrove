@@ -5,6 +5,8 @@ require 'action_view'
 require 'radiator'
 require 'awesome_print'
 require 'steem_data'
+require 'steem_api'
+require 'golos_cloud'
 # require 'irb' # for binding.irb
 # require 'pry' # for binding.pry
 

@@ -109,4 +109,95 @@ http_interactions:
       string: '{"result":[],"id":2}'
     http_version: 
   recorded_at: Sat, 13 Jan 2018 21:01:32 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":1,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 21 Jan 2018 18:47:05 GMT
+      Content-Length:
+      - '1046'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"result":{"id":0,"head_block_number":19179498,"head_block_id":"0124a7ea159253e6e134f914247830370018804b","time":"2018-01-21T18:46:57","current_witness":"someguy123","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"264376767.907
+        STEEM","current_supply":"262997639.027 STEEM","confidential_supply":"0.000
+        STEEM","current_sbd_supply":"6706703.746 SBD","confidential_sbd_supply":"0.000
+        SBD","total_vesting_fund_steem":"197880875.609 STEEM","total_vesting_shares":"405078803117.590303
+        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"283190061.019938
+        VESTS","pending_rewarded_vesting_steem":"137598.042 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19241739,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":19179480,"vote_power_reserve_rate":10,"current_reserve_ratio":4017638,"average_block_size":15420,"max_virtual_bandwidth":"5308126467194880000"}}'
+    http_version: 
+  recorded_at: Sun, 21 Jan 2018 18:47:05 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","params":["database_api","get_accounts",[["cosgrove"]]],"id":2,"method":"call"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.3.15
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 21 Jan 2018 18:47:23 GMT
+      Content-Length:
+      - '20'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":2,"result":[]}'
+    http_version: 
+  recorded_at: Sun, 21 Jan 2018 18:47:23 GMT
 recorded_with: VCR 3.0.3

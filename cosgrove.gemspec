@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'radiator', '~> 0.3', '>= 0.3.15'
   spec.add_dependency 'steem_data', '~> 0.0', '>= 0.0.3'
+  spec.add_dependency 'steem_api', '~> 1.1', '>= 1.1.0'
   spec.add_dependency 'golos_cloud', '~> 1.0', '>= 1.0.0'
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
   spec.add_dependency 'ai4r', '~> 1.13', '>= 1.13'
