@@ -91,7 +91,7 @@ module Cosgrove
     
     def steem_data_head_block_number
       begin
-        SteemData::Setting.last.last_block
+        SteemData::AccountOperation.last.block
       rescue
         -1
       end
