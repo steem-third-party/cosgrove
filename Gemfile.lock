@@ -16,7 +16,7 @@ GIT
 PATH
   remote: .
   specs:
-    cosgrove (0.0.3.4)
+    cosgrove (0.0.3.5)
       activesupport (~> 5.1, >= 5.1.1)
       ai4r (~> 1.13, >= 1.13)
       awesome_print (~> 1.7, >= 1.7.0)
@@ -175,7 +175,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    steem-slap (0.0.3)
+    steem-slap (0.0.4)
     steem_api (1.1.1rc1)
       activerecord (>= 4, < 6)
       activerecord-sqlserver-adapter (>= 4, < 6)
@@ -189,7 +189,7 @@ GEM
     thread_safe (0.3.6)
     tiny_tds (1.3.0)
       mini_portile2 (~> 2.0)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
@@ -222,7 +222,7 @@ DEPENDENCIES
   simplecov (~> 0.11, >= 0.11.2)
   vcr (~> 3.0, >= 3.0.3)
   webmock (~> 3.0, >= 3.0.1)
-  yard (~> 0.8, >= 0.8.7.6)
+  yard (~> 0.9, >= 0.9.11)
 
 BUNDLED WITH
    1.16.1

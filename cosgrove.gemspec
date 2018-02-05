@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock', '~> 3.0', '>= 3.0.1'
   spec.add_development_dependency 'vcr', '~> 3.0', '>= 3.0.3'
   spec.add_development_dependency 'simplecov', '~> 0.11', '>= 0.11.2'
-  spec.add_development_dependency 'yard', '~> 0.8', '>= 0.8.7.6'
+  spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.11'
   # spec.add_development_dependency 'pry', '~> 0.10', '>= 0.10.3'
 
   spec.add_dependency 'radiator', '~> 0.3', '>= 0.3.15'
