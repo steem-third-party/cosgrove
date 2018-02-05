@@ -91,7 +91,7 @@ module Cosgrove
     
     def steem_data_head_block_number
       begin
-        SteemData::AccountOperation.last.block
+        SteemData::AccountOperation.order(timestamp: -1).limit(1).first.block
       rescue
         -1
       end
