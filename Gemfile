@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'mechanize', git: 'https://github.com/sparklemotion/mechanize.git', branch: 'upgrade_net-http-persistent'
+gem 'mechanize'
+gem 'pry'
 
 gemspec

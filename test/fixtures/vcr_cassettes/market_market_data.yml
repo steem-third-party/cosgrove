@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:23 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -27,21 +27,23 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d0da91db08002311435906ea8c8c231ad1515870409; expires=Sun, 13-Jan-19
-        19:06:49 GMT; path=/; domain=.poloniex.com; HttpOnly
+      - __cfduid=d02bf2f3d3f9a7b3925155376e97f400b1526190443; expires=Mon, 13-May-19
+        05:47:23 GMT; path=/; domain=.poloniex.com; HttpOnly
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28898aa9336-SJC
+      - 41a2d47e8a3a6e38-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"asks":[["0.00041759",248.64002168],["0.00041760",17.78895567],["0.00041900",1],["0.00041939",0.70378441],["0.00041999",0.27507546],["0.00042000",1],["0.00042044",29.46011002],["0.00042065",465.19029804],["0.00042100",0.29110367],["0.00042122",1.52655439]],"bids":[["0.00041751",0.48670729],["0.00041744",13.42875623],["0.00041688",27.045765],["0.00041663",1.91973572],["0.00041660",86.6195917],["0.00041659",2.96257555],["0.00041658",1101.72027598],["0.00041650",360.14405762],["0.00041575",21],["0.00041481",0.24372604]],"isFrozen":"0","seq":71820887}'
+      string: '{"asks":[["0.00030162",323.68337498],["0.00030280",2.34145779],["0.00030331",25.53611772],["0.00030399",0.40599058],["0.00030402",2.33205875],["0.00030433",0.35707392],["0.00030438",16.4653395],["0.00030500",0.36611667],["0.00030525",2.32265748],["0.00030535",42.52147675]],"bids":[["0.00030159",86.42786879],["0.00030144",13.51441283],["0.00030143",450.60784164],["0.00030127",2.4514389],["0.00030050",0.9983361],["0.00030042",32.07661241],["0.00029992",1],["0.00029935",12.68446632],["0.00029845",0.40170053],["0.00029655",168.84990266]],"isFrozen":"0","seq":83948475}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:49 GMT
+  recorded_at: Sun, 13 May 2018 05:47:23 GMT
 - request:
     method: get
     uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_SBD&depth=10
@@ -61,7 +63,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:23 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -69,21 +71,23 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d3138bfb1e59e3edbb4cec1d47faab0641515870409; expires=Sun, 13-Jan-19
-        19:06:49 GMT; path=/; domain=.poloniex.com; HttpOnly
+      - __cfduid=de483fe0fd69a3bf8980279172b33db101526190443; expires=Mon, 13-May-19
+        05:47:23 GMT; path=/; domain=.poloniex.com; HttpOnly
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa2898ada6c28-SJC
+      - 41a2d4809d076e08-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"asks":[["0.00046572",4.05007072],["0.00046573",167.21541363],["0.00046579",411.94566064],["0.00046582",44.99183918],["0.00046628",576.88547175],["0.00046839",1.06539816],["0.00046853",17.08889222],["0.00046885",4.12471302],["0.00046900",67.31689],["0.00046931",1.7899492]],"bids":[["0.00045949",1.08168405],["0.00045948",3.26455994],["0.00045943",21.76602805],["0.00045941",18.31787918],["0.00045930",0.4354],["0.00045279",15.2817147],["0.00045144",0.4338954],["0.00045134",10.559392],["0.00045001",171.19276013],["0.00045000",20.60862582]],"isFrozen":"0","seq":18700112}'
+      string: '{"asks":[["0.00028447",1.11067853],["0.00028539",3],["0.00028649",3],["0.00028672",140.97317347],["0.00028683",1.74990385],["0.00028686",0.86487234],["0.00028739",557.68905645],["0.00028785",1.0435],["0.00028898",6],["0.00028931",0.83202981]],"bids":[["0.00028001",173.89967564],["0.00028000",591.78036488],["0.00027650",0.76831826],["0.00027481",10],["0.00027480",473.0713246],["0.00027479",1473.85276029],["0.00027478",1869.19811664],["0.00027082",0.9152],["0.00027034",2.40421701],["0.00027012",1658.22275284]],"isFrozen":"0","seq":22880395}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:49 GMT
+  recorded_at: Sun, 13 May 2018 05:47:23 GMT
 - request:
     method: get
     uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=10
@@ -103,7 +107,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:23 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -111,21 +115,23 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dd69302a23df08bc54765d9257bad98d31515870409; expires=Sun, 13-Jan-19
-        19:06:49 GMT; path=/; domain=.poloniex.com; HttpOnly
+      - __cfduid=d0a0153e1c02e4753f947f098658bf6ad1526190443; expires=Mon, 13-May-19
+        05:47:23 GMT; path=/; domain=.poloniex.com; HttpOnly
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28a8f682810-SJC
+      - 41a2d48218f66e50-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"asks":[["14321.99999997",0.18369595],["14322.00000000",0.03978945],["14322.83237556",1.745],["14322.83237557",1.069],["14323.85428362",3],["14327.99999986",0.10660212],["14327.99999987",0.00628032],["14328.00000000",0.77678775],["14328.76769092",0.00059318],["14328.76769096",0.001291]],"bids":[["14315.81658504",0.00027035],["14315.81658503",0.00027887],["14298.50000001",0.00319488],["14291.93495750",0.00043148],["14279.00000114",0.01073051],["14279.00000113",1.2997247],["14279.00000097",1.01498774],["14279.00000072",0.02],["14279.00000000",0.1],["14278.21500450",0.00021595]],"isFrozen":"0","seq":185526106}'
+      string: '{"asks":[["8399.99999999",0.5],["8400.00000000",0.54245317],["8401.65883948",0.00071556],["8407.36030747",0.00673712],["8408.99556380",0.00023844],["8410.01929840",0.03],["8415.27769416",0.4],["8416.38449000",0.00023823],["8418.75312019",2.994],["8419.52036735",0.00947008]],"bids":[["8380.15388444",0.4],["8380.13289187",4.817424],["8380.13289156",0.24],["8380.00000130",0.01674295],["8380.00000000",0.02422588],["8378.03741229",0.4],["8371.35000000",0.003],["8368.48775640",0.0046837],["8363.14735707",1.87219503],["8363.14735706",4.09]],"isFrozen":"0","seq":239042659}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:49 GMT
+  recorded_at: Sun, 13 May 2018 05:47:23 GMT
 - request:
     method: get
     uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-golos
@@ -145,22 +151,22 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '252'
+      - '250'
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d3663cd1833810aec46c56b24be5065b91515870409; expires=Sun, 13-Jan-19
-        19:06:49 GMT; path=/; domain=.bittrex.com; HttpOnly
+      - __cfduid=dbf874e0b7a77393f0e7f416e0f9e14e51526190444; expires=Mon, 13-May-19
+        05:47:24 GMT; path=/; domain=.bittrex.com; HttpOnly
       Cache-Control:
       - public, max-age=1
       Expires:
-      - Sat, 13 Jan 2018 19:06:52 GMT
+      - Sun, 13 May 2018 05:47:25 GMT
       Last-Modified:
-      - Sat, 13 Jan 2018 19:06:51 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Vary:
       - "*, Accept-Encoding"
       Strict-Transport-Security:
@@ -173,15 +179,17 @@ http_interactions:
       - noopen
       Cf-Cache-Status:
       - EXPIRED
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28c0d0d95e9-SJC
+      - 41a2d483a9b12870-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GOLOS","High":0.00002996,"Low":0.00002785,"Volume":388031.89026006,"Last":0.00002951,"BaseVolume":11.23888059,"TimeStamp":"2018-01-13T19:06:50.663","Bid":0.00002952,"Ask":0.00002981,"OpenBuyOrders":325,"OpenSellOrders":1676,"PrevDay":0.00002796,"Created":"2017-01-19T23:23:12.41"}]}'
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GOLOS","High":0.00000893,"Low":0.00000829,"Volume":128211.47357655,"Last":0.00000852,"BaseVolume":1.10416351,"TimeStamp":"2018-05-13T05:47:09.483","Bid":0.00000852,"Ask":0.00000868,"OpenBuyOrders":97,"OpenSellOrders":1987,"PrevDay":0.00000885,"Created":"2017-01-19T23:23:12.41"}]}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:49 GMT
+  recorded_at: Sun, 13 May 2018 05:47:24 GMT
 - request:
     method: get
     uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-gbg
@@ -201,22 +209,22 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '253'
+      - '249'
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dea7043d61a8e1bb1c4fdab5dc7e4a9271515870409; expires=Sun, 13-Jan-19
-        19:06:49 GMT; path=/; domain=.bittrex.com; HttpOnly
+      - __cfduid=dca925da649a51c85e3a60b216ed871451526190444; expires=Mon, 13-May-19
+        05:47:24 GMT; path=/; domain=.bittrex.com; HttpOnly
       Cache-Control:
       - public, max-age=1
       Expires:
-      - Sat, 13 Jan 2018 19:06:48 GMT
+      - Sun, 13 May 2018 05:47:25 GMT
       Last-Modified:
-      - Sat, 13 Jan 2018 19:06:47 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Vary:
       - "*, Accept-Encoding"
       Strict-Transport-Security:
@@ -229,15 +237,17 @@ http_interactions:
       - noopen
       Cf-Cache-Status:
       - EXPIRED
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28ceaba6e02-SJC
+      - 41a2d4845c3928ac-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GBG","High":0.00002866,"Low":0.00002576,"Volume":598887.69726089,"Last":0.00002600,"BaseVolume":16.20154937,"TimeStamp":"2018-01-13T19:06:39.757","Bid":0.00002598,"Ask":0.00002663,"OpenBuyOrders":314,"OpenSellOrders":2315,"PrevDay":0.00002819,"Created":"2017-02-12T00:38:21.023"}]}'
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-GBG","High":0.00000899,"Low":0.00000797,"Volume":83567.78769618,"Last":0.00000841,"BaseVolume":0.71069668,"TimeStamp":"2018-05-13T05:47:21.16","Bid":0.00000815,"Ask":0.00000835,"OpenBuyOrders":67,"OpenSellOrders":1839,"PrevDay":0.00000803,"Created":"2017-02-12T00:38:21.023"}]}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:49 GMT
+  recorded_at: Sun, 13 May 2018 05:47:24 GMT
 - request:
     method: get
     uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=usdt-btc
@@ -257,22 +267,22 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:50 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '267'
+      - '273'
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d7e0a47ed93da9db3dbe0e33cad17bdb31515870410; expires=Sun, 13-Jan-19
-        19:06:50 GMT; path=/; domain=.bittrex.com; HttpOnly
+      - __cfduid=d616d81666bd70fc102f9531f883eef391526190444; expires=Mon, 13-May-19
+        05:47:24 GMT; path=/; domain=.bittrex.com; HttpOnly
       Cache-Control:
       - public, max-age=1
       Expires:
-      - Sat, 13 Jan 2018 19:06:50 GMT
+      - Sun, 13 May 2018 05:47:25 GMT
       Last-Modified:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Vary:
       - "*, Accept-Encoding"
       Strict-Transport-Security:
@@ -284,16 +294,18 @@ http_interactions:
       X-Download-Options:
       - noopen
       Cf-Cache-Status:
-      - EXPIRED
+      - HIT
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28f08f55146-SJC
+      - 41a2d4850c7628b8-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"success":true,"message":"","result":[{"MarketName":"USDT-BTC","High":14583.00000000,"Low":13351.00000000,"Volume":3079.93235060,"Last":14271.00000000,"BaseVolume":43431112.75996670,"TimeStamp":"2018-01-13T19:06:51.71","Bid":14270.00000001,"Ask":14310.68168495,"OpenBuyOrders":5361,"OpenSellOrders":5834,"PrevDay":13438.00000001,"Created":"2015-12-11T06:31:40.633"}]}'
+      string: '{"success":true,"message":"","result":[{"MarketName":"USDT-BTC","High":8649.33300003,"Low":8177.00000000,"Volume":2554.33767960,"Last":8401.71888009,"BaseVolume":21395582.16135258,"TimeStamp":"2018-05-13T05:47:23.27","Bid":8393.32000000,"Ask":8401.71888009,"OpenBuyOrders":2652,"OpenSellOrders":2702,"PrevDay":8303.07357399,"Created":"2015-12-11T06:31:40.633"}]}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:50 GMT
+  recorded_at: Sun, 13 May 2018 05:47:24 GMT
 - request:
     method: get
     uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-steem
@@ -313,22 +325,22 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:50 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '260'
+      - '258'
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dcdae411b4088b69281db34d04eb7b6c71515870410; expires=Sun, 13-Jan-19
-        19:06:50 GMT; path=/; domain=.bittrex.com; HttpOnly
+      - __cfduid=d7ad4ace0b293e1529fa187eeac04efa41526190444; expires=Mon, 13-May-19
+        05:47:24 GMT; path=/; domain=.bittrex.com; HttpOnly
       Cache-Control:
       - public, max-age=1
       Expires:
-      - Sat, 13 Jan 2018 19:06:49 GMT
+      - Sun, 13 May 2018 05:47:25 GMT
       Last-Modified:
-      - Sat, 13 Jan 2018 19:06:48 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Vary:
       - "*, Accept-Encoding"
       Strict-Transport-Security:
@@ -341,15 +353,17 @@ http_interactions:
       - noopen
       Cf-Cache-Status:
       - EXPIRED
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa28fabba6e02-SJC
+      - 41a2d485ef7428b2-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-STEEM","High":0.00046379,"Low":0.00038309,"Volume":2173080.52842998,"Last":0.00041970,"BaseVolume":929.04314973,"TimeStamp":"2018-01-13T19:06:51.913","Bid":0.00041952,"Ask":0.00041969,"OpenBuyOrders":1588,"OpenSellOrders":6395,"PrevDay":0.00038599,"Created":"2016-04-17T01:22:13.35"}]}'
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-STEEM","High":0.00034566,"Low":0.00030500,"Volume":282260.37690388,"Last":0.00033664,"BaseVolume":91.40497793,"TimeStamp":"2018-05-13T05:47:23.13","Bid":0.00033641,"Ask":0.00033819,"OpenBuyOrders":433,"OpenSellOrders":3485,"PrevDay":0.00031911,"Created":"2016-04-17T01:22:13.35"}]}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:50 GMT
+  recorded_at: Sun, 13 May 2018 05:47:24 GMT
 - request:
     method: get
     uri: https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-sbd
@@ -369,22 +383,22 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:06:50 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '256'
+      - '254'
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d0eeebf2c75e5333749d3873591c1e2a41515870410; expires=Sun, 13-Jan-19
-        19:06:50 GMT; path=/; domain=.bittrex.com; HttpOnly
+      - __cfduid=d7ad4ace0b293e1529fa187eeac04efa41526190444; expires=Mon, 13-May-19
+        05:47:24 GMT; path=/; domain=.bittrex.com; HttpOnly
       Cache-Control:
       - public, max-age=1
       Expires:
-      - Sat, 13 Jan 2018 19:06:51 GMT
+      - Sun, 13 May 2018 05:47:25 GMT
       Last-Modified:
-      - Sat, 13 Jan 2018 19:06:50 GMT
+      - Sun, 13 May 2018 05:47:24 GMT
       Vary:
       - "*, Accept-Encoding"
       Strict-Transport-Security:
@@ -397,13 +411,15 @@ http_interactions:
       - noopen
       Cf-Cache-Status:
       - EXPIRED
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa2919c3d6d00-SJC
+      - 41a2d486bfa528b2-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-SBD","High":0.00052100,"Low":0.00044128,"Volume":215300.27525683,"Last":0.00046805,"BaseVolume":104.12225758,"TimeStamp":"2018-01-13T19:06:51.04","Bid":0.00046999,"Ask":0.00047454,"OpenBuyOrders":259,"OpenSellOrders":2416,"PrevDay":0.00045264,"Created":"2016-07-09T19:02:08.943"}]}'
+      string: '{"success":true,"message":"","result":[{"MarketName":"BTC-SBD","High":0.00027685,"Low":0.00024074,"Volume":114354.36754885,"Last":0.00026503,"BaseVolume":29.28131559,"TimeStamp":"2018-05-13T05:47:18.66","Bid":0.00026387,"Ask":0.00026702,"OpenBuyOrders":144,"OpenSellOrders":1883,"PrevDay":0.00024801,"Created":"2016-07-09T19:02:08.943"}]}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:06:50 GMT
+  recorded_at: Sun, 13 May 2018 05:47:24 GMT
 recorded_with: VCR 3.0.3

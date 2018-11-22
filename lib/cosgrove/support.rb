@@ -5,8 +5,8 @@ module Cosgrove
     include ActionView::Helpers::DateHelper
     
     def suggest_account_name(account_name)
-      regex = /.*#{account_name.chars.each.map { |c| c }.join('.*')}.*/
-      guesses = SteemData::Account.where(name: regex).distinct(:name)
+      pattern = account_name.chars.each.map{ |c| c }.join('%')
+      guesses = SteemApi::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
       
       if guesses.any?
         guesses.sample
@@ -28,41 +28,9 @@ module Cosgrove
       help.join
     end
     
-    def mongo_behind_warning(event)
-      elapse = -1
-      
-      begin
-        message = []
-        
-        if (blocks = head_block_number(:steem) - steem_data_head_block_number) > 1200
-          elapse = blocks * 3
-          message << "Mongo is behind by #{time_ago_in_words(elapse.seconds.ago)}."
-        else
-          0
-        end
-        
-        if message.size > 0
-          event.respond message.join(' ')
-        end
-      rescue => e
-        event.respond "Mongo might be behind, but the API is also acting up.  Please try again later.\n\n```#{e.inspect}\n```"
-        sleep 15
-        event.respond Cosgrove::SnarkCommands::WITTY.sample
-      end
-      
-      elapse
-    end
-    
     def cannot_find_input(event, message_prefix = "Unable to find that.")
       message = [message_prefix]
       
-      message << if (blocks = head_block_number(:steem) - steem_data_head_block_number) > 86400
-        elapse = blocks * 3
-        "  Mongo is behind by #{time_ago_in_words(elapse.seconds.ago)}.  Try again later."
-      else
-        "  Mongo might be behind or this is not a valid input."
-      end
-        
       event.respond message.join(' ')
     end
     
@@ -82,7 +50,7 @@ module Cosgrove
       end
       
       post = case chain
-      when :steem then SteemData::Post.where(author: author_name, permlink: permlink).last
+      when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink).last
       when :golos then GolosCloud::Comment.where(author: author_name, permlink: permlink).last
       end
       
@@ -111,16 +79,18 @@ module Cosgrove
         "**#{age}** old"
       end
       
-      if post.active_votes.any?
-        upvotes = post.active_votes.map{ |v| v if v['percent'] > 0 }.compact.count
-        downvotes = post.active_votes.map{ |v| v if v['percent'] < 0 }.compact.count
+      active_votes = SteemApi::Tx::Vote.where(author: post.author, permlink: post.permlink)
+      
+      if active_votes.any?
+        upvotes = active_votes.map{ |v| v if v.weight > 0 }.compact.count
+        downvotes = active_votes.map{ |v| v if v.weight < 0 }.compact.count
         netvotes = upvotes - downvotes
         details << "Net votes: #{netvotes}"
         
         # Only append this detail of the post less than an hour old.
         if created > 1.hour.ago
           votes = case chain
-          when :steem then SteemData::AccountOperation.type('vote').starting(post.created)
+          when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
           when :golos then GolosCloud::Vote.where('timestamp > ?', post.created)
           end
           total_votes = votes.count
@@ -134,8 +104,8 @@ module Cosgrove
       
       details << "Comments: #{post.children.to_i}"
       
-      page_views = page_views("/#{post.parent_permlink}/@#{post.author}/#{post.permlink}")
-      details << "Views: #{page_views}" if !!page_views
+      # page_views = page_views("/#{post.parent_permlink}/@#{post.author}/#{post.permlink}")
+      # details << "Views: #{page_views}" if !!page_views
       
       begin
         event.respond details.join('; ')
@@ -153,7 +123,7 @@ module Cosgrove
       raise "Required argument: chain" if chain.nil?
       
       if chain == :steem
-        account = if (accounts = SteemData::Account.where(name: key)).any?
+        account = if (accounts = SteemApi::Account.where(name: key)).any?
           accounts.first
         end
       end
@@ -206,7 +176,7 @@ module Cosgrove
           'Origin' => 'https://steemit.com'
         })
         
-        csrf = page.parser.to_html.split(',"csrf":"').last.split('","new_visit":').first
+        csrf = page.parser.to_html.split(':{"csrf":"').last.split('","new_visit":').first
         # Uncomment in case views stop showing.
         # puts "DEBUG: #{csrf}"
         return unless csrf.size == 36

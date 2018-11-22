@@ -29,7 +29,7 @@ module Cosgrove
         return
       end
       
-      votes_today = SteemData::AccountOperation.type('vote').where(voter: steem_account).today
+      votes_today = SteemApi::Tx::Vote.where(voter: steem_account).today
       today_count = votes_today.count
       author_count = votes_today.where(author: author_name).count
       vote_ratio = if today_count == 0

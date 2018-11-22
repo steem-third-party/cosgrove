@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 13 Jan 2018 19:10:10 GMT
+      - Sun, 13 May 2018 05:51:35 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -55,14 +55,14 @@ http_interactions:
             "IsActive": true,
             "MinUnitQty": 0.0002,
             "MinPrice": 0.000002,
-            "LastPrice": "0.00349989",
-            "24hLow": "0.00313000",
-            "24hHigh": "0.00364899",
-            "24hVolume": "5530.245"
+            "LastPrice": "0.00505000",
+            "24hLow": "0.00505000",
+            "24hHigh": "0.00524800",
+            "24hVolume": "559.029"
           }
         }
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+  recorded_at: Sun, 13 May 2018 05:51:35 GMT
 - request:
     method: get
     uri: https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=10
@@ -82,7 +82,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:10:11 GMT
+      - Sun, 13 May 2018 05:51:35 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -90,19 +90,21 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d8638687d2d3187b7384422b1d0e1f11b1515870611; expires=Sun, 13-Jan-19
-        19:10:11 GMT; path=/; domain=.poloniex.com; HttpOnly
+      - __cfduid=d8da16a1be7f12ee912c2246b6570f7fe1526190695; expires=Mon, 13-May-19
+        05:51:35 GMT; path=/; domain=.poloniex.com; HttpOnly
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
-      - cloudflare-nginx
+      - cloudflare
       Cf-Ray:
-      - 3dcaa777fd259330-SJC
+      - 41a2daa4fa796e56-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"asks":[["14300.52352987",0.48195753],["14300.52352990",0.26558163],["14300.52352992",1.00766127],["14300.52352996",0.00407569],["14300.52353000",0.03389655],["14309.54278100",0.0002164],["14310.85428358",0.41170523],["14315.99617575",0.9],["14318.90829250",0.00096811],["14322.00000000",0.03978945]],"bids":[["14270.00000038",0.940508],["14270.00000000",0.25784363],["14269.99997640",0.00021608],["14263.93554823",0.53441837],["14263.93554820",0.00021617],["14263.44614628",0.02734263],["14254.50961030",0.00021631],["14250.00000028",1.589],["14250.00000027",0.2291327],["14250.00000000",0.10189474]],"isFrozen":"0","seq":185527063}'
+      string: '{"asks":[["8399.99999999",0.49886667],["8400.00000000",0.54060405],["8401.65883948",0.00071556],["8407.36030747",0.00673712],["8408.99556380",0.00023844],["8416.38449000",0.00023823],["8417.88582362",0.00846629],["8418.11929840",0.03],["8418.75312019",2.994],["8420.22000000",0.0013255]],"bids":[["8399.00000000",1.35536971],["8380.70123401",0.24],["8380.67850818",0.4],["8380.41619672",0.4],["8380.32702653",0.01050555],["8380.00000000",0.02422588],["8379.05236560",0.0002381],["8374.21929840",0.03],["8369.22383778",0.0046837],["8369.16000000",0.003]],"isFrozen":"0","seq":239043566}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:10:11 GMT
+  recorded_at: Sun, 13 May 2018 05:51:35 GMT
 recorded_with: VCR 3.0.3

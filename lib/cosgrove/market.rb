@@ -2,18 +2,25 @@ module Cosgrove
   module Market
     include Support
     include ActionView::Helpers::NumberHelper
-
+    
+    def base_per_mvest(chain = :steem)
+      api(chain).get_dynamic_global_properties do |properties|
+        total_vesting_fund_steem = properties.total_vesting_fund_steem.to_f
+        total_vesting_shares_mvest = properties.total_vesting_shares.to_f / 1e6
+      
+        total_vesting_fund_steem / total_vesting_shares_mvest
+      end
+    end
+    
     def price_feed(chain = :steem)
       api(chain).get_feed_history do |feed_history|
-        base_per_mvest = api(chain).steem_per_mvest
-        
         current_median_history = feed_history.current_median_history
         base = current_median_history.base
         base = base.split(' ').first.to_f
         quote = current_median_history.quote
         quote = quote.split(' ').first.to_f
         
-        base_per_debt = (base / quote) * base_per_mvest
+        base_per_debt = (base / quote) * base_per_mvest(chain)
         
         [base_per_mvest, base_per_debt]
       end
@@ -125,24 +132,13 @@ module Cosgrove
         end
         
         account_names = account_names.map(&:downcase).uniq
-        accounts = SteemData::Account.where(:name.in => account_names)
-        account = accounts.last
-        
-        if accounts.size == 0
-          accounts = SteemApi::Account.where(name: account_names)
-          account = accounts.limit(1).last
-        end
+        accounts = SteemApi::Account.where(name: account_names)
+        account = accounts.limit(1).first
         
         if accounts.count == account_names.size
-          if accounts.kind_of? Mongoid::Criteria
-            vests = accounts.sum('vesting_shares.amount')
-            delegated_vests = accounts.sum('delegated_vesting_shares.amount')
-            received_vests = accounts.sum('received_vesting_shares.amount')
-          else
-            vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
-            delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
-            received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
-          end
+          vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
+          delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
+          received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
         elsif !wildcards
           valid_names = accounts.distinct(:name)
           unknown_names = account_names - valid_names
@@ -209,7 +205,7 @@ module Cosgrove
         usd = number_to_currency(usd, precision: 3)
         
         "**#{account.name}:** `#{mgests} MGESTS = #{golos} GOLOS = #{gbg} GBG = #{usd}`"
-      when :test then "Query not supported.  No Mongo for Testnet."
+      when :test then "Query not supported.  No database for Testnet."
       end
     end
     
@@ -267,11 +263,11 @@ module Cosgrove
     end
     
     def promoted(chain = :steem, period = :today)
-      return "Query not supported.  No Mongo for #{chain.to_s.capitalize}." unless chain == :steem
+      return "Query not supported.  No database for #{chain.to_s.capitalize}." unless chain == :steem
       
-      promoted = SteemData::AccountOperation.type('transfer').where(account: 'null', to: 'null', 'amount.asset' => 'SBD').send(period)
+      promoted = SteemApi::Tx::Transfer.where(to: 'null', amount_symbol: 'SBD').send(period)
       count_promoted = promoted.count
-      sum_promoted = promoted.sum('amount.amount')
+      sum_promoted = promoted.sum(:amount)
       
       base_per_mvest, base_per_debt = price_feed(chain)
       total = api(chain).get_reward_fund('post') do |reward_fund|
@@ -362,9 +358,9 @@ module Cosgrove
       chain = options[:chain] || :steem
       account_names = options[:account_names]
       case chain
-      when :steem then SteemData::Account.where(:name.in => account_names).sum('vesting_shares.amount')
-      when :golos then "Query not supported.  No Mongo for Golos."
-      when :test then "Query not supported.  No Mongo for Testnet."
+      when :steem then SteemApi::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
+      when :golos then "Query not supported.  No database for Golos."
+      when :test then "Query not supported.  No database for Testnet."
       end
     end
     

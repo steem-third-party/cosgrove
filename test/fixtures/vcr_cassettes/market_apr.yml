@@ -2,15 +2,282 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.steemit.com/
+    uri: https://gtg.steem.house:8090/
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_witnesses_by_vote",["",19]],"id":1,"method":"call"}'
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_witnesses_by_vote","params":["",19],"id":1}'
     headers:
       Content-Type:
       - application/json
       User-Agent:
-      - radiator/0.3.15
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:47:17 GMT
+      Content-Length:
+      - '4826'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_witnesses_by_vote''\n    {\"name\":\"condenser_api.get_witnesses_by_vote\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_witnesses_by_vote\",\"call.params\":[\"\",19]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:17"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_witnesses_by_vote","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:17"},"format":"","data":{"call.method":"condenser_api.get_witnesses_by_vote","call.params":["",19]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:17 GMT
+- request:
+    method: get
+    uri: https://gtg.steem.house:8090/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:47:17 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:18 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_witnesses_by_vote","params":["",19],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:47:18 GMT
+      Content-Length:
+      - '4826'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_witnesses_by_vote''\n    {\"name\":\"condenser_api.get_witnesses_by_vote\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_witnesses_by_vote\",\"call.params\":[\"\",19]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:18"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_witnesses_by_vote","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:18"},"format":"","data":{"call.method":"condenser_api.get_witnesses_by_vote","call.params":["",19]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:18 GMT
+- request:
+    method: get
+    uri: https://steemd.privex.io/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:47:19 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:478 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:19 GMT
+- request:
+    method: post
+    uri: https://steemd.privex.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_witnesses_by_vote","params":["",19],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:47:20 GMT
+      Content-Length:
+      - '4826'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_witnesses_by_vote''\n    {\"name\":\"condenser_api.get_witnesses_by_vote\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_witnesses_by_vote\",\"call.params\":[\"\",19]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:20"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_witnesses_by_vote","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:47:20"},"format":"","data":{"call.method":"condenser_api.get_witnesses_by_vote","call.params":["",19]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:20 GMT
+- request:
+    method: get
+    uri: https://api.steemit.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:47:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '136'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Request-Id:
+      - '001047329836171929'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d169-c29fc0a4583fcfc8e0c81274
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: UTF-8
+      string: '{"status":"OK","datetime":"2018-05-13T05:47:21.564171","source_commit":"6281621b66e79fe300ea2f018a3180dc3e5a1154","docker_tag":"latest"}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:47:21 GMT
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_witnesses_by_vote","params":["",19],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -25,7 +292,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:03:29 GMT
+      - Sun, 13 May 2018 05:47:22 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -35,7 +302,9 @@ http_interactions:
       Server:
       - nginx
       X-Jussi-Request-Id:
-      - 1515870209.677-8475754-432-172.31.9.230-47.208.249.50
+      - '000210644728703527'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d16a-745d4d609120cf8892e22ec8
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
@@ -48,126 +317,45 @@ http_interactions:
       - upgrade-insecure-requests
     body:
       encoding: ASCII-8BIT
-      string: '{"result":[{"id":10293,"owner":"jesta","created":"1970-01-01T00:00:00","url":"http:\/\/jesta.us","votes":"69339878367953367","virtual_last_update":"281562861943911218057895285","virtual_position":"261808618787301776638888102588603636911","virtual_scheduled_time":"281563993669982573624272482","total_missed":513,"last_aslot":19011660,"last_confirmed_block_num":18949534,"pow_worker":0,"signing_key":"STM6hb6eCjQKtrPwkZcCGvLXchEkJHksHjUakbWzNHDeoBrVTgiUS","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.474
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-12T04:28:42","last_work":"000000024fdaaa7427e5eea962ee5330966f9a7f8edea18f27abfbb03b620b27","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12336,"owner":"timcliff","created":"2016-10-07T00:02:06","url":"https:\/\/steemit.com\/witness-category\/@timcliff\/timcliff-s-updated-witness-application","votes":"66157900047882669","virtual_last_update":"281562861943911218057895285","virtual_position":"296246635108756301098001035350255729364","virtual_scheduled_time":"281563527559533544502797173","total_missed":75,"last_aslot":19011662,"last_confirmed_block_num":18949536,"pow_worker":0,"signing_key":"STM5AVZZA9fJLvMA6de43z43643uXPtAU7gMSLrFJe7VTCi84UvdH","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.197
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T12:55:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":9493,"owner":"gtg","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@gtg\/witness-gtg","votes":"66152343710897146","virtual_last_update":"281562861943911218057895285","virtual_position":"296220897094918172961671554796000345050","virtual_scheduled_time":"281563528004512465691850527","total_missed":41,"last_aslot":19011648,"last_confirmed_block_num":18949522,"pow_worker":0,"signing_key":"STM7LvLPdi82QaL7GVUk3f9yt9CWGT8bbsnTjLRzdb58ZCdTnn7Ec","props":{"account_creation_fee":"0.075
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.922
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T14:36:15","last_work":"0000000048bf77f525731f28db7c1aa9ad853a475ccc78e71ea952a7782e5459","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":437,"owner":"blocktrades","created":"1970-01-01T00:00:00","url":"https:\/\/blocktrades.us","votes":"62515318444041635","virtual_last_update":"281562861943911218057895285","virtual_position":"279935782310209905973268262605834134671","virtual_scheduled_time":"281563827252672537823970353","total_missed":1123,"last_aslot":19011668,"last_confirmed_block_num":18949542,"pow_worker":0,"signing_key":"STM6hQNmZXaQuLReUJbq4CAm57BvUg9vNEVnUX2qggDLonBkeAj73","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.909
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T14:40:33","last_work":"0000000df71896f1756d6a3456905da575407b4917d922042f72e076f586a2b4","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12286,"owner":"good-karma","created":"2016-09-08T04:12:18","url":"https:\/\/esteem.ws","votes":"59866887429215669","virtual_last_update":"281562861943911218057895285","virtual_position":"98802249892626016231428105285428531331","virtual_scheduled_time":"281566895561281318171255125","total_missed":404,"last_aslot":19011667,"last_confirmed_block_num":18949541,"pow_worker":0,"signing_key":"STM5zNNjMyCKbhcPgo5ca7jq9UBGVzpq6yoaHw1R2dKaZdxhcuwuW","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":98304,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.041
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:13:00","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12339,"owner":"roelandp","created":"2016-10-07T23:29:39","url":"https:\/\/steemit.com\/witness-category\/@roelandp\/witness-roelandp","votes":"59498793219233984","virtual_last_update":"281562861943911218057895285","virtual_position":"98194790338076149921671629707799414964","virtual_scheduled_time":"281566930725200459457757091","total_missed":15,"last_aslot":19011659,"last_confirmed_block_num":18949533,"pow_worker":0,"signing_key":"STM7ws1iXKdgbWrtCB1CyAszK5CobNj5gjENjcLmdNnxQ6ygt1ujv","props":{"account_creation_fee":"0.222
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.976
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:19:33","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14503,"owner":"aggroed","created":"2017-05-26T20:39:51","url":"https:\/\/steemit.com\/witness\/@aggroed\/official-witness-launch-growing-this-community-and-supporting-success-of-it-s-members","votes":"58602280077858152","virtual_last_update":"281562861943911218057895285","virtual_position":"262410891985724234176069222694017164889","virtual_scheduled_time":"281564190756968180266515665","total_missed":16,"last_aslot":19011653,"last_confirmed_block_num":18949527,"pow_worker":0,"signing_key":"STM7X9nCrGd4aQVjWgq5m2o9FrgPn5mKjyrS6nwMoX7UJ6RhdChNu","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"6.174
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T07:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":4205,"owner":"smooth.witness","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@smooth.witness\/smooth-witness","votes":"58042848279127773","virtual_last_update":"281562861943911218057895285","virtual_position":"26701834077206866920343189677692801742","virtual_scheduled_time":"281568264513601384266573519","total_missed":179,"last_aslot":19011645,"last_confirmed_block_num":18949519,"pow_worker":0,"signing_key":"STM5Ms4fUw6YTKgYcSj6Na9X45gEhhMYLy68ULZfQZsjGUxETm7mK","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.000
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T14:21:09","last_work":"000000007a170e622ce7950f2657ed739de2323a68a273402b31a22631b3883d","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":1648,"owner":"clayop","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/@clayop","votes":"57854902504374467","virtual_last_update":"281562861943911218057895285","virtual_position":"95481740184104696867128418168495319711","virtual_scheduled_time":"281567093229699286305738542","total_missed":749,"last_aslot":19011654,"last_confirmed_block_num":18949528,"pow_worker":0,"signing_key":"STM5SZ8DRytVTmWTbhVEoVwcj8vS4NcpvuaFi5KoLaRVSTCwqtCdy","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.940
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:37:30","last_work":"0000000031f30e517733d51363549b574e790e8108e94190848ae843bb76e3b3","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":9818,"owner":"anyx","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@anyx\/witness-application-anyx","votes":"57846789861621328","virtual_last_update":"281562861943911218057895285","virtual_position":"95468383569718743458427112563818316347","virtual_scheduled_time":"281567094054006468865943777","total_missed":171,"last_aslot":19011666,"last_confirmed_block_num":18949540,"pow_worker":0,"signing_key":"STM6w2gmnHjUMFUyn3aYH8K1HckkJbfRW737CnZXnFa669HnVHtfL","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.954
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:24:18","last_work":"00000001a002970d88947434612b5a02db834e7b7393a1e2e1c162679f57baed","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":708,"owner":"xeldal","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@xeldal\/xeldal-witness-information","votes":"57799458904842105","virtual_last_update":"281562861943911218057895285","virtual_position":"95390287686116680352519338653639844732","virtual_scheduled_time":"281567098870759235767178693","total_missed":272,"last_aslot":19011656,"last_confirmed_block_num":18949530,"pow_worker":0,"signing_key":"STM67LS8qbU37747iHFTz3z8yiqLgVjoL5cQFrFMLoZy7kLhnHqT7","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.906
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T15:00:30","last_work":"00000003d3a50846d9b236c5bdf43dc58dc2560a59b6bb01169beeea215a0c30","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":11578,"owner":"someguy123","created":"2016-08-09T00:03:18","url":"https:\/\/steemit.com\/witness-category\/@someguy123\/someguy123-witness-thread","votes":"57597588691182484","virtual_last_update":"281562861943911218057895285","virtual_position":"95057070600251398053504521093461302047","virtual_scheduled_time":"281567119505762209715483450","total_missed":125,"last_aslot":19011652,"last_confirmed_block_num":18949526,"pow_worker":0,"signing_key":"STM5XTuCqr1pQb4ADkGXLyK6kZFzfWEZdKiiTnDKhqhv8yuWZVfUE","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":98304,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.174
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T07:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14501,"owner":"ausbitbank","created":"2017-04-26T12:55:54","url":"https:\/\/steemit.com\/witness\/@ausbitbank\/ausbitbank-witness-update-new-full-rpc-node-minnow-support-project-application","votes":"57354282186186807","virtual_last_update":"281562861943911218057895285","virtual_position":"94655531548217410205663740035041820788","virtual_scheduled_time":"281567144568085213522234597","total_missed":100,"last_aslot":19011669,"last_confirmed_block_num":18949543,"pow_worker":0,"signing_key":"STM6Xhq2qzhS8UviotFrJWqC24BMfpnJtYt3Ma3HMMxXsHWRw5agr","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":98304,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.292
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T08:34:15","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":725,"owner":"pharesim","created":"1970-01-01T00:00:00","url":"http:\/\/pharesim.me","votes":"56277159363613799","virtual_last_update":"281562861943911218057895285","virtual_position":"25889552250074523442658634921244937835","virtual_scheduled_time":"281568448452154100973308529","total_missed":1239,"last_aslot":19011646,"last_confirmed_block_num":18949520,"pow_worker":0,"signing_key":"STM6AKViAuipp6j1NK7nnzT7DwxvPAfs3ttrPTyPAsBrbidgw62Bg","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.952
-        SBD","quote":"0.148 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:23:09","last_work":"00000000c0f57bc53c0d922b7ec65126347ca1f75d01f83897d9252b81c7f64e","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14504,"owner":"lukestokes.mhth","created":"2017-05-30T03:50:45","url":"https:\/\/steemit.com\/witness-category\/@lukestokes\/vote-luke-stokes-for-witness-as-lukestokes-mhth","votes":"55872310779102673","virtual_last_update":"281562861943911218057895285","virtual_position":"25703307982024889822356620039184392876","virtual_scheduled_time":"281568492265166099326067014","total_missed":11,"last_aslot":19011658,"last_confirmed_block_num":18949532,"pow_worker":0,"signing_key":"STM8Psq9M41kahwswDVyCo594Shem24mvbjK3QTUKAcquPCJUbwdh","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.043
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:00:15","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12322,"owner":"thecryptodrive","created":"2016-09-27T17:35:51","url":"https:\/\/steemit.com\/witness-category\/@thecryptodrive\/ricardo-goncalves-thecryptodrive-first-steem-witness-in-africa-a-witness-for-the-people","votes":"55640381607288372","virtual_last_update":"281562861943911218057895285","virtual_position":"91826971414545943189622090402688625201","virtual_scheduled_time":"281567327322981764316909820","total_missed":162,"last_aslot":19011657,"last_confirmed_block_num":18949531,"pow_worker":0,"signing_key":"STM8WtG3BskaEyfUjEmLpUWKZtDuy77FV28YG1r9DAWnJy9DFPWgw","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"6.299
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T08:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":658,"owner":"riverhead","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@riverhead\/witness-proposal-riverhead","votes":"55072673848955887","virtual_last_update":"281562861943911218057895285","virtual_position":"0","virtual_scheduled_time":"281569040731740808609180669","total_missed":2867,"last_aslot":19011649,"last_confirmed_block_num":18949523,"pow_worker":0,"signing_key":"STM59NHavCDaoNdTPHpAjUKUHcJsxUsaKiiv4A3QJstR2aLW18uKM","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.993
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T17:56:15","last_work":"0000000185df3b43ad7489c861a848f89fcffe80b01d42f8662573f7b4ec2728","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12305,"owner":"curie","created":"2016-09-15T14:43:42","url":"https:\/\/steemit.com\/curation\/@curie\/curie-weekly-update-26th-dec-2016-to-1st-jan-2017-special-edition","votes":"54923309573778870","virtual_last_update":"281562861943911218057895285","virtual_position":"0","virtual_scheduled_time":"281569057534991974667224289","total_missed":24,"last_aslot":19011663,"last_confirmed_block_num":18949537,"pow_worker":0,"signing_key":"STM7DDCJkoZ5i2ri4eD9kfrQr8DkMWCJCTpTZwW2RSTPsxZgDTKyy","props":{"account_creation_fee":"0.075
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.908
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-13T18:55:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14541,"owner":"netuoso","created":"2017-07-10T20:57:15","url":"https:\/\/www.steemcreate.com","votes":"54582563464108734","virtual_last_update":"281562861943911218057895285","virtual_position":"0","virtual_scheduled_time":"281569096212610318169846310","total_missed":16,"last_aslot":19011651,"last_confirmed_block_num":18949525,"pow_worker":0,"signing_key":"STM7eU7Ca2FMT5yeCY7wbQkF9aKscmXi8Ma1QfX1PGSrJ7wh1Nh4U","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"6.294
-        SBD","quote":"0.250 STEEM"},"last_sbd_exchange_update":"2018-01-13T08:24:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.0.0","hardfork_time_vote":"2016-03-24T16:00:00"}],"id":1}'
+      string: '{"jsonrpc":"2.0","result":[{"id":9493,"owner":"gtg","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@gtg\/witness-gtg","votes":"75947727347958249","virtual_last_update":"327069173220104322728918948","virtual_position":"321614421144229064075735404844849937809","virtual_scheduled_time":"327069419020030516455391092","total_missed":43,"last_aslot":22451711,"last_confirmed_block_num":22386023,"pow_worker":0,"signing_key":"STM7kCnGfa8FimjjCtmztpqnxs9qGPppgwNwdWoWLQ294wxii51e4","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.824
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:24:15","last_work":"0000000048bf77f525731f28db7c1aa9ad853a475ccc78e71ea952a7782e5459","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":10293,"owner":"jesta","created":"1970-01-01T00:00:00","url":"http:\/\/jesta.us","votes":"75893072347698175","virtual_last_update":"327069173220104322728918948","virtual_position":"321382874613600558528933437056718730283","virtual_scheduled_time":"327069422248002689411966107","total_missed":606,"last_aslot":22451747,"last_confirmed_block_num":22386059,"pow_worker":0,"signing_key":"STM8MFSHJA2DsjmEUBsf8JYdhm25YghdEUeDEMqNVMrWMCgHErDaL","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.824
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:41:27","last_work":"000000024fdaaa7427e5eea962ee5330966f9a7f8edea18f27abfbb03b620b27","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12339,"owner":"roelandp","created":"2016-10-07T23:29:39","url":"https:\/\/steemit.com\/witness-category\/@roelandp\/witness-roelandp","votes":"72000961238853300","virtual_last_update":"327069173220104322728918948","virtual_position":"246931459784725537264330953924701572066","virtual_scheduled_time":"327070469743171931980852098","total_missed":24,"last_aslot":22451743,"last_confirmed_block_num":22386055,"pow_worker":0,"signing_key":"STM7ekEspiqJBisxMbmT9Sizt8FdUwrr41ks7QKrkyYzcrxtnAsMC","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.802
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:18:30","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12286,"owner":"good-karma","created":"2016-09-08T04:12:18","url":"https:\/\/esteem.ws","votes":"66907135395279831","virtual_last_update":"327069173220104322728918948","virtual_position":"150025998129488473490323207223584469739","virtual_scheduled_time":"327072016808724093053235975","total_missed":411,"last_aslot":22451740,"last_confirmed_block_num":22386052,"pow_worker":0,"signing_key":"STM5zNNjMyCKbhcPgo5ca7jq9UBGVzpq6yoaHw1R2dKaZdxhcuwuW","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.857
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:25:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12336,"owner":"timcliff","created":"2016-10-07T00:02:06","url":"https:\/\/steemit.com\/witness-category\/@timcliff\/timcliff-s-updated-witness-application","votes":"66031371430764312","virtual_last_update":"327069173220104322728918948","virtual_position":"0","virtual_scheduled_time":"327074326564030818845549837","total_missed":96,"last_aslot":22451746,"last_confirmed_block_num":22386058,"pow_worker":0,"signing_key":"STM8G4Sbwb9nRJ8GaKyq5zBz32TYvHdvmHMfzqCLVwgLG5NwMKmNk","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.821
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:28:06","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14501,"owner":"ausbitbank","created":"2017-04-26T12:55:54","url":"https:\/\/steemit.com\/witness\/@ausbitbank\/ann-new-512gb-full-rpc-node-is-now-online-backup-witness-in-finland","votes":"63600759971466975","virtual_last_update":"327069173220104322728918948","virtual_position":"218121961419112468466460314522175552820","virtual_scheduled_time":"327071093958245763656079006","total_missed":110,"last_aslot":22451735,"last_confirmed_block_num":22386047,"pow_worker":0,"signing_key":"STM5HY6xy39beEPJVdA9rRTjfF5j5pDsutYw7UKjqbdWWjBxQWBSt","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.821
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:45:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":11578,"owner":"someguy123","created":"2016-08-09T00:03:18","url":"https:\/\/steemit.com\/witness-category\/@someguy123\/someguy123-witness-thread","votes":"62285373134858934","virtual_last_update":"327069173220104322728918948","virtual_position":"336205229395132597043341242617196179449","virtual_scheduled_time":"327069238679092855688927717","total_missed":241,"last_aslot":22451741,"last_confirmed_block_num":22386053,"pow_worker":0,"signing_key":"STM5dtTBHYZAjk6vTWufPHy5FjyijaZhSfuHYC6dRnej7rkyZB5Qs","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.813
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:00:36","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12322,"owner":"thecryptodrive","created":"2016-09-27T17:35:51","url":"https:\/\/steemit.com\/witness-category\/@thecryptodrive\/ricardo-goncalves-thecryptodrive-first-steem-witness-in-africa-a-witness-for-the-people","votes":"61857337619239960","virtual_last_update":"327069173220104322728918948","virtual_position":"333895939855746685995026103633235478446","virtual_scheduled_time":"327069276464558594316550205","total_missed":193,"last_aslot":22451731,"last_confirmed_block_num":22386043,"pow_worker":0,"signing_key":"STM7SdA1rWAkodNCSBaWu3BAdTWju1Xn92gpTNPJ5Vt3Uz8tFbmvs","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"2.810
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:00:06","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":9818,"owner":"anyx","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@anyx\/witness-application-anyx","votes":"61496210492790501","virtual_last_update":"327069173220104322728918948","virtual_position":"318361242463484024188631553494226430039","virtual_scheduled_time":"327069529683116950545370359","total_missed":231,"last_aslot":22451712,"last_confirmed_block_num":22386024,"pow_worker":0,"signing_key":"STM6w2gmnHjUMFUyn3aYH8K1HckkJbfRW737CnZXnFa669HnVHtfL","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.852
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:41:06","last_work":"00000001a002970d88947434612b5a02db834e7b7393a1e2e1c162679f57baed","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14503,"owner":"aggroed","created":"2017-05-26T20:39:51","url":"https:\/\/steemit.com\/witness\/@aggroed\/official-witness-launch-growing-this-community-and-supporting-success-of-it-s-members","votes":"61401167503375844","virtual_last_update":"327069173220104322728918948","virtual_position":"317867567493838562952178422039702682558","virtual_scheduled_time":"327069538275042828051828684","total_missed":24,"last_aslot":22451742,"last_confirmed_block_num":22386054,"pow_worker":0,"signing_key":"STM8KooWfNmqCoVWJF4FfGVPZtkm5V6kLJ8zYArL1amtB3HyFPizk","props":{"account_creation_fee":"0.200
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"2.810
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":1648,"owner":"clayop","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/@clayop","votes":"61181274757931855","virtual_last_update":"327069173220104322728918948","virtual_position":"316729759345639930539002373733182972668","virtual_scheduled_time":"327069558184420095588022484","total_missed":771,"last_aslot":22451715,"last_confirmed_block_num":22386027,"pow_worker":0,"signing_key":"STM7sxmAh4fVfpCoCNwqxoUsSk4Sec9URzSpwruneRPBzKBxmidAW","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.818
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:56:03","last_work":"0000000031f30e517733d51363549b574e790e8108e94190848ae843bb76e3b3","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14541,"owner":"netuoso","created":"2017-07-10T20:57:15","url":"https:\/\/www.steemcreate.com","votes":"60944798152670281","virtual_last_update":"327069173220104322728918948","virtual_position":"91134709393407148839593035486542721794","virtual_scheduled_time":"327073261307440396955765752","total_missed":193,"last_aslot":22451737,"last_confirmed_block_num":22386049,"pow_worker":0,"signing_key":"STM6QXoRMscv55X6zNmQi7NriyanbPyT1JQRCFh79CQTtAxHKxgxq","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.815
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:42:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.0.0","hardfork_time_vote":"2016-03-24T16:00:00"},{"id":4205,"owner":"smooth.witness","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@smooth.witness\/smooth-witness","votes":"60555764290160198","virtual_last_update":"327069173220104322728918948","virtual_position":"326870160060636729829411627114381191107","virtual_scheduled_time":"327069394705325713636276992","total_missed":466,"last_aslot":22451745,"last_confirmed_block_num":22386057,"pow_worker":0,"signing_key":"STM5Ms4fUw6YTKgYcSj6Na9X45gEhhMYLy68ULZfQZsjGUxETm7mK","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.851
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:10:48","last_work":"000000007a170e622ce7950f2657ed739de2323a68a273402b31a22631b3883d","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":725,"owner":"pharesim","created":"1970-01-01T00:00:00","url":"http:\/\/pharesim.me","votes":"60522618201329803","virtual_last_update":"327069173220104322728918948","virtual_position":"326690840925315305854016332372399173774","virtual_scheduled_time":"327069397789470281264472987","total_missed":1247,"last_aslot":22451732,"last_confirmed_block_num":22386044,"pow_worker":0,"signing_key":"STM6AKViAuipp6j1NK7nnzT7DwxvPAfs3ttrPTyPAsBrbidgw62Bg","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.802
+        SBD","quote":"0.451 STEEM"},"last_sbd_exchange_update":"2018-05-13T05:23:03","last_work":"00000000c0f57bc53c0d922b7ec65126347ca1f75d01f83897d9252b81c7f64e","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14504,"owner":"lukestokes.mhth","created":"2017-05-30T03:50:45","url":"https:\/\/steemit.com\/witness-category\/@lukestokes\/vote-luke-stokes-for-witness-as-lukestokes-mhth","votes":"60117414249795873","virtual_last_update":"327069173220104322728918948","virtual_position":"82105793604305178559034638211244613080","virtual_scheduled_time":"327073467758991904872589561","total_missed":19,"last_aslot":22451733,"last_confirmed_block_num":22386045,"pow_worker":0,"signing_key":"STM6m5kFxd23a8hCN1zgqE2odXQG158JJ6At2JN6VHAiLkUfycQN1","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.818
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T03:30:15","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14542,"owner":"jerrybanfield","created":"2017-07-10T23:08:18","url":"https:\/\/steemit.com\/witness\/@jerrybanfield\/steem-witness-roadmap-for-jerrybanfield-in-2018","votes":"59589076430257200","virtual_last_update":"327069173220104322728918948","virtual_position":"321651173109799592346779465076226600016","virtual_scheduled_time":"327069485881332307101865137","total_missed":47,"last_aslot":22451739,"last_confirmed_block_num":22386051,"pow_worker":0,"signing_key":"STM84d6vPMLMHUukifpwtTwtZbhPLWXB7Car83WeadLUHdkYmMYwB","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.810
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.0.0","hardfork_time_vote":"2016-03-24T16:00:00"},{"id":14524,"owner":"followbtcnews","created":"2017-06-27T20:17:54","url":"https:\/\/steemit.com\/witness-category\/@followbtcnews\/full-steem-ahead-vote-followbtcnews-for-witness","votes":"59577174103921285","virtual_last_update":"327069173220104322728918948","virtual_position":"321587888190169446669451101506128771325","virtual_scheduled_time":"327069487006030089533162793","total_missed":5,"last_aslot":22451744,"last_confirmed_block_num":22386056,"pow_worker":0,"signing_key":"STM58ndSectf57KVyXdHxkAjoCbCrC9RCYnvFszUcpcZKLiBiNSwj","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.810
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.3","hardfork_version_vote":"0.0.0","hardfork_time_vote":"2016-03-24T16:00:00"},{"id":437,"owner":"blocktrades","created":"1970-01-01T00:00:00","url":"https:\/\/blocktrades.us","votes":"59555816527568387","virtual_last_update":"327069173220104322728918948","virtual_position":"321473515950374369698211614460734611763","virtual_scheduled_time":"327069489038979240806425008","total_missed":1178,"last_aslot":22451729,"last_confirmed_block_num":22386041,"pow_worker":0,"signing_key":"STM6ZHuTjdyS2vPLsaTyd1bsguGo28jsNcKKASFFTbckBWNKpFqdo","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.787
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-13T04:45:15","last_work":"0000000df71896f1756d6a3456905da575407b4917d922042f72e076f586a2b4","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":708,"owner":"xeldal","created":"1970-01-01T00:00:00","url":"https:\/\/steemit.com\/witness-category\/@xeldal\/xeldal-witness-information","votes":"57392406790276400","virtual_last_update":"327069173220104322728918948","virtual_position":"78384101257204792568916643965185977500","virtual_scheduled_time":"327073736511318450819549586","total_missed":861,"last_aslot":22451738,"last_confirmed_block_num":22386050,"pow_worker":0,"signing_key":"STM5ZCrUERKV4rFWKYjm9N1JGN41LzuVCkmWDvGr2qXFeQjvq3ZKR","props":{"account_creation_fee":"0.100
+        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"2.701
+        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-05-12T16:22:00","last_work":"00000003d3a50846d9b236c5bdf43dc58dc2560a59b6bb01169beeea215a0c30","running_version":"0.19.3","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"}],"id":1}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:29 GMT
-- request:
-    method: post
-    uri: https://gtg.steem.house:8090/
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_witnesses_by_vote",["",19]],"id":1,"method":"call"}'
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Sun, 21 Jan 2018 18:48:01 GMT
-      Content-Length:
-      - '16821'
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, POST, OPTIONS
-      Access-Control-Allow-Headers:
-      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"result":[{"id":10293,"owner":"jesta","created":"1970-01-01T00:00:00","url":"http://jesta.us","votes":"73126782902556447","virtual_last_update":"284653884125082036286399830","virtual_position":"178506724985184738287238917102820428898","virtual_scheduled_time":"284656096387614511213463105","total_missed":514,"last_aslot":19241736,"last_confirmed_block_num":19179495,"pow_worker":0,"signing_key":"STM6hb6eCjQKtrPwkZcCGvLXchEkJHksHjUakbWzNHDeoBrVTgiUS","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.742
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:53:33","last_work":"000000024fdaaa7427e5eea962ee5330966f9a7f8edea18f27abfbb03b620b27","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":9493,"owner":"gtg","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@gtg/witness-gtg","votes":"68998151096973985","virtual_last_update":"284653884125082036286399830","virtual_position":"268373182694117603538975407639136807485","virtual_scheduled_time":"284654926315098486952445355","total_missed":42,"last_aslot":19241734,"last_confirmed_block_num":19179493,"pow_worker":0,"signing_key":"STM7LvLPdi82QaL7GVUk3f9yt9CWGT8bbsnTjLRzdb58ZCdTnn7Ec","props":{"account_creation_fee":"0.075
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.177
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T11:42:42","last_work":"0000000048bf77f525731f28db7c1aa9ad853a475ccc78e71ea952a7782e5459","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12339,"owner":"roelandp","created":"2016-10-07T23:29:39","url":"https://steemit.com/witness-category/@roelandp/witness-roelandp","votes":"68499856918966750","virtual_last_update":"284653884125082036286399830","virtual_position":"190074447897297353669847550020830747116","virtual_scheduled_time":"284656076945998455608459526","total_missed":15,"last_aslot":19241751,"last_confirmed_block_num":19179510,"pow_worker":0,"signing_key":"STM7ws1iXKdgbWrtCB1CyAszK5CobNj5gjENjcLmdNnxQ6ygt1ujv","props":{"account_creation_fee":"0.222
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.768
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T16:09:21","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12336,"owner":"timcliff","created":"2016-10-07T00:02:06","url":"https://steemit.com/witness-category/@timcliff/timcliff-s-updated-witness-application","votes":"66964531268068819","virtual_last_update":"284653884125082036286399830","virtual_position":"309820406559960942990359570189158367926","virtual_scheduled_time":"284654339022022015360315112","total_missed":78,"last_aslot":19241740,"last_confirmed_block_num":19179499,"pow_worker":0,"signing_key":"STM5AVZZA9fJLvMA6de43z43643uXPtAU7gMSLrFJe7VTCi84UvdH","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.748
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:28:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12286,"owner":"good-karma","created":"2016-09-08T04:12:18","url":"https://esteem.ws","votes":"63379485002013620","virtual_last_update":"284653884125082036286399830","virtual_position":"139947456910353045050784691925134115365","virtual_scheduled_time":"284657045004505468341823238","total_missed":404,"last_aslot":19241747,"last_confirmed_block_num":19179506,"pow_worker":0,"signing_key":"STM5zNNjMyCKbhcPgo5ca7jq9UBGVzpq6yoaHw1R2dKaZdxhcuwuW","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.730
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:13:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":437,"owner":"blocktrades","created":"1970-01-01T00:00:00","url":"https://blocktrades.us","votes":"62683353214884806","virtual_last_update":"284653884125082036286399830","virtual_position":"138410320448553927444185789143774421714","virtual_scheduled_time":"284657104629986749136733911","total_missed":1123,"last_aslot":19241755,"last_confirmed_block_num":19179514,"pow_worker":0,"signing_key":"STM6hQNmZXaQuLReUJbq4CAm57BvUg9vNEVnUX2qggDLonBkeAj73","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.715
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T16:30:21","last_work":"0000000df71896f1756d6a3456905da575407b4917d922042f72e076f586a2b4","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14503,"owner":"aggroed","created":"2017-05-26T20:39:51","url":"https://steemit.com/witness/@aggroed/official-witness-launch-growing-this-community-and-supporting-success-of-it-s-members","votes":"62242749742163832","virtual_last_update":"284653884125082036286399830","virtual_position":"137437442965995960299568258407208914645","virtual_scheduled_time":"284657143057645189636529102","total_missed":16,"last_aslot":19241731,"last_confirmed_block_num":19179490,"pow_worker":0,"signing_key":"STM7X9nCrGd4aQVjWgq5m2o9FrgPn5mKjyrS6nwMoX7UJ6RhdChNu","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"4.706
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":11578,"owner":"someguy123","created":"2016-08-09T00:03:18","url":"https://steemit.com/witness-category/@someguy123/someguy123-witness-thread","votes":"61149072476596063","virtual_last_update":"284653884125082036286399830","virtual_position":"282914229161283287274381237140469314671","virtual_scheduled_time":"284654822293650032342485743","total_missed":125,"last_aslot":19241739,"last_confirmed_block_num":19179498,"pow_worker":0,"signing_key":"STM5XTuCqr1pQb4ADkGXLyK6kZFzfWEZdKiiTnDKhqhv8yuWZVfUE","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.706
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:00:03","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":9818,"owner":"anyx","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@anyx/witness-application-anyx","votes":"61006801273277422","virtual_last_update":"284653884125082036286399830","virtual_position":"282256108192153820586311917752127601390","virtual_scheduled_time":"284654835269176099806235097","total_missed":173,"last_aslot":19241735,"last_confirmed_block_num":19179494,"pow_worker":0,"signing_key":"STM6w2gmnHjUMFUyn3aYH8K1HckkJbfRW737CnZXnFa669HnVHtfL","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.717
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:39:24","last_work":"00000001a002970d88947434612b5a02db834e7b7393a1e2e1c162679f57baed","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":4205,"owner":"smooth.witness","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@smooth.witness/smooth-witness","votes":"60874706514943932","virtual_last_update":"284653884125082036286399830","virtual_position":"281645033699921398026415716705172581763","virtual_scheduled_time":"284654847371339439143494571","total_missed":179,"last_aslot":19241753,"last_confirmed_block_num":19179512,"pow_worker":0,"signing_key":"STM5Ms4fUw6YTKgYcSj6Na9X45gEhhMYLy68ULZfQZsjGUxETm7mK","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"5.150
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T11:17:51","last_work":"000000007a170e622ce7950f2657ed739de2323a68a273402b31a22631b3883d","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":725,"owner":"pharesim","created":"1970-01-01T00:00:00","url":"http://pharesim.me","votes":"60729091687399848","virtual_last_update":"284653884125082036286399830","virtual_position":"280971284640552822803273732865154662274","virtual_scheduled_time":"284654860775327122885994442","total_missed":1239,"last_aslot":19241733,"last_confirmed_block_num":19179492,"pow_worker":0,"signing_key":"STM6AKViAuipp6j1NK7nnzT7DwxvPAfs3ttrPTyPAsBrbidgw62Bg","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.716
-        SBD","quote":"0.142 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:23:06","last_work":"00000000c0f57bc53c0d922b7ec65126347ca1f75d01f83897d9252b81c7f64e","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":708,"owner":"xeldal","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@xeldal/xeldal-witness-information","votes":"60665965594482016","virtual_last_update":"284653884125082036286399830","virtual_position":"235964626937085073004556628737714498980","virtual_scheduled_time":"284655603668139854883122530","total_missed":272,"last_aslot":19241754,"last_confirmed_block_num":19179513,"pow_worker":0,"signing_key":"STM67LS8qbU37747iHFTz3z8yiqLgVjoL5cQFrFMLoZy7kLhnHqT7","props":{"account_creation_fee":"0.200
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.891
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T15:45:51","last_work":"00000003d3a50846d9b236c5bdf43dc58dc2560a59b6bb01169beeea215a0c30","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":1648,"owner":"clayop","created":"1970-01-01T00:00:00","url":"https://steemit.com/@clayop","votes":"60346443923809208","virtual_last_update":"284653884125082036286399830","virtual_position":"234721755246247967443629162724567307258","virtual_scheduled_time":"284655633368364837949500108","total_missed":749,"last_aslot":19241752,"last_confirmed_block_num":19179511,"pow_worker":0,"signing_key":"STM5SZ8DRytVTmWTbhVEoVwcj8vS4NcpvuaFi5KoLaRVSTCwqtCdy","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.688
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:21:30","last_work":"0000000031f30e517733d51363549b574e790e8108e94190848ae843bb76e3b3","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14501,"owner":"ausbitbank","created":"2017-04-26T12:55:54","url":"https://steemit.com/witness/@ausbitbank/ausbitbank-witness-update-new-full-rpc-node-minnow-support-project-application","votes":"60121035954017704","virtual_last_update":"284653884125082036286399830","virtual_position":"66223830639047211934211757334695459837","virtual_scheduled_time":"284658442571754370726730469","total_missed":100,"last_aslot":19241756,"last_confirmed_block_num":19179515,"pow_worker":0,"signing_key":"STM6kjTbjd52ZrNeLnHLV5cnDqDeGwsLCRSdFzV9eRFPy2TCpsA9V","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.757
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:45:24","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":14504,"owner":"lukestokes.mhth","created":"2017-05-30T03:50:45","url":"https://steemit.com/witness-category/@lukestokes/vote-luke-stokes-for-witness-as-lukestokes-mhth","votes":"59952652994571746","virtual_last_update":"284653884125082036286399830","virtual_position":"233190045670422767939619320634063857632","virtual_scheduled_time":"284655670406687626152189558","total_missed":12,"last_aslot":19241738,"last_confirmed_block_num":19179497,"pow_worker":0,"signing_key":"STM8Psq9M41kahwswDVyCo594Shem24mvbjK3QTUKAcquPCJUbwdh","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.960
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T15:37:51","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12322,"owner":"thecryptodrive","created":"2016-09-27T17:35:51","url":"https://steemit.com/witness-category/@thecryptodrive/ricardo-goncalves-thecryptodrive-first-steem-witness-in-africa-a-witness-for-the-people","votes":"58630181957350773","virtual_last_update":"284653884125082036286399830","virtual_position":"228045928747555310805106288352083558375","virtual_scheduled_time":"284655798436694697271509190","total_missed":162,"last_aslot":19241741,"last_confirmed_block_num":19179500,"pow_worker":0,"signing_key":"STM8WtG3BskaEyfUjEmLpUWKZtDuy77FV28YG1r9DAWnJy9DFPWgw","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":1},"sbd_exchange_rate":{"base":"4.779
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T18:00:09","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":658,"owner":"riverhead","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@riverhead/witness-proposal-riverhead","votes":"57639563920954129","virtual_last_update":"284653884125082036286399830","virtual_position":"192021446871043305754198028827645553511","virtual_scheduled_time":"284656456332606944308593337","total_missed":2867,"last_aslot":19241745,"last_confirmed_block_num":19179504,"pow_worker":0,"signing_key":"STM59NHavCDaoNdTPHpAjUKUHcJsxUsaKiiv4A3QJstR2aLW18uKM","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.684
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:09:51","last_work":"0000000185df3b43ad7489c861a848f89fcffe80b01d42f8662573f7b4ec2728","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":12305,"owner":"curie","created":"2016-09-15T14:43:42","url":"http://curiesteem.com","votes":"56870337318922157","virtual_last_update":"284653884125082036286399830","virtual_position":"157804652784183199827422713078042406176","virtual_scheduled_time":"284657092787501487778669534","total_missed":24,"last_aslot":19241748,"last_confirmed_block_num":19179507,"pow_worker":0,"signing_key":"STM7DDCJkoZ5i2ri4eD9kfrQr8DkMWCJCTpTZwW2RSTPsxZgDTKyy","props":{"account_creation_fee":"0.075
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.800
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T16:08:57","last_work":"0000000000000000000000000000000000000000000000000000000000000000","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"},{"id":4416,"owner":"pfunk","created":"1970-01-01T00:00:00","url":"https://steemit.com/witness-category/@pfunk/pfunk-s-witness-post","votes":"56459413544972948","virtual_last_update":"284653884125082036286399830","virtual_position":"156664367499474692609346586290009490525","virtual_scheduled_time":"284657136337386282099947964","total_missed":312,"last_aslot":19241744,"last_confirmed_block_num":19179503,"pow_worker":0,"signing_key":"STM745cDpE1bcLAom3oELhWbun9Wj3wYv417p6dN1zcA9SLYDmLH2","props":{"account_creation_fee":"0.100
-        STEEM","maximum_block_size":65536,"sbd_interest_rate":0},"sbd_exchange_rate":{"base":"4.789
-        SBD","quote":"1.000 STEEM"},"last_sbd_exchange_update":"2018-01-21T17:42:06","last_work":"00000001998e26116b74eb35170be44c840ca779f3b898f4fb83092702c2663f","running_version":"0.19.2","hardfork_version_vote":"0.19.0","hardfork_time_vote":"2017-06-20T15:00:00"}]}'
-    http_version: 
-  recorded_at: Sun, 21 Jan 2018 18:48:01 GMT
+  recorded_at: Sun, 13 May 2018 05:47:22 GMT
 recorded_with: VCR 3.0.3

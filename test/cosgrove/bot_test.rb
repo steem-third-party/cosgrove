@@ -38,7 +38,6 @@ class Cosgrove::BotTest < Cosgrove::Test
       bot.simple_execute('register cosgrove', mock_event)
       result = mock_event.responses.last
       refute_nil result
-      skip 'Mongo is behind.' if result =~ /Mongo is behind.*/
       assert_equal expected_result, result
     end
   end

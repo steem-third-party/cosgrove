@@ -29,7 +29,6 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
     VCR.use_cassette('upvote_job_perform_too_old', record: VCR_RECORD_MODE) do
       @job.perform(mock_event, slug)
       result = mock_event.responses.last
-      skip if result =~ /Mongo is behind/
       assert_equal expected_result, result
     end
   end
@@ -93,7 +92,6 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
     VCR.use_cassette('upvote_job_perform_too_old', record: VCR_RECORD_MODE) do
       @job.perform(mock_event, slug)
       result = mock_event.responses.last
-      skip if result =~ /Mongo is behind/
       assert_equal expected_result, result
     end
   end
@@ -107,7 +105,6 @@ class Cosgrove::UpvoteBotTest < Cosgrove::Test
     VCR.use_cassette('upvote_job_perform_too_old', record: VCR_RECORD_MODE) do
       @job.perform(mock_event, slug)
       result = mock_event.responses.last
-      skip if result =~ /Mongo is behind/
       assert_equal expected_result, result
     end
   end

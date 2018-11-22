@@ -52,18 +52,6 @@ class Cosgrove::MarketTest < Cosgrove::Test
     end
   end
   
-  def test_mvests_golos
-    VCR.use_cassette('market_mvests_golos', record: VCR_RECORD_MODE) do
-      assert mvests(:golos)
-    end
-  end
-  
-  def test_mvests_golos_account_name
-    VCR.use_cassette('market_mvests_golos_account_name', record: VCR_RECORD_MODE) do
-      assert mvests(:golos, ['inertia'])
-    end
-  end
-  
   def test_mvests_test
     skip 'No public test nodes.'
     
@@ -75,12 +63,6 @@ class Cosgrove::MarketTest < Cosgrove::Test
   def test_rewardpool
     VCR.use_cassette('market_rewardpool', record: VCR_RECORD_MODE) do
       assert rewardpool
-    end
-  end
-  
-  def test_rewardpool_golos
-    VCR.use_cassette('market_rewardpool_golos', record: VCR_RECORD_MODE) do
-      assert rewardpool(:golos)
     end
   end
   
@@ -102,33 +84,15 @@ class Cosgrove::MarketTest < Cosgrove::Test
     end
   end
   
-  def test_supply_golos
-    VCR.use_cassette('market_supply_golos', record: VCR_RECORD_MODE) do
-      assert supply(:golos)
-    end
-  end
-  
   def test_mvests_sum
     VCR.use_cassette('market_mvests_sum', record: VCR_RECORD_MODE) do
       assert mvests_sum(chain: :steem, account_names: ['inertia'])
     end
   end
   
-  def test_mvests_sum_golos
-    VCR.use_cassette('market_mvests_sum_golos', record: VCR_RECORD_MODE) do
-      assert mvests_sum(chain: :golos, account_names: ['inertia'])
-    end
-  end
-  
   def test_debt_exchange_rate
     VCR.use_cassette('market_debt_exchange_rate', record: VCR_RECORD_MODE) do
       assert debt_exchange_rate
-    end
-  end
-  
-  def test_debt_exchange_rate_golos
-    VCR.use_cassette('market_debt_exchange_rate_golos', record: VCR_RECORD_MODE) do
-      assert debt_exchange_rate(:golos)
     end
   end
   
@@ -147,12 +111,6 @@ class Cosgrove::MarketTest < Cosgrove::Test
   def test_effective_price
     VCR.use_cassette('market_effective_price', record: VCR_RECORD_MODE) do
       assert effective_price
-    end
-  end
-  
-  def test_effective_price_golos
-    VCR.use_cassette('market_effective_price_golos', record: VCR_RECORD_MODE) do
-      assert effective_price(:golos)
     end
   end
 end

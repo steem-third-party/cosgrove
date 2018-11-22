@@ -60,7 +60,6 @@ module Cosgrove
         return if event.channel.pm? && !cosgrove_allow_pm_commands
         cb_account = nil
         
-        mongo_behind_warning(event)
         if key.nil?
           event.respond "To create an account: https://steemit.com/enter_email?r=#{steem_account}"
           return
@@ -97,7 +96,6 @@ module Cosgrove
       self.command :register do |event, account_name, chain = :steem|
         return if event.channel.pm? && !cosgrove_allow_pm_commands
         
-        mongo_behind_warning(event)
         discord_id = event.author.id
         
         if discord_id.to_i == 0

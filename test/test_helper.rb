@@ -139,10 +139,7 @@ module Cosgrove
         chain: {
           steem_account: 'cosgrove',
           steem_posting_wif: '5ffaed497ad3e693efe3139e63fcc2cdc15151046b99dc4d78',
-          golos_account: '',
-          golos_posting_wif: '',
-          steem_api_url: 'https://gtg.steem.house:8090',
-          golos_api_url: 'https://ws.golos.io',
+          steem_api_url: 'https://api.steemit.com',
           test_api_url: 'https://test.steem.ws',
         },
         discord: {
@@ -161,8 +158,7 @@ module Cosgrove
           'cosgrove' => {
             'discord_ids' => [COSGROVE_DISCORD_ID]
           }
-        },
-        'golos' => {}
+        }
       }
     end
   end

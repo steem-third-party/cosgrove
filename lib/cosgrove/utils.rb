@@ -89,14 +89,6 @@ module Cosgrove
       end
     end
     
-    def steem_data_head_block_number
-      begin
-        SteemData::AccountOperation.order(timestamp: -1).limit(1).first.block
-      rescue
-        -1
-      end
-    end
-    
     def properties(chain)
       api(chain).get_dynamic_global_properties.result
     end
@@ -149,9 +141,9 @@ module Cosgrove
       offset = offset.to_i
       
       posts = if op == 'latest'
-        SteemData::Post.root_posts.where(author: author.name).order(created: :desc)
+        SteemApi::Comment.where(depth: 0, author: author.name).order(created: :desc)
       elsif op == 'first'
-        SteemData::Post.root_posts.where(author: author.name).order(created: :asc)
+        SteemApi::Comment.where(depth: 0, author: author.name).order(created: :asc)
       else
         []
       end
@@ -175,7 +167,7 @@ module Cosgrove
       parent_permlink = options[:parent_permlink]
       
       post = if chain == :steem
-        posts = SteemData::Post.root_posts.where(author: author_name)
+        posts = SteemApi::Comment.where(depth: 0, author: author_name)
         posts = posts.where(permlink: permlink) if !!permlink
         posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
         
@@ -215,19 +207,11 @@ module Cosgrove
       chain = options[:chain]
       author_name = options[:author_name]
       
-      author = SteemData::Account.where(name: author_name).last
-      
-      if author.nil?
-        author = begin
-          SteemApi::Account.where(name: author_name).last
-        rescue => e
-          puts e
-        end
-      end
+      author = SteemApi::Account.where(name: author_name).first
       
       if author.nil?
         author = api(chain).get_accounts([author_name]) do |accounts, errors|
-          accounts.last
+          accounts.first
         end
       end
       
@@ -242,8 +226,9 @@ module Cosgrove
       
       op = case chain
       when :steem
-        transfers = SteemData::AccountOperation.type('transfer').
-          where(account: steem_account, from: from, to: steem_account, memo: {'$regex' => ".*#{memo_key}.*"})
+        transfers = SteemApi::Tx::Transfer.
+          where(from: from, to: steem_account).
+          where("memo LIKE ?", "%#{memo_key}%")
       
         if transfers.any?
           transfers.last
@@ -261,8 +246,8 @@ module Cosgrove
       end
       
       if op.nil?
-        # Fall back to RPC.  The transaction is so new, SteemData hasn't seen it
-        # yet, SteemData is behind, or there is no such transfer.
+        # Fall back to RPC.  The transaction is so new, SteemApi hasn't seen it
+        # yet, SteemApi is behind, or there is no such transfer.
         
         api(chain).get_account_history(steem_account, -1, 10000) do |history, error|
           if !!error

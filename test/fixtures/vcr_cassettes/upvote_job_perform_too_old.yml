@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.steemit.com/
+    uri: https://gtg.steem.house:8090/
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
     headers:
       Content-Type:
       - application/json
       User-Agent:
-      - radiator/0.3.15
+      - radiator/0.4.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -24,104 +24,84 @@ http_interactions:
       code: 200
       message: OK
     headers:
+      Server:
+      - nginx
       Date:
-      - Sat, 13 Jan 2018 19:03:26 GMT
-      Content-Type:
-      - application/json
+      - Sun, 13 May 2018 05:53:48 GMT
       Content-Length:
-      - '36'
+      - '132'
       Connection:
       - keep-alive
-      Server:
-      - nginx
-      X-Jussi-Cache-Hit:
-      - steemd.follow_api.get_following.params=['cosgrove',None,'ignore',100]
-      X-Jussi-Request-Id:
-      - 1515870206.008-8465660-446-172.31.9.230-47.208.249.50
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
       - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-      Strict-Transport-Security:
-      - max-age=31557600; includeSubDomains; preload
-      Content-Security-Policy:
-      - upgrade-insecure-requests
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":[],"id":1}'
+      string: |-
+        7 bad_cast_exception: Bad Cast
+        Invalid cast from string_type to Array
+            {"type":"string_type"}
+            th_a  variant.cpp:537 get_array
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:26 GMT
+  recorded_at: Sun, 13 May 2018 05:53:48 GMT
 - request:
-    method: post
-    uri: https://api.steemit.com/
+    method: get
+    uri: https://gtg.steem.house:8090/health
     body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":1,"method":"call"}'
+      encoding: US-ASCII
+      string: ''
     headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
+      User-Agent:
+      - Ruby
   response:
     status:
       code: 200
       message: OK
     headers:
-      Date:
-      - Sat, 13 Jan 2018 19:03:26 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
       Server:
       - nginx
-      X-Jussi-Cache-Hit:
-      - steemd.database_api.get_dynamic_global_properties
-      X-Jussi-Request-Id:
-      - 1515870206.741-8471008-436-172.31.9.230-47.208.249.50
+      Date:
+      - Sun, 13 May 2018 05:53:49 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
       - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-      Strict-Transport-Security:
-      - max-age=31557600; includeSubDomains; preload
-      Content-Security-Policy:
-      - upgrade-insecure-requests
     body:
-      encoding: ASCII-8BIT
-      string: '{"jsonrpc":"2.0","result":{"id":0,"head_block_number":18949542,"head_block_id":"012125a6b606b4ea021b43177c815f9b78885c7b","time":"2018-01-13T19:03:24","current_witness":"blocktrades","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"263768509.504
-        STEEM","current_supply":"262618964.579 STEEM","confidential_supply":"0.000
-        STEEM","current_sbd_supply":"5999474.968 SBD","confidential_sbd_supply":"0.000
-        SBD","total_vesting_fund_steem":"199303547.978 STEEM","total_vesting_shares":"408152111209.368240
-        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"278783754.173583
-        VESTS","pending_rewarded_vesting_steem":"135425.676 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19011668,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":18949524,"vote_power_reserve_rate":10,"current_reserve_ratio":200000000,"average_block_size":14238,"max_virtual_bandwidth":"264241152000000000000"},"id":1}'
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:26 GMT
+  recorded_at: Sun, 13 May 2018 05:53:49 GMT
 - request:
     method: post
     uri: https://gtg.steem.house:8090/
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
     headers:
       Content-Type:
       - application/json
       User-Agent:
-      - radiator/0.3.15
+      - radiator/0.4.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -138,9 +118,9 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 21 Jan 2018 18:47:45 GMT
+      - Sun, 13 May 2018 05:53:51 GMT
       Content-Length:
-      - '20'
+      - '132'
       Connection:
       - keep-alive
       Access-Control-Allow-Origin:
@@ -151,7 +131,111 @@ http_interactions:
       - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
     body:
       encoding: UTF-8
-      string: '{"id":1,"result":[]}'
+      string: |-
+        7 bad_cast_exception: Bad Cast
+        Invalid cast from string_type to Array
+            {"type":"string_type"}
+            th_a  variant.cpp:537 get_array
     http_version: 
-  recorded_at: Sun, 21 Jan 2018 18:47:45 GMT
+  recorded_at: Sun, 13 May 2018 05:53:51 GMT
+- request:
+    method: get
+    uri: https://api.steemit.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:53:53 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '136'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Request-Id:
+      - '000209086479331955'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d2f1-57bb278e3258fd66ce1fac34
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: UTF-8
+      string: '{"status":"OK","datetime":"2018-05-13T05:53:53.157341","source_commit":"6281621b66e79fe300ea2f018a3180dc3e5a1154","docker_tag":"latest"}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:53:53 GMT
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:53:54 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '230'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Request-Id:
+      - None
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d2f2-a0fdea003e76fc6bd12e503d
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","error":{"code":-32600,"message":"Invalid Request","data":{"error_id":"badd715d-4dd9-4649-89ed-a93ab9bc7523","request":{"amzn_trace_id":"Root=1-5af7d2f2-a0fdea003e76fc6bd12e503d","jussi_request_id":null}}},"id":1}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:53:54 GMT
 recorded_with: VCR 3.0.3

@@ -14,7 +14,6 @@ class Cosgrove::CommentBotTest < Cosgrove::Test
     VCR.use_cassette('comment_job_perform_too_old', record: VCR_RECORD_MODE) do
       @job.perform(@mock_event, slug, :welcome)
       result = @mock_event.responses.last
-      skip if result =~ /Mongo is behind/
       assert_equal expected_result, result
     end
   end

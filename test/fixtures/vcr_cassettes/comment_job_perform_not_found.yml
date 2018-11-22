@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.steemit.com/
+    uri: https://gtg.steem.house:8090/
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
     headers:
       Content-Type:
       - application/json
       User-Agent:
-      - radiator/0.3.15
+      - radiator/0.4.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -24,18 +24,152 @@ http_interactions:
       code: 200
       message: OK
     headers:
+      Server:
+      - nginx
       Date:
-      - Sat, 13 Jan 2018 19:03:24 GMT
+      - Sun, 13 May 2018 05:54:08 GMT
+      Content-Length:
+      - '132'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: |-
+        7 bad_cast_exception: Bad Cast
+        Invalid cast from string_type to Array
+            {"type":"string_type"}
+            th_a  variant.cpp:537 get_array
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:08 GMT
+- request:
+    method: get
+    uri: https://gtg.steem.house:8090/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:54:16 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:16 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:54:17 GMT
+      Content-Length:
+      - '132'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: |-
+        7 bad_cast_exception: Bad Cast
+        Invalid cast from string_type to Array
+            {"type":"string_type"}
+            th_a  variant.cpp:537 get_array
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:17 GMT
+- request:
+    method: get
+    uri: https://api.steemit.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:54:17 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '20'
+      - '136'
       Connection:
       - keep-alive
       Server:
       - nginx
       X-Jussi-Request-Id:
-      - 1515870204.299-8430388-446-172.31.9.230-47.208.249.50
+      - '000224194212012706'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d309-acafa66eb5296ad95c2e980d
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
@@ -48,20 +182,20 @@ http_interactions:
       - upgrade-insecure-requests
     body:
       encoding: UTF-8
-      string: '{"result":[],"id":1}'
+      string: '{"status":"OK","datetime":"2018-05-13T05:54:17.873293","source_commit":"6281621b66e79fe300ea2f018a3180dc3e5a1154","docker_tag":"latest"}'
     http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:24 GMT
+  recorded_at: Sun, 13 May 2018 05:54:17 GMT
 - request:
     method: post
     uri: https://api.steemit.com/
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_accounts",[["nobody"]]],"id":1,"method":"call"}'
+      string: '{"jsonrpc":"2.0","method":"follow_api.get_following","params":"cosgrove","id":1}'
     headers:
       Content-Type:
       - application/json
       User-Agent:
-      - radiator/0.3.15
+      - radiator/0.4.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -76,7 +210,656 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 13 Jan 2018 19:03:25 GMT
+      - Sun, 13 May 2018 05:54:18 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '230'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Request-Id:
+      - None
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d30a-3d3fe4e06ab90c873cf8a086
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","error":{"code":-32600,"message":"Invalid Request","data":{"error_id":"14397a64-afc2-46a2-b362-70fbe31bb245","request":{"amzn_trace_id":"Root=1-5af7d30a-3d3fe4e06ab90c873cf8a086","jussi_request_id":null}}},"id":1}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:18 GMT
+- request:
+    method: post
+    uri: https://gtg.steem.house:8090/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:54:22 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:22"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:22"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:22 GMT
+- request:
+    method: get
+    uri: https://gtg.steem.house:8090/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 504
+      message: Gateway Time-out
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 13 May 2018 05:54:53 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '192'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body
+        bgcolor=\"white\">\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>nginx/1.10.3
+        (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:53 GMT
+- request:
+    method: get
+    uri: https://rpc.curiesteem.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:54 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Strict-Transport-Security:
+      - max-age=15768000
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:54 GMT
+- request:
+    method: post
+    uri: https://rpc.curiesteem.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:55 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Strict-Transport-Security:
+      - max-age=15768000
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:55"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:55"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:55 GMT
+- request:
+    method: get
+    uri: https://appbasetest.timcliff.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:56 GMT
+      Content-Length:
+      - '483'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","error":{"code":-32000,"message":"End Of File:stringstream","data":{"code":11,"name":"eof_exception","message":"End
+        Of File","stack":[{"context":{"level":"error","file":"sstream.cpp","line":109,"method":"peek","hostname":"","timestamp":"2018-05-13T05:54:56"},"format":"stringstream","data":{}},{"context":{"level":"warn","file":"json.cpp","line":478,"method":"from_string","hostname":"","timestamp":"2018-05-13T05:54:56"},"format":"","data":{"str":""}}]}},"id":null}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:56 GMT
+- request:
+    method: get
+    uri: https://rpc.steemviz.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:57 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:57 GMT
+- request:
+    method: post
+    uri: https://rpc.steemviz.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:57 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:57"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:57"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:58 GMT
+- request:
+    method: get
+    uri: https://rpc.buildteam.io/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:58 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:58 GMT
+- request:
+    method: post
+    uri: https://rpc.buildteam.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:54:59 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:59"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:54:59"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:54:59 GMT
+- request:
+    method: get
+    uri: https://steemd.privex.io/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:55:00 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:478 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:55:00 GMT
+- request:
+    method: post
+    uri: https://steemd.privex.io/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:55:02 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:55:02"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:55:02"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:55:02 GMT
+- request:
+    method: get
+    uri: https://steemd.pevo.science/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:55:04 GMT
+      Content-Length:
+      - '131'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, POST
+    body:
+      encoding: UTF-8
+      string: |-
+        11 eof_exception: End Of File
+        stringstream
+            {}
+            th_a  sstream.cpp:109 peek
+
+            {"str":""}
+            th_a  json.cpp:479 from_string
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:55:04 GMT
+- request:
+    method: post
+    uri: https://steemd.pevo.science/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Date:
+      - Sun, 13 May 2018 05:55:08 GMT
+      Content-Length:
+      - '4804'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, POST
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"error":{"code":1,"message":"10 assert_exception: Assert Exception\nitr
+        != _by_name.end(): no method with name ''condenser_api.get_content''\n    {\"name\":\"condenser_api.get_content\",\"api\":{\"get_account_bandwidth\":42,\"get_account_count\":35,\"get_account_history\":37,\"get_account_references\":32,\"get_account_votes\":57,\"get_accounts\":31,\"get_active_votes\":56,\"get_active_witnesses\":67,\"get_block\":18,\"get_block_header\":17,\"get_chain_properties\":23,\"get_comment_discussions_by_payout\":5,\"get_config\":21,\"get_content\":58,\"get_content_replies\":59,\"get_conversion_requests\":36,\"get_current_median_history_price\":25,\"get_discussions_by_active\":8,\"get_discussions_by_author_before_date\":60,\"get_discussions_by_blog\":14,\"get_discussions_by_cashout\":9,\"get_discussions_by_children\":11,\"get_discussions_by_comments\":15,\"get_discussions_by_created\":7,\"get_discussions_by_feed\":13,\"get_discussions_by_hot\":12,\"get_discussions_by_payout\":3,\"get_discussions_by_promoted\":16,\"get_discussions_by_trending\":6,\"get_discussions_by_votes\":10,\"get_dynamic_global_properties\":22,\"get_escrow\":40,\"get_expiring_vesting_delegations\":46,\"get_feed_history\":24,\"get_hardfork_version\":27,\"get_key_references\":30,\"get_liquidity_queue\":49,\"get_miner_queue\":68,\"get_next_scheduled_hardfork\":28,\"get_open_orders\":48,\"get_ops_in_block\":19,\"get_order_book\":47,\"get_owner_history\":38,\"get_post_discussions_by_payout\":4,\"get_potential_signatures\":53,\"get_recovery_request\":39,\"get_replies_by_last_update\":61,\"get_required_signatures\":52,\"get_reward_fund\":29,\"get_savings_withdraw_from\":43,\"get_savings_withdraw_to\":44,\"get_state\":20,\"get_tags_used_by_author\":2,\"get_transaction\":51,\"get_transaction_hex\":50,\"get_trending_tags\":1,\"get_vesting_delegations\":45,\"get_withdraw_routes\":41,\"get_witness_by_account\":63,\"get_witness_count\":66,\"get_witness_schedule\":26,\"get_witnesses\":62,\"get_witnesses_by_vote\":64,\"lookup_account_names\":33,\"lookup_accounts\":34,\"lookup_witness_accounts\":65,\"set_block_applied_callback\":0,\"verify_account_authority\":55,\"verify_authority\":54}}\n    th_a  api_connection.hpp:109
+        call\n\n    {\"call.method\":\"condenser_api.get_content\",\"call.params\":[\"nobody\",\"nothing\"]}\n    th_a  websocket_api.cpp:124
+        on_message","data":{"code":10,"name":"assert_exception","message":"Assert
+        Exception","stack":[{"context":{"level":"error","file":"api_connection.hpp","line":109,"method":"call","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:55:08"},"format":"itr
+        != _by_name.end(): no method with name ''${name}''","data":{"name":"condenser_api.get_content","api":{"get_account_bandwidth":42,"get_account_count":35,"get_account_history":37,"get_account_references":32,"get_account_votes":57,"get_accounts":31,"get_active_votes":56,"get_active_witnesses":67,"get_block":18,"get_block_header":17,"get_chain_properties":23,"get_comment_discussions_by_payout":5,"get_config":21,"get_content":58,"get_content_replies":59,"get_conversion_requests":36,"get_current_median_history_price":25,"get_discussions_by_active":8,"get_discussions_by_author_before_date":60,"get_discussions_by_blog":14,"get_discussions_by_cashout":9,"get_discussions_by_children":11,"get_discussions_by_comments":15,"get_discussions_by_created":7,"get_discussions_by_feed":13,"get_discussions_by_hot":12,"get_discussions_by_payout":3,"get_discussions_by_promoted":16,"get_discussions_by_trending":6,"get_discussions_by_votes":10,"get_dynamic_global_properties":22,"get_escrow":40,"get_expiring_vesting_delegations":46,"get_feed_history":24,"get_hardfork_version":27,"get_key_references":30,"get_liquidity_queue":49,"get_miner_queue":68,"get_next_scheduled_hardfork":28,"get_open_orders":48,"get_ops_in_block":19,"get_order_book":47,"get_owner_history":38,"get_post_discussions_by_payout":4,"get_potential_signatures":53,"get_recovery_request":39,"get_replies_by_last_update":61,"get_required_signatures":52,"get_reward_fund":29,"get_savings_withdraw_from":43,"get_savings_withdraw_to":44,"get_state":20,"get_tags_used_by_author":2,"get_transaction":51,"get_transaction_hex":50,"get_trending_tags":1,"get_vesting_delegations":45,"get_withdraw_routes":41,"get_witness_by_account":63,"get_witness_count":66,"get_witness_schedule":26,"get_witnesses":62,"get_witnesses_by_vote":64,"lookup_account_names":33,"lookup_accounts":34,"lookup_witness_accounts":65,"set_block_applied_callback":0,"verify_account_authority":55,"verify_authority":54}}},{"context":{"level":"warn","file":"websocket_api.cpp","line":124,"method":"on_message","hostname":"","thread_name":"th_a","timestamp":"2018-05-13T05:55:08"},"format":"","data":{"call.method":"condenser_api.get_content","call.params":["nobody","nothing"]}}]}}}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:55:08 GMT
+- request:
+    method: get
+    uri: https://api.steemit.com/health
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:55:09 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '136'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      X-Jussi-Request-Id:
+      - '001119799533157602'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d33d-b8918c1537198ce516908495
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+    body:
+      encoding: UTF-8
+      string: '{"status":"OK","datetime":"2018-05-13T05:55:09.420943","source_commit":"6281621b66e79fe300ea2f018a3180dc3e5a1154","docker_tag":"latest"}'
+    http_version: 
+  recorded_at: Sun, 13 May 2018 05:55:09 GMT
+- request:
+    method: post
+    uri: https://api.steemit.com/
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","method":"condenser_api.get_content","params":["nobody","nothing"],"id":1}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - radiator/0.4.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 13 May 2018 05:55:11 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -86,7 +869,9 @@ http_interactions:
       Server:
       - nginx
       X-Jussi-Request-Id:
-      - 1515870205.177-8478173-428-172.31.9.230-47.208.249.50
+      - '000990690554323306'
+      X-Amzn-Trace-Id:
+      - Root=1-5af7d33f-3913972c7bc4c8cafb18e4e6
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
@@ -99,210 +884,11 @@ http_interactions:
       - upgrade-insecure-requests
     body:
       encoding: ASCII-8BIT
-      string: '{"result":[{"id":1573,"name":"nobody","owner":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5KaHbYNUnjZwyhEyueSDDZEKqTpPGqKXSMs6MoJrM2JPUM2H9i",1]]},"active":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5KaHbYNUnjZwyhEyueSDDZEKqTpPGqKXSMs6MoJrM2JPUM2H9i",1]]},"posting":{"weight_threshold":1,"account_auths":[],"key_auths":[["STM5KaHbYNUnjZwyhEyueSDDZEKqTpPGqKXSMs6MoJrM2JPUM2H9i",1]]},"memo_key":"STM5KaHbYNUnjZwyhEyueSDDZEKqTpPGqKXSMs6MoJrM2JPUM2H9i","json_metadata":"","proxy":"","last_owner_update":"1970-01-01T00:00:00","last_account_update":"1970-01-01T00:00:00","created":"2016-04-09T11:30:09","mined":true,"owner_challenged":false,"active_challenged":false,"last_owner_proved":"1970-01-01T00:00:00","last_active_proved":"1970-01-01T00:00:00","recovery_account":"steem","last_account_recovery":"1970-01-01T00:00:00","reset_account":"null","comment_count":0,"lifetime_vote_count":0,"post_count":0,"can_vote":true,"voting_power":9950,"last_vote_time":"2016-09-26T00:42:21","balance":"0.000
-        STEEM","savings_balance":"0.000 STEEM","sbd_balance":"0.002 SBD","sbd_seconds":"0","sbd_seconds_last_update":"2017-12-26T00:31:51","sbd_last_interest_payment":"2017-12-26T00:31:51","savings_sbd_balance":"0.000
-        SBD","savings_sbd_seconds":"0","savings_sbd_seconds_last_update":"1970-01-01T00:00:00","savings_sbd_last_interest_payment":"1970-01-01T00:00:00","savings_withdraw_requests":0,"reward_sbd_balance":"0.000
-        SBD","reward_steem_balance":"0.000 STEEM","reward_vesting_balance":"0.000000
-        VESTS","reward_vesting_steem":"0.000 STEEM","vesting_shares":"2087.793775
-        VESTS","delegated_vesting_shares":"0.000000 VESTS","received_vesting_shares":"0.000000
-        VESTS","vesting_withdraw_rate":"0.000000 VESTS","next_vesting_withdrawal":"1969-12-31T23:59:59","withdrawn":"253768894542277","to_withdraw":"253768894542277","withdraw_routes":0,"curation_rewards":139,"posting_rewards":0,"proxied_vsf_votes":[0,0,0,0],"witnesses_voted_for":0,"average_bandwidth":264000000,"lifetime_bandwidth":2243000000,"last_bandwidth_update":"2017-04-17T16:15:33","average_market_bandwidth":2640000000,"lifetime_market_bandwidth":"20150000000","last_market_bandwidth_update":"2017-04-17T16:15:33","last_post":"1970-01-01T00:00:00","last_root_post":"1970-01-01T00:00:00","vesting_balance":"0.000
-        STEEM","reputation":0,"transfer_history":[],"market_history":[],"post_history":[],"vote_history":[],"other_history":[],"witness_votes":[],"tags_usage":[],"guest_bloggers":[]}],"id":1}'
-    http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:25 GMT
-- request:
-    method: post
-    uri: https://api.steemit.com/
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Sat, 13 Jan 2018 19:03:25 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Server:
-      - nginx
-      X-Jussi-Cache-Hit:
-      - steemd.database_api.get_dynamic_global_properties
-      X-Jussi-Request-Id:
-      - 1515870205.457-8418009-436-172.31.9.230-47.208.249.50
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, POST, OPTIONS
-      Access-Control-Allow-Headers:
-      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-      Strict-Transport-Security:
-      - max-age=31557600; includeSubDomains; preload
-      Content-Security-Policy:
-      - upgrade-insecure-requests
-    body:
-      encoding: ASCII-8BIT
-      string: '{"jsonrpc":"2.0","result":{"id":0,"head_block_number":18949542,"head_block_id":"012125a6b606b4ea021b43177c815f9b78885c7b","time":"2018-01-13T19:03:24","current_witness":"blocktrades","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"263768509.504
-        STEEM","current_supply":"262618964.579 STEEM","confidential_supply":"0.000
-        STEEM","current_sbd_supply":"5999474.968 SBD","confidential_sbd_supply":"0.000
-        SBD","total_vesting_fund_steem":"199303547.940 STEEM","total_vesting_shares":"408152111131.548049
-        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"278783831.993774
-        VESTS","pending_rewarded_vesting_steem":"135425.714 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19011668,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":18949524,"vote_power_reserve_rate":10,"current_reserve_ratio":200000000,"average_block_size":14238,"max_virtual_bandwidth":"264241152000000000000"},"id":2}'
-    http_version: 
-  recorded_at: Sat, 13 Jan 2018 19:03:25 GMT
-- request:
-    method: post
-    uri: https://gtg.steem.house:8090/
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["follow_api","get_following",["cosgrove",null,"ignore",100]],"id":1,"method":"call"}'
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Sun, 21 Jan 2018 18:46:38 GMT
-      Content-Length:
-      - '20'
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, POST, OPTIONS
-      Access-Control-Allow-Headers:
-      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"result":[]}'
-    http_version: 
-  recorded_at: Sun, 21 Jan 2018 18:46:38 GMT
-- request:
-    method: post
-    uri: https://gtg.steem.house:8090/
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_content",["nobody","nothing"]],"id":1,"method":"call"}'
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Sun, 21 Jan 2018 18:46:57 GMT
-      Content-Length:
-      - '987'
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, POST, OPTIONS
-      Access-Control-Allow-Headers:
-      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"result":{"id":0,"author":"","permlink":"","category":"","parent_author":"","parent_permlink":"","title":"","body":"","json_metadata":"","last_update":"1970-01-01T00:00:00","created":"1970-01-01T00:00:00","active":"1970-01-01T00:00:00","last_payout":"1970-01-01T00:00:00","depth":0,"children":0,"net_rshares":0,"abs_rshares":0,"vote_rshares":0,"children_abs_rshares":0,"cashout_time":"1970-01-01T00:00:00","max_cashout_time":"1970-01-01T00:00:00","total_vote_weight":0,"reward_weight":0,"total_payout_value":"0.000
-        STEEM","curator_payout_value":"0.000 STEEM","author_rewards":0,"net_votes":0,"root_comment":0,"max_accepted_payout":"0.000
+      string: '{"jsonrpc":"2.0","result":{"id":0,"author":"","permlink":"","category":"","parent_author":"","parent_permlink":"","title":"","body":"","json_metadata":"","last_update":"1970-01-01T00:00:00","created":"1970-01-01T00:00:00","active":"1970-01-01T00:00:00","last_payout":"1970-01-01T00:00:00","depth":0,"children":0,"net_rshares":0,"abs_rshares":0,"vote_rshares":0,"children_abs_rshares":0,"cashout_time":"1970-01-01T00:00:00","max_cashout_time":"1970-01-01T00:00:00","total_vote_weight":0,"reward_weight":0,"total_payout_value":"0.000
+        STEEM","curator_payout_value":"0.000 STEEM","author_rewards":0,"net_votes":0,"root_author":"","root_permlink":"","max_accepted_payout":"0.000
         STEEM","percent_steem_dollars":0,"allow_replies":false,"allow_votes":false,"allow_curation_rewards":false,"beneficiaries":[],"url":"","root_title":"","pending_payout_value":"0.000
         STEEM","total_pending_payout_value":"0.000 STEEM","active_votes":[],"replies":[],"author_reputation":0,"promoted":"0.000
-        SBD","body_length":0,"reblogged_by":[]}}'
+        SBD","body_length":0,"reblogged_by":[]},"id":1}'
     http_version: 
-  recorded_at: Sun, 21 Jan 2018 18:46:57 GMT
-- request:
-    method: post
-    uri: https://gtg.steem.house:8090/
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","params":["database_api","get_dynamic_global_properties",[]],"id":2,"method":"call"}'
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - radiator/0.3.15
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Sun, 21 Jan 2018 18:46:58 GMT
-      Content-Length:
-      - '1044'
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, POST, OPTIONS
-      Access-Control-Allow-Headers:
-      - DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
-    body:
-      encoding: UTF-8
-      string: '{"id":2,"result":{"id":0,"head_block_number":19179492,"head_block_id":"0124a7e483e573ccb8fdc960dcfc94b4a21a4d68","time":"2018-01-21T18:46:39","current_witness":"pharesim","total_pow":514415,"num_pow_witnesses":172,"virtual_supply":"264376754.522
-        STEEM","current_supply":"262997625.842 STEEM","confidential_supply":"0.000
-        STEEM","current_sbd_supply":"6706702.773 SBD","confidential_sbd_supply":"0.000
-        SBD","total_vesting_fund_steem":"197880865.525 STEEM","total_vesting_shares":"405078786650.573696
-        VESTS","total_reward_fund_steem":"0.000 STEEM","total_reward_shares2":"0","pending_rewarded_vesting_shares":"283203569.997626
-        VESTS","pending_rewarded_vesting_steem":"137604.641 STEEM","sbd_interest_rate":0,"sbd_print_rate":10000,"maximum_block_size":65536,"current_aslot":19241733,"recent_slots_filled":"340282366920938463463374607431768211455","participation_count":128,"last_irreversible_block_num":19179475,"vote_power_reserve_rate":10,"current_reserve_ratio":4017638,"average_block_size":15520,"max_virtual_bandwidth":"5308126467194880000"}}'
-    http_version: 
-  recorded_at: Sun, 21 Jan 2018 18:46:58 GMT
+  recorded_at: Sun, 13 May 2018 05:55:11 GMT
 recorded_with: VCR 3.0.3

@@ -6,7 +6,7 @@ module Cosgrove
     end
     
     def test_known_chains
-      assert_equal %i(steem golos test), Cosgrove::KNOWN_CHAINS
+      assert_equal %i(steem test), Cosgrove::KNOWN_CHAINS
     end
   end
 end
