@@ -292,8 +292,10 @@ module Cosgrove
       current_supply = properties.current_supply.split(' ').first.to_f
       current_debt_supply = properties.current_sbd_supply.split(' ').first.to_f
       total_vesting_fund_steem = properties.total_vesting_fund_steem.split(' ').first.to_f
+      virtual_supply = properties.virtual_supply.split(' ').first.to_f
+      debt_steem = virtual_supply - current_supply
       total_base = (current_supply / base_per_mvest) * base_per_debt
-      ratio = (current_debt_supply / total_base) * 100
+      ratio = (debt_steem / virtual_supply) * 100
       
       supply = []
       case chain
