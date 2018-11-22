@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary = %q{Cosgrove Discord Bo t}
   spec.description = %q{STEEM centric Discord bot.}
   spec.homepage = 'https://github.com/steem-third-party/cosgrove'
-  spec.license = 'CC0 1.0'
+  spec.license = 'CC0-1.0'
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test)/}) }
   spec.require_paths = ['lib']
