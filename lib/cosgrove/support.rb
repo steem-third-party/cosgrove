@@ -49,10 +49,14 @@ module Cosgrove
         return # silntlly ignore this slug
       end
       
-      post = case chain
-      when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink).last
-      when :golos then GolosCloud::Comment.where(author: author_name, permlink: permlink).last
+      posts = case chain
+      when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink)
+      when :golos then GolosCloud::Comment.where(author: author_name, permlink: permlink)
       end
+      
+      posts.select(:ID, :created, :cashout_time, :author, :permlink, :active_votes, :children)
+      
+      post = posts.last
       
       if post.nil?
         # Fall back to RPC
@@ -73,17 +77,17 @@ module Cosgrove
       age = time_ago_in_words(created)
       age = age.slice(0, 1).capitalize + age.slice(1..-1)
       
-      details << if created < 30.minutes.ago
+      details << if created < 15.minutes.ago
         "#{age} old"
       else
         "**#{age}** old"
       end
       
-      active_votes = SteemApi::Tx::Vote.where(author: post.author, permlink: post.permlink)
+      active_votes = JSON[post.active_votes]
       
       if active_votes.any?
-        upvotes = active_votes.map{ |v| v if v.weight > 0 }.compact.count
-        downvotes = active_votes.map{ |v| v if v.weight < 0 }.compact.count
+        upvotes = active_votes.map{ |v| v if v['weight'] > 0 }.compact.count
+        downvotes = active_votes.map{ |v| v if v['weight'] < 0 }.compact.count
         netvotes = upvotes - downvotes
         details << "Net votes: #{netvotes}"
         
@@ -93,8 +97,8 @@ module Cosgrove
           when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
           when :golos then GolosCloud::Vote.where('timestamp > ?', post.created)
           end
-          total_votes = votes.count
-          total_voters = votes.distinct(:voter).size
+          total_votes = votes.distinct("concat(author, permlink)").count
+          total_voters = votes.distinct(:voter).count
             
           if total_votes > 0 && total_voters > 0
             details << "Out of #{pluralize(total_votes - netvotes, 'vote')} cast by #{pluralize(total_voters, 'voter')}"
@@ -104,6 +108,7 @@ module Cosgrove
       
       details << "Comments: #{post.children.to_i}"
       
+      # Page View counter is no longer supported by steemit.com.
       # page_views = page_views("/#{post.parent_permlink}/@#{post.author}/#{post.permlink}")
       # details << "Views: #{page_views}" if !!page_views
       
