@@ -50,11 +50,13 @@ module Cosgrove
         return # silntlly ignore this slug
       end
       
-      begin
-        message = event.respond "Looking up #{author_name}/#{permlink} ..."
-      rescue Discordrb::Errors::NoPermission => _
-        puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
-        return nil
+      if !!event
+        begin
+          message = event.respond "Looking up #{author_name}/#{permlink} ..."
+        rescue Discordrb::Errors::NoPermission => _
+          puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
+          return nil
+        end
       end
       
       posts = case chain
@@ -90,16 +92,16 @@ module Cosgrove
       else
         "**#{age}** old"
       end
-      message = message.edit details.join('; ')
+      message = message.edit details.join('; ') if !!message
       
-      active_votes = JSON[post.active_votes]
+      active_votes = JSON[post.active_votes] rescue []
       
       if active_votes.any?
-        upvotes = active_votes.map{ |v| v if v['weight'] > 0 }.compact.count
-        downvotes = active_votes.map{ |v| v if v['weight'] < 0 }.compact.count
+        upvotes = active_votes.map{ |v| v if v['weight'].to_i > 0 }.compact.count
+        downvotes = active_votes.map{ |v| v if v['weight'].to_i < 0 }.compact.count
         netvotes = upvotes - downvotes
         details << "Net votes: #{netvotes}"
-        message = message.edit details.join('; ')
+        message = message.edit details.join('; ') if !!message
         
         # Only append this detail of the post less than an hour old.
         if created > 1.hour.ago
@@ -112,20 +114,20 @@ module Cosgrove
             
           if total_votes > 0 && total_voters > 0
             details << "Out of #{pluralize(total_votes - netvotes, 'vote')} cast by #{pluralize(total_voters, 'voter')}"
-            message = message.edit details.join('; ')
+            message = message.edit details.join('; ') if !!message
           end
         end
       end
       
       details << "Comments: #{post.children.to_i}"
-      message = message.edit details.join('; ')
+      message = message.edit details.join('; ') if !!message
       
       # Page View counter is no longer supported by steemit.com.
       # page_views = page_views("/#{post.parent_permlink}/@#{post.author}/#{post.permlink}")
       # details << "Views: #{page_views}" if !!page_views
-      # message = message.edit details.join('; ')
+      # message = message.edit details.join('; ') if !!message
       
-      return nil
+      details.join('; ') if event.nil?
     end
     
     def find_account(key, event = nil, chain = :steem)
