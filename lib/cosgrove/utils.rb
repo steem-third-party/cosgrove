@@ -128,6 +128,7 @@ module Cosgrove
         slug = slug.split('@').last
         author_name = slug.split('/')[0]
         permlink = slug.split('/')[1..-1].join('/')
+        permlink = permlink.split('#')[0]
         
         [author_name, permlink]
       end
