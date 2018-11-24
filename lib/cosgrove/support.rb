@@ -78,7 +78,11 @@ module Cosgrove
         end
       end
       
-      return if post.nil?
+      if post.nil?
+        message = message.edit 'Unable to locate.' if !!message
+        
+        return
+      end
       
       created ||= post.created
       cashout_time ||= post.cashout_time
