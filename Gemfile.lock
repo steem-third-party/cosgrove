@@ -5,7 +5,7 @@ PATH
       activesupport (~> 5.1, >= 5.1.1)
       ai4r (~> 1.13, >= 1.13)
       awesome_print (~> 1.7, >= 1.7.0)
-      discordrb (~> 3.3, >= 3.3.0)
+      discordrb (~> 3.2, >= 3.2.1)
       golos_cloud (~> 1.1, >= 1.1.1rc1)
       mechanize (~> 2.7, >= 2.7.5)
       phantomjs (~> 2.1, >= 2.1.1.0)
