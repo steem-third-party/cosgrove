@@ -40,6 +40,8 @@ module Cosgrove
       cashout_time = nil
       message = nil
       
+      return unless !!author_name && !!permlink
+      
       if slug =~ /steemit.com/
         chain = :steem
       elsif slug =~ /golos.io/
