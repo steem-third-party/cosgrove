@@ -183,12 +183,12 @@ module Cosgrove
           posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
           
           posts.first
-        when :golos
-          posts = GolosCloud::Comment.where(author: author_name)
-          posts = posts.where(permlink: permlink) if !!permlink
-          posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
-          
-          posts.first
+        # when :golos
+        #   posts = GolosCloud::Comment.where(author: author_name)
+        #   posts = posts.where(permlink: permlink) if !!permlink
+        #   posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+        # 
+        #   posts.first
         end
       end
       

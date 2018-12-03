@@ -5,7 +5,7 @@ require 'action_view'
 require 'radiator'
 require 'awesome_print'
 require 'steem_api'
-require 'golos_cloud'
+# require 'golos_cloud'
 # require 'pry' # for binding.pry
 
 Bundler.require
