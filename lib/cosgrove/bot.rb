@@ -6,7 +6,6 @@ module Cosgrove
   cattr_accessor :latest_steemit_link
   
   @@latest_steemit_link = {}
-  @@latest_golosio_link = {}
   
   class Bot < Discordrb::Commands::CommandBot
     include Support
@@ -33,12 +32,6 @@ module Cosgrove
         link = event.content.split(' ').first
         Cosgrove::latest_steemit_link[event.channel.name] = link
         append_link_details(event, link)
-      end
-
-      # A user typed a link to golos.io.
-      self.message(content: /http[s]*:\/\/golos\.io\/.*/, ignore_bots: false) do |event|
-        link = event.content.split(' ').first
-        Cosgrove::latest_golosio_link[event.channel.name] = link
       end
     end
     
