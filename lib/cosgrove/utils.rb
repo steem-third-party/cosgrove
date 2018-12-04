@@ -7,8 +7,8 @@ module Cosgrove
     end
     
     def reset_api
-      @steem_api = @golos_api = @test_api = nil
-      @steem_folow_api = @golos_follow_api = @test_folow_api = nil
+      @steem_api = @test_api = nil
+      @steem_folow_api = @test_folow_api = nil
       @cycle_api_at = nil
     end
     
@@ -28,12 +28,6 @@ module Cosgrove
           url: steem_api_url,
           failover_urls: steem_api_failover_urls.any? ? steem_api_failover_urls : nil
         }
-      when :golos
-        {
-          chain: :golos,
-          url: golos_api_url,
-          failover_urls: golos_api_failover_urls.any? ? golos_api_failover_urls : nil
-        }
       when :test
         {
           chain: :test,
@@ -50,7 +44,6 @@ module Cosgrove
       
       case chain
       when :steem then @steem_api ||= Radiator::Api.new(chain_options(chain))
-      when :golos then @golos_api ||= Radiator::Api.new(chain_options(chain))
       when :test then @test_api ||= Radiator::Api.new(chain_options(chain))
       end
     end
@@ -62,7 +55,6 @@ module Cosgrove
       
       case chain
       when :steem then @steem_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
-      when :golos then @golos_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
       when :test then @test_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
       end
     end
@@ -72,8 +64,8 @@ module Cosgrove
     end
     
     def reset_stream
-      @steem_stream = @golos_stream = @test_stream = nil
-      @steem_folow_stream = @golos_follow_stream = @test_folow_stream = nil
+      @steem_stream = @test_stream = nil
+      @steem_folow_stream = @test_folow_stream = nil
       @cycle_stream_at = nil
     end
     
@@ -84,7 +76,6 @@ module Cosgrove
       
       case chain
       when :steem then @steem_stream ||= Radiator::Stream.new(chain_options(chain))
-      when :golos then @golos_stream ||= Radiator::Stream.new(chain_options(chain))
       when :test then @test_stream ||= Radiator::Stream.new(chain_options(chain))
       end
     end
@@ -104,7 +95,6 @@ module Cosgrove
     def new_tx(chain)
       case chain
       when :steem then Radiator::Transaction.new(chain_options(chain).merge(wif: steem_posting_wif))
-      when :golos then Radiator::Transaction.new(chain_options(chain).merge(wif: golos_posting_wif))
       when :test then Radiator::Transaction.new(chain_options(chain).merge(wif: test_posting_wif))
       end
     end
@@ -183,12 +173,6 @@ module Cosgrove
           posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
           
           posts.first
-        # when :golos
-        #   posts = GolosCloud::Comment.where(author: author_name)
-        #   posts = posts.where(permlink: permlink) if !!permlink
-        #   posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
-        # 
-        #   posts.first
         end
       end
       
@@ -239,11 +223,6 @@ module Cosgrove
             where(to: to).
             where("memo LIKE ?", "%#{memo_key}%").last
         end
-      when :golos
-        GolosCloud::Tx::Transfer.
-          where(from: from).
-          where(to: to).
-          where("memo LIKE ?", "%#{memo_key}%").last
       end
       
       if op.nil?
@@ -276,7 +255,6 @@ module Cosgrove
     def core_asset(chain = :steem)
       case chain
       when :steem then 'STEEM'
-      when :golos then 'GOLOS'
       else; 'TESTS'
       end
     end
@@ -284,7 +262,6 @@ module Cosgrove
     def debt_asset(chain = :steem)
       case chain
       when :steem then 'SBD'
-      when :golos then 'GBG'
       else; 'TBD'
       end
     end

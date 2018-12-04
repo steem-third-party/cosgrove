@@ -3,7 +3,7 @@ require 'discordrb'
 module Cosgrove
   require 'cosgrove/snark_commands'
   
-  cattr_accessor :latest_steemit_link, :latest_golos_link
+  cattr_accessor :latest_steemit_link
   
   @@latest_steemit_link = {}
   @@latest_golosio_link = {}

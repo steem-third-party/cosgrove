@@ -44,10 +44,6 @@ module Cosgrove
       
       if slug =~ /steemit.com/
         chain = :steem
-      elsif slug =~ /golos.io/
-        chain = :golos
-      elsif slug =~ /golos.blog/
-        chain = :golos
       else
         return # silntlly ignore this slug
       end
@@ -63,7 +59,6 @@ module Cosgrove
       
       posts = case chain
       when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink)
-      # when :golos then GolosCloud::Comment.where(author: author_name, permlink: permlink)
       end
       
       posts.select(:ID, :created, :cashout_time, :author, :permlink, :active_votes, :children)
@@ -113,7 +108,6 @@ module Cosgrove
         if created > 1.hour.ago
           votes = case chain
           when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
-          # when :golos then GolosCloud::Vote.where('timestamp > ?', post.created)
           end
           total_votes = votes.distinct("concat(author, permlink)").count
           total_voters = votes.distinct(:voter).count
@@ -158,8 +152,6 @@ module Cosgrove
         account = if !!key
           if chain == :steem && (accounts = SteemApi::Account.where(name: key)).any?
             accounts.first
-          # elsif chain == :golos && (accounts = GolosCloud::Account.where(name: key)).any?
-          #   accounts.first
           else
             # Fall back to RPC
             api(chain).get_accounts([key]) do |_accounts, errors|

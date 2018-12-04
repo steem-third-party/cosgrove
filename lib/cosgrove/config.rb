@@ -36,14 +36,6 @@ module Cosgrove
       [chain[:steem_api_failover_urls]].flatten.compact
     end
     
-    def golos_api_url
-      chain[:golos_api_url]
-    end
-    
-    def golos_api_failover_urls
-      [chain[:golos_api_failover_urls]].flatten.compact
-    end
-    
     def test_api_url
       chain[:test_api_url]
     end
@@ -58,14 +50,6 @@ module Cosgrove
     
     def steem_posting_wif
       chain[:steem_posting_wif]
-    end
-    
-    def golos_account
-      chain[:golos_account]
-    end
-    
-    def golos_posting_wif
-      chain[:golos_posting_wif]
     end
     
     def test_posting_wif
