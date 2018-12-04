@@ -4,11 +4,10 @@ Cosgrove is a STEEM Centric Discord Bot Framework that allows you to write your 
 
 One example of a bot that uses this framework is [@banjo](https://steemit.com/steemdata/@inertia/introducing-banjo) on SteemSpeak.
 
-Many (not all) features work on Golos as well.
-
 ## New features
 
-* Added support for SteemApi as a fallback to SteemData.
+* Support for SteemApi (replacing SteemData)
+* Optimized interactive messages to update as data is acquired
 * Gem updates.
 
 ## Features
@@ -65,10 +64,7 @@ Add a config file to your `ruby` project called `config.yml`:
 :chain:
   :steem_account: 
   :steem_posting_wif: 
-  :golos_account: 
-  :golos_posting_wif: 
   :steem_api_url: https://api.steemit.com
-  :golos_api_url: https://ws.golos.io
 :discord:
   :log_mode: info
 ```
@@ -90,6 +86,26 @@ SecureRandom.hex(32)
 3. Replace `APP_CLIENT_ID` with the App's Client ID in this URL: https://discordapp.com/oauth2/authorize?&client_id=APP_CLIENT_ID&scope=bot&permissions=153600
 4. Give that URL to the Discord server/guild owner and have them authorize the bot.
 5. Set the `token` and `client_id` in your bot constructor (see below).
+
+## SteemSQL
+
+Some features provided by `cosgrove` require access to [SteemSQL](http://steemsql.com/), which is a Microsoft SQL database containing all the Steem blockchain data.
+
+**Please note:**
+
+> SteemSQL has moved to a monthly subscription model and the default free account/password “steemit/steemit” has been disabled.
+
+If you intend to use SteemSQL, you can provide the credentials in `authorize-steem-sql.sh`, then use this terminal command to enable SteemSQL just before running your bot.  Copy the example `example-authorize-steem-sql.sh` and add your credentials:
+
+```bash
+source path/to/authorize-steem-sql.sh
+```
+
+Features that currently require SteemSQL:
+
+* Details in `$mvests` command
+* Any command that tries to suggest account names
+* `$upvote` (when checking for dailly limits)
 
 ## Usage
 
