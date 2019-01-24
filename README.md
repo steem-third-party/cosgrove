@@ -6,8 +6,9 @@ One example of a bot that uses this framework is [@banjo](https://steemit.com/st
 
 ## New features
 
-* Support for SteemApi (replacing SteemData)
-* Optimized interactive messages to update as data is acquired
+* Support for SteemApi (replacing SteemData; dropped mongodb support)
+* Optimized interactive messages to update as data is acquired in realtime
+* Bug fixes
 * Gem updates.
 
 ## Features
@@ -147,6 +148,7 @@ bot.run
 See my previous Ruby How To posts in: [#radiator](https://steemit.com/created/radiator) [#ruby](https://steemit.com/created/ruby)
 
 Also see:
+* [Cosgrove: Database Update](https://steemit.com/radiator/@inertia/cosgrove-database-update)
 * [Introducing: Cosgrove - A STEEM Centric Discord Bot Framework](https://steemit.com/radiator/@inertia/introducing-cosgrove-a-steem-centric-discord-bot-framework)
 * [How to Write a Discord Bot in Ruby](https://steemit.com/radiator/@inertia/how-to-write-a-discord-bot-in-ruby)
 
