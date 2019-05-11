@@ -50,7 +50,7 @@ module Cosgrove
       
       if !!event
         begin
-          message = event.respond "Looking up #{author_name}/#{permlink} ..."
+          message = event.respond "Looking up `#{author_name}/#{permlink}` ..."
         rescue Discordrb::Errors::NoPermission => _
           puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
           return nil
