@@ -69,6 +69,7 @@ module Cosgrove
         # Fall back to RPC
         api(chain).get_content(author_name, permlink) do |content, errors|
           unless content.author.empty?
+            post = content
             created = Time.parse(content.created + 'Z')
             cashout_time = Time.parse(content.cashout_time + 'Z')
           end
@@ -76,7 +77,11 @@ module Cosgrove
       end
       
       if post.nil?
-        message = message.edit 'Unable to locate.' if !!message
+        if !!message
+          message = message.edit 'Unable to locate.'
+          sleep 5
+          message.delete
+        end
         
         return
       end
