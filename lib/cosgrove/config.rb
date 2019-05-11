@@ -56,6 +56,10 @@ module Cosgrove
       chain[:test_posting_wif]
     end
     
+    def meeseeker_url
+      chain[:meeseeker][:url]
+    end
+    
     def discord_channels
       return ENV['CHANNELS'].to_s.split(' ') if !!ENV['CHANNELS']
       
