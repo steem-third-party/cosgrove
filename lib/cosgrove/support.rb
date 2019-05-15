@@ -35,6 +35,8 @@ module Cosgrove
     end
     
     def append_link_details(event, slug)
+      return if skipped_channel? event.channel.id
+      
       author_name, permlink = parse_slug slug
       created = nil
       cashout_time = nil
@@ -53,6 +55,7 @@ module Cosgrove
           message = event.respond "Looking up `#{author_name}/#{permlink}` ..."
         rescue Discordrb::Errors::NoPermission => _
           puts "Unable to append link details on #{event.channel.server.name} in #{event.channel.name}"
+          skip_channel event.channel.id
           return nil
         end
       end
@@ -100,9 +103,12 @@ module Cosgrove
       end
       message = message.edit details.join('; ') if !!message
       
-      active_votes = JSON[post.active_votes] rescue []
+      active_votes = case post.active_votes
+      when String then JSON[post.active_votes] rescue []
+      else; active_votes
+      end
       
-      if active_votes.any?
+      if active_votes.respond_to?(:any?) && active_votes.any?
         upvotes = active_votes.map{ |v| v if v['weight'].to_i > 0 }.compact.count
         downvotes = active_votes.map{ |v| v if v['weight'].to_i < 0 }.compact.count
         netvotes = upvotes - downvotes
@@ -248,6 +254,16 @@ module Cosgrove
       end
       
       muted.uniq
+    end
+    
+    def skipped_channel?(id)
+      return false if @@skipped_channels.nil?
+      @@skipped_channels.include? id
+    end
+    
+    def skip_channel(id)
+      @@skipped_channels ||= []
+      @@skipped_channels << id
     end
   end
 end
