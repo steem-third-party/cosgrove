@@ -256,14 +256,16 @@ module Cosgrove
       muted.uniq
     end
     
+    def skipped_channels
+      @@skipped_channels ||= []
+    end
+    
     def skipped_channel?(id)
-      return false if @@skipped_channels.nil?
-      @@skipped_channels.include? id
+      skipped_channels.include? id
     end
     
     def skip_channel(id)
-      @@skipped_channels ||= []
-      @@skipped_channels << id
+      skipped_channels << id
     end
   end
 end
