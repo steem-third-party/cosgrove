@@ -59,6 +59,68 @@ module Cosgrove
       end
     end
     
+    def steem_engine_http(&block)
+      @steem_engine_http ||= Net::HTTP::Persistent.new(name: 'cosgrove-steem-engine')
+      @steem_engine_http.tap do |http|
+        yield http
+      end
+    end
+    
+    def steem_engine_shutdown
+      if !!@steem_engine_http
+        @steem_engine_http.shutdown.tap do |result|
+          @steem_engine_http = nil
+          return result
+        end
+      end
+    end
+    
+    def steem_engine_request(uri, request_data, &block)
+      Net::HTTP::Post.new(uri.path).tap do |post|
+        post['Content-type'] = 'application/json'
+        post.body = request_data.to_json
+        
+        steem_engine_http do |http|
+          response = http.request uri, post
+          yield response
+        end
+      end
+    end
+    
+    def steem_engine_blockchain(method, params = {}, &block)
+      @steem_engine_blockchain_uri ||= URI.parse("#{steem_engine_api_url}/blockchain")
+      request_data = {
+        jsonrpc: '2.0',
+        method: method,
+        params: params,
+        id: rpc_id
+      }
+      
+      steem_engine_request(@steem_engine_blockchain_uri, request_data) do |response|
+        result = JSON[response.body]['result']
+        
+        return result unless !!block
+        yield result
+      end
+    end
+    
+    def steem_engine_contracts(method, params = {}, &block)
+      @steem_engine_contracts_uri ||= URI.parse("#{steem_engine_api_url}/contracts")
+      request_data = {
+        jsonrpc: '2.0',
+        method: method,
+        params: params,
+        id: rpc_id
+      }
+      
+      steem_engine_request(@steem_engine_contracts_uri, request_data) do |response|
+        result = JSON[response.body]['result']
+        
+        return result unless !!block
+        yield result
+      end
+    end
+    
     def cycle_stream_at
       @cycle_stream_at if defined? @cycle_stream_at
     end
@@ -264,6 +326,11 @@ module Cosgrove
       when :steem then 'SBD'
       else; 'TBD'
       end
+    end
+  private
+    def rpc_id
+      @rpc_id ||= 0
+      @rpc_id += 1
     end
   end
 end

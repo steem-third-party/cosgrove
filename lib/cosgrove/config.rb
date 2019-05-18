@@ -44,6 +44,10 @@ module Cosgrove
       [chain[:test_api_failover_urls]].flatten.compact
     end
     
+    def steem_engine_api_url
+      (chain[:steem_engine_api_url] rescue nil) || 'https://api.steem-engine.com/rpc'
+    end
+    
     def steem_account
       chain[:steem_account]
     end
