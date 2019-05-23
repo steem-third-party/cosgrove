@@ -59,66 +59,54 @@ module Cosgrove
       end
     end
     
-    def steem_engine_http(&block)
-      @steem_engine_http ||= Net::HTTP::Persistent.new(name: 'cosgrove-steem-engine')
-      @steem_engine_http.tap do |http|
-        yield http
-      end
-    end
-    
     def steem_engine_shutdown
-      if !!@steem_engine_http
-        @steem_engine_http.shutdown.tap do |result|
-          @steem_engine_http = nil
-          return result
-        end
+      problem = false
+      
+      begin
+        @steem_engine_blockchain.shutdown if !!@steem_engine_blockchain
+      rescue => e
+        puts "Unable to shut down steem engine blockchain rpc: #{e}"
+        problem = true
       end
+      
+      begin
+        @steem_engine_contracts.shutdown if !!@steem_engine_contracts
+      rescue => e
+        puts "Unable to shut down steem engine contracts rpc: #{e}"
+        problem = true
+      end
+      
+      !problem
     end
     
-    def steem_engine_request(uri, request_data, &block)
-      Net::HTTP::Post.new(uri.path).tap do |post|
-        post['Content-type'] = 'application/json'
-        post.body = request_data.to_json
-        
-        steem_engine_http do |http|
-          response = http.request uri, post
-          yield response
+    def steem_engine(method, params = {}, rpc)
+      begin
+        if params.respond_to?(:empty?) && params.empty?
+          rpc.send(method)
+        else
+          rpc.send(method, params)
         end
+      rescue => e
+        steem_engine_shutdown
+        
+        raise e
       end
     end
     
     def steem_engine_blockchain(method, params = {}, &block)
-      @steem_engine_blockchain_uri ||= URI.parse("#{steem_engine_api_url}/blockchain")
-      request_data = {
-        jsonrpc: '2.0',
-        method: method,
-        params: params,
-        id: rpc_id
-      }
+      @steem_engine_blockchain ||= Radiator::SSC::Blockchain.new(root_url: steem_engine_api_url)
+      result = steem_engine(method, params, @steem_engine_blockchain)
       
-      steem_engine_request(@steem_engine_blockchain_uri, request_data) do |response|
-        result = JSON[response.body]['result']
-        
-        return result unless !!block
-        yield result
-      end
+      yield result if !!block
+      return result
     end
     
     def steem_engine_contracts(method, params = {}, &block)
-      @steem_engine_contracts_uri ||= URI.parse("#{steem_engine_api_url}/contracts")
-      request_data = {
-        jsonrpc: '2.0',
-        method: method,
-        params: params,
-        id: rpc_id
-      }
+      @steem_engine_contracts ||= Radiator::SSC::Contracts.new(root_url: steem_engine_api_url)
+      result = steem_engine(method, params, @steem_engine_contracts)
       
-      steem_engine_request(@steem_engine_contracts_uri, request_data) do |response|
-        result = JSON[response.body]['result']
-        
-        return result unless !!block
-        yield result
-      end
+      yield result if !!block
+      return result
     end
     
     def cycle_stream_at
