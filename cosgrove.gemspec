@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Anthony Martin']
   spec.email = ['cosgrove@martin-studio.com']
 
-  spec.summary = %q{Cosgrove Discord Bo t}
+  spec.summary = %q{Cosgrove Discord Bot}
   spec.description = %q{STEEM centric Discord bot.}
   spec.homepage = 'https://github.com/steem-third-party/cosgrove'
   spec.license = 'CC0-1.0'
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.11', '>= 0.11.2'
   spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.19'
 
-  spec.add_dependency 'radiator', '~> 0.4', '>= 0.4.5'
+  spec.add_dependency 'radiator', '~> 0.4', '>= 0.4.6'
   spec.add_dependency 'steem_api', '~> 1.1', '>= 1.1.3'
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
   spec.add_dependency 'ai4r', '~> 1.13', '>= 1.13'
