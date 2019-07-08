@@ -37,18 +37,13 @@ module Cosgrove
     def append_link_details(event, slug)
       return if skipped_channel? event.channel.id
       
+      chain = :steem
       author_name, permlink = parse_slug slug
       created = nil
       cashout_time = nil
       message = nil
       
       return unless !!author_name && !!permlink
-      
-      if slug =~ /steemit.com/
-        chain = :steem
-      else
-        return # silntlly ignore this slug
-      end
       
       if !!event
         begin

@@ -27,8 +27,8 @@ module Cosgrove
     end
     
     def add_all_messages
-      # A user typed a link to steemit.com
-      self.message(content: /http[s]*:\/\/steemit\.com\/.*/, ignore_bots: false) do |event|
+      # A user typed a link to steemit.com (or some condenser site)
+      self.message(content: /http[s]*:\/\/.*\/(.*\/)?@.+\/.+/, ignore_bots: false) do |event|
         link = event.content.split(' ').first
         Cosgrove::latest_steemit_link[event.channel.name] = link
         append_link_details(event, link)
