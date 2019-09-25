@@ -233,15 +233,58 @@ module Cosgrove
     end
     
     def ticker
-      pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd = market_data
-      
-      pol_usdt_steem = number_to_currency(pol_usdt_steem, precision: 4)
-      btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
-      btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
-
       ticker = []
-      ticker << "`Poloniex: USD/STEEM: #{pol_usdt_steem}`"
-      ticker << "`Bittrex: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
+      
+      begin
+        pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd = market_data
+        
+        pol_usdt_steem = number_to_currency(pol_usdt_steem, precision: 4)
+        btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
+        btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
+
+        ticker << "`Poloniex: USD/STEEM: #{pol_usdt_steem}`"
+        ticker << "`Bittrex: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
+      rescue => e
+        puts e
+      end
+      
+      begin
+        bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
+        bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
+        bin_usdt_steem = bin_btc_usdt * bin_steem_btc
+        bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4)
+        
+        ticker << "`Binance: USD/STEEM: #{bin_usdt_steem}`"
+      rescue => e
+        puts e
+      end
+      
+      begin
+        upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
+        upb_btc_sbd = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-SBD').read][0].fetch('trade_price').to_f
+        upb_usdt_btc = JSON[open('https://api.upbit.com/v1/trades/ticks?market=USDT-BTC').read][0].fetch('trade_price').to_f
+        upb_usdt_steem = upb_usdt_btc * upb_btc_steem
+        upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
+        upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
+        upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
+        
+        ticker << "`Upbit: USD/STEEM: #{upb_usdt_steem}`; USD/SBD: #{upb_usdt_sbd}`"
+      rescue => e
+        puts e
+      end
+      
+      begin
+        post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
+        pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
+        pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
+        pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4)
+        pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4)
+        
+        ticker << "`postpromoter.net: USD/STEEM: #{pp_usd_steem}`; USD/SBD: #{pp_usd_sbd}`"
+      rescue => e
+        puts e
+      end
+      
       ticker.join("\n")
     end
     
