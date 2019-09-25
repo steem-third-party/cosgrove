@@ -268,7 +268,7 @@ module Cosgrove
         upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
         upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
         
-        ticker << "`Upbit: USD/STEEM: #{upb_usdt_steem}`; USD/SBD: #{upb_usdt_sbd}`"
+        ticker << "`Upbit: USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}`"
       rescue => e
         puts e
       end
@@ -280,7 +280,7 @@ module Cosgrove
         pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4)
         pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4)
         
-        ticker << "`postpromoter.net: USD/STEEM: #{pp_usd_steem}`; USD/SBD: #{pp_usd_sbd}`"
+        ticker << "`postpromoter.net: USD/STEEM: #{pp_usd_steem}; USD/SBD: #{pp_usd_sbd}`"
       rescue => e
         puts e
       end
