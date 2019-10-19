@@ -65,8 +65,26 @@ module Cosgrove
       [pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd]
     end
     
+    def btx_market_data
+      btx_usdt_btc = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=usdt-btc").read]
+      
+      btx_usdt_btc = btx_usdt_btc['result'].first['Ask'].to_f
+      
+      btx_btc_steem = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-steem").read]
+      btx_btc_sbd = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-sbd").read]
+      
+      btx_btc_steem = btx_btc_steem['result'].first['Ask'].to_f
+      btx_btc_sbd = btx_btc_sbd['result'].first['Ask'].to_f
+      
+      btx_usdt_sbd = btx_usdt_btc * btx_btc_sbd
+      btx_usdt_steem = btx_usdt_btc * btx_btc_steem
+      
+      {usdt_steem: btx_usdt_steem, usdt_sbd: btx_usdt_sbd}
+    end
+    
     def mvests(chain = :steem, account_names = [])
-      pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd = market_data
+      _btx_market_data = btx_market_data
+      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
       base_per_mvest, base_per_debt = price_feed(chain)
       
       if account_names.none?
@@ -197,7 +215,8 @@ module Cosgrove
     end
     
     def rewardpool(chain = :steem)
-      pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd = market_data
+      _btx_market_data = btx_market_data
+      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
       base_per_mvest, base_per_debt = price_feed(chain)
       
       case chain
@@ -236,13 +255,12 @@ module Cosgrove
       ticker = []
       
       begin
-        pol_usdt_steem, btx_usdt_steem, btx_usdt_sbd = market_data
-        
-        pol_usdt_steem = number_to_currency(pol_usdt_steem, precision: 4)
+        _btx_market_data = btx_market_data
+        btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+
         btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
         btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
 
-        ticker << "`Poloniex: USD/STEEM: #{pol_usdt_steem}`"
         ticker << "`Bittrex: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
       rescue => e
         puts e
