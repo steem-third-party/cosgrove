@@ -303,6 +303,17 @@ module Cosgrove
         puts e
       end
       
+      begin
+        cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
+        cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
+        cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
+        cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
+        
+        ticker << "`coingecko.com: USD/STEEM: #{cg_usd_steem}; USD/SBD: #{cg_usd_sbd}`"
+      rescue => e
+        puts e
+      end
+      
       ticker.join("\n")
     end
     
