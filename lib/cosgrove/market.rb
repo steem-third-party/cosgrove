@@ -264,7 +264,7 @@ module Cosgrove
         btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
         btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
 
-        ticker << "`Bittrex: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
+        ticker << "`bittrex.com: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
       rescue => e
         puts e
       end
@@ -280,7 +280,7 @@ module Cosgrove
         bin_usdt_steem = bin_btc_usdt * bin_steem_btc
         bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4)
         
-        ticker << "`Binance: USD/STEEM: #{bin_usdt_steem}`"
+        ticker << "`binance.com: USD/STEEM: #{bin_usdt_steem}`"
       rescue => e
         puts e
       end
@@ -297,7 +297,7 @@ module Cosgrove
         upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
         upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
         
-        ticker << "`Upbit: USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}`"
+        ticker << "`upbit.com: USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}`"
       rescue => e
         puts e
       end
