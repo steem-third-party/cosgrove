@@ -251,8 +251,11 @@ module Cosgrove
       end
     end
     
-    def ticker
+    def ticker(event = nil)
       ticker = []
+      message = nil
+      
+      event.channel.start_typing if !!event
       
       begin
         _btx_market_data = btx_market_data
@@ -266,6 +269,11 @@ module Cosgrove
         puts e
       end
       
+      if !!event
+        message = event.respond ticker.join("\n")
+        event.channel.start_typing
+      end
+      
       begin
         bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
         bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
@@ -276,6 +284,9 @@ module Cosgrove
       rescue => e
         puts e
       end
+      
+      message.edit ticker.join("\n") if !!message
+      event.channel.start_typing if !!event
       
       begin
         upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
@@ -291,6 +302,9 @@ module Cosgrove
         puts e
       end
       
+      message.edit ticker.join("\n") if !!message
+      event.channel.start_typing if !!event
+      
       begin
         post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
         pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
@@ -303,6 +317,9 @@ module Cosgrove
         puts e
       end
       
+      message.edit ticker.join("\n") if !!message
+      event.channel.start_typing if !!event
+      
       begin
         cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
         cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
@@ -314,6 +331,12 @@ module Cosgrove
         puts e
       end
       
+      if !!message
+        message.edit ticker.join("\n")
+        
+        return nil
+      end
+        
       ticker.join("\n")
     end
     
