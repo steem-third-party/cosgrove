@@ -351,11 +351,15 @@ module Cosgrove
           cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
           cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
           cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
+          cg_btc_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('btc').to_f
           cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
+          cg_btc_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('btc').to_f
           cg_usd_steem = number_to_currency(cg_usd_steem, precision: 4)
           cg_usd_sbd = number_to_currency(cg_usd_sbd, precision: 4)
+          cg_btc_steem = number_to_currency(cg_btc_steem, precision: 8)
+          cg_btc_sbd = number_to_currency(cg_btc_sbd, precision: 8)
           
-          ticker[key_coingecko] = "USD/STEEM: #{cg_usd_steem}; USD/SBD: #{cg_usd_sbd}"
+          ticker[key_coingecko] = "USD/STEEM: #{cg_usd_steem}; USD/SBD: #{cg_usd_sbd}; BTC/STEEM: #{cg_btc_steem}; BTC/SBD: #{cg_btc_sbd}"
         rescue => e
           puts e
         end
