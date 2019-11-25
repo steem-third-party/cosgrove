@@ -251,93 +251,120 @@ module Cosgrove
       end
     end
     
+    def render_ticker(message, event, ticker = {})
+      return if ticker.size < 1
+      
+      event.channel.start_typing if !!event
+      
+      ticker_text = "```\n"
+      
+      ticker_text += ticker.map do |key, value|
+        "#{key} #{value}"
+      end.join("\n")
+      
+      ticker_text += "\n```\n"
+      
+      if message.nil? && !!event
+        message = event.respond ticker_text
+      elsif !!message
+        message.edit ticker_text
+      end
+      
+      message || ticker_text
+    end
+    
     def ticker(event = nil)
-      ticker = []
+      key_bittrex =      'bittrex.com      '
+      key_binance =      'binance.com      '
+      key_upbit =        'upbit.com        '
+      key_postpromoter = 'postpromoter.net '
+      key_coingecko =    'coingecko.com    '
+      ticker = {
+        key_bittrex => nil,
+        key_binance => nil,
+        key_upbit => nil,
+        key_postpromoter => nil,
+        key_coingecko => nil
+      }
       message = nil
+      threads = []
       
-      event.channel.start_typing if !!event
-      
-      begin
-        _btx_market_data = btx_market_data
-        btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+      threads << Thread.new do
+        begin
+          _btx_market_data = btx_market_data
+          btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
 
-        btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
-        btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
+          btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
+          btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
 
-        ticker << "`bittrex.com: USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}`"
-      rescue => e
-        puts e
+          ticker[key_bittrex] = "USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}"
+        rescue => e
+          puts e
+        end
       end
       
-      if !!event
-        message = event.respond ticker.join("\n")
-        event.channel.start_typing
+      threads << Thread.new do
+        begin
+          bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
+          bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
+          bin_usdt_steem = bin_btc_usdt * bin_steem_btc
+          bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4)
+          
+          ticker[key_binance] = "USD/STEEM: #{bin_usdt_steem}"
+        rescue => e
+          puts e
+        end
       end
       
-      begin
-        bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
-        bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
-        bin_usdt_steem = bin_btc_usdt * bin_steem_btc
-        bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4)
-        
-        ticker << "`binance.com: USD/STEEM: #{bin_usdt_steem}`"
-      rescue => e
-        puts e
+      threads << Thread.new do
+        begin
+          upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
+          upb_btc_sbd = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-SBD').read][0].fetch('trade_price').to_f
+          upb_usdt_btc = JSON[open('https://api.upbit.com/v1/trades/ticks?market=USDT-BTC').read][0].fetch('trade_price').to_f
+          upb_usdt_steem = upb_usdt_btc * upb_btc_steem
+          upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
+          upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
+          upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
+          
+          ticker[key_upbit] = "USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}"
+        rescue => e
+          puts e
+        end
       end
       
-      message.edit ticker.join("\n") if !!message
+      threads << Thread.new do
+        begin
+          post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
+          pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
+          pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
+          pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4)
+          pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4)
+          
+          ticker[key_postpromoter] = "USD/STEEM: #{pp_usd_steem}; USD/SBD: #{pp_usd_sbd}"
+        rescue => e
+          puts e
+        end
+      end
+      
+      threads << Thread.new do
+        begin
+          cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
+          cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
+          cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
+          cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
+          cg_usd_steem = number_to_currency(cg_usd_steem, precision: 4)
+          cg_usd_sbd = number_to_currency(cg_usd_sbd, precision: 4)
+          
+          ticker[key_coingecko] = "USD/STEEM: #{cg_usd_steem}; USD/SBD: #{cg_usd_sbd}"
+        rescue => e
+          puts e
+        end
+      end
+      
       event.channel.start_typing if !!event
+      threads.each(&:join)
       
-      begin
-        upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
-        upb_btc_sbd = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-SBD').read][0].fetch('trade_price').to_f
-        upb_usdt_btc = JSON[open('https://api.upbit.com/v1/trades/ticks?market=USDT-BTC').read][0].fetch('trade_price').to_f
-        upb_usdt_steem = upb_usdt_btc * upb_btc_steem
-        upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
-        upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
-        upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
-        
-        ticker << "`upbit.com: USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}`"
-      rescue => e
-        puts e
-      end
-      
-      message.edit ticker.join("\n") if !!message
-      event.channel.start_typing if !!event
-      
-      begin
-        post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
-        pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
-        pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
-        pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4)
-        pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4)
-        
-        ticker << "`postpromoter.net: USD/STEEM: #{pp_usd_steem}; USD/SBD: #{pp_usd_sbd}`"
-      rescue => e
-        puts e
-      end
-      
-      message.edit ticker.join("\n") if !!message
-      event.channel.start_typing if !!event
-      
-      begin
-        cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
-        cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
-        cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
-        cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
-        
-        ticker << "`coingecko.com: USD/STEEM: $#{cg_usd_steem}; USD/SBD: $#{cg_usd_sbd}`"
-      rescue => e
-        puts e
-      end
-      
-      if !!message
-        message.edit ticker.join("\n")
-        
-        return nil
-      end
-        
-      ticker.join("\n")
+      render_ticker(message, event, ticker)
     end
     
     def promoted(chain = :steem, period = :today)
