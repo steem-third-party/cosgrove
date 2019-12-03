@@ -79,7 +79,7 @@ module Cosgrove
       btx_usdt_sbd = btx_usdt_btc * btx_btc_sbd
       btx_usdt_steem = btx_usdt_btc * btx_btc_steem
       
-      {usdt_steem: btx_usdt_steem, usdt_sbd: btx_usdt_sbd}
+      {usdt_steem: btx_usdt_steem, usdt_sbd: btx_usdt_sbd, btc_steem: btx_btc_steem, btc_sbd: btx_btc_sbd}
     end
     
     def mvests(chain = :steem, account_names = [])
@@ -293,11 +293,14 @@ module Cosgrove
         begin
           _btx_market_data = btx_market_data
           btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+          btx_btc_steem, btx_btx_sbd = _btx_market_data[:btc_steem], _btx_market_data[:btc_sbd]
 
           btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4)
           btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4)
+          btx_btc_steem = number_to_currency(btx_btc_steem, precision: 8, unit: '')
+          btx_btx_sbd = number_to_currency(btx_btx_sbd, precision: 8, unit: '')
 
-          ticker[key_bittrex] = "USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}"
+          ticker[key_bittrex] = "USD/STEEM: #{btx_usdt_steem}; USD/SBD: #{btx_usdt_sbd}; BTC/STEEM: #{btx_btc_steem}; BTC/SBD: #{btx_btx_sbd}"
         rescue => e
           puts e
         end
@@ -309,8 +312,9 @@ module Cosgrove
           bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
           bin_usdt_steem = bin_btc_usdt * bin_steem_btc
           bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4)
+          bin_steem_btc = number_to_currency(bin_steem_btc, precision: 8, unit: '')
           
-          ticker[key_binance] = "USD/STEEM: #{bin_usdt_steem}"
+          ticker[key_binance] = "USD/STEEM: #{bin_usdt_steem};                   BTC/STEEM: #{bin_steem_btc}"
         rescue => e
           puts e
         end
@@ -325,8 +329,10 @@ module Cosgrove
           upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
           upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4)
           upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4)
+          upb_btc_steem = number_to_currency(upb_btc_steem, precision: 8, unit: '')
+          upb_btc_sbd = number_to_currency(upb_btc_sbd, precision: 8, unit: '')
           
-          ticker[key_upbit] = "USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}"
+          ticker[key_upbit] = "USD/STEEM: #{upb_usdt_steem}; USD/SBD: #{upb_usdt_sbd}; BTC/STEEM: #{upb_btc_steem}; BTC/SBD: #{upb_btc_sbd}"
         rescue => e
           puts e
         end
