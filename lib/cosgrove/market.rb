@@ -251,14 +251,21 @@ module Cosgrove
       end
     end
     
-    def render_ticker(message, event, ticker = {})
+    def render_ticker(message, event, ticker = {}, chain = :steem)
       return if ticker.size < 1
       
       event.channel.start_typing if !!event
       
-      ticker_text = "```markdown\n"
-      ticker_text += "|                   |  USD/STEEM  |   USD/SBD   |  BTC/STEEM  |   BTC/SBD   |\n"
-      ticker_text += "|-------------------|-------------|-------------|-------------|-------------|\n"
+      ticker_text = case chain
+      when :steem
+        "```markdown\n" +
+        "|                   |  USD/STEEM  |   USD/SBD   |  BTC/STEEM  |   BTC/SBD   |\n" +
+        "|-------------------|-------------|-------------|-------------|-------------|\n"
+      when :hive
+        "```markdown\n" +
+        "|                   |  USD/HIVE  |   USD/HBD   |  BTC/HIVE  |   BTC/HBD   |\n" +
+        "|-------------------|------------|-------------|------------|-------------|\n"
+      end
       
       ticker_text += ticker.map do |key, value|
         "| #{key} | #{value} |"
@@ -275,108 +282,175 @@ module Cosgrove
       message || ticker_text
     end
     
-    def ticker(event = nil)
-      key_bittrex =      'bittrex.com      '
-      key_binance =      'binance.com      '
-      key_upbit =        'upbit.com        '
-      key_postpromoter = 'postpromoter.net '
-      key_coingecko =    'coingecko.com    '
-      ticker = {
-        key_bittrex => nil,
-        key_binance => nil,
-        key_upbit => nil,
-        key_postpromoter => nil,
-        key_coingecko => nil
-      }
+    def ticker(event = nil, chain = :steem)
+      chain = chain.to_s.downcase.to_sym
       message = nil
       threads = []
       
-      threads << Thread.new do
-        begin
-          _btx_market_data = btx_market_data
-          btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
-          btx_btc_steem, btx_btx_sbd = _btx_market_data[:btc_steem], _btx_market_data[:btc_sbd]
+      case chain
+      when :steem
+        key_bittrex =      'bittrex.com      '
+        key_binance =      'binance.com      '
+        key_upbit =        'upbit.com        '
+        key_postpromoter = 'postpromoter.net '
+        key_coingecko =    'coingecko.com    '
+        key_poloniex =     'poloniex.com     '
+        ticker = {
+          key_bittrex => nil,
+          key_binance => nil,
+          key_upbit => nil,
+          key_postpromoter => nil,
+          key_coingecko => nil,
+          key_poloniex => nil
+        }
+        
+        threads << Thread.new do
+          begin
+            _btx_market_data = btx_market_data
+            btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+            btx_btc_steem, btx_btx_sbd = _btx_market_data[:btc_steem], _btx_market_data[:btc_sbd]
 
-          btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4).rjust(11)
-          btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4).rjust(11)
-          btx_btc_steem = number_to_currency(btx_btc_steem, precision: 8, unit: '').rjust(11)
-          btx_btx_sbd = number_to_currency(btx_btx_sbd, precision: 8, unit: '').rjust(11)
+            btx_usdt_steem = number_to_currency(btx_usdt_steem, precision: 4).rjust(11)
+            btx_usdt_sbd = number_to_currency(btx_usdt_sbd, precision: 4).rjust(11)
+            btx_btc_steem = number_to_currency(btx_btc_steem, precision: 8, unit: '').rjust(11)
+            btx_btx_sbd = number_to_currency(btx_btx_sbd, precision: 8, unit: '').rjust(11)
 
-          ticker[key_bittrex] = "#{btx_usdt_steem} | #{btx_usdt_sbd} | #{btx_btc_steem} | #{btx_btx_sbd}"
-        rescue => e
-          puts e
+            ticker[key_bittrex] = "#{btx_usdt_steem} | #{btx_usdt_sbd} | #{btx_btc_steem} | #{btx_btx_sbd}"
+          rescue => e
+            puts e
+          end
         end
-      end
-      
-      threads << Thread.new do
-        begin
-          bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
-          bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
-          bin_usdt_steem = bin_btc_usdt * bin_steem_btc
-          bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4).rjust(11)
-          bin_steem_btc = number_to_currency(bin_steem_btc, precision: 8, unit: '').rjust(11)
-          
-          ticker[key_binance] = "#{bin_usdt_steem} |             | #{bin_steem_btc} |            "
-        rescue => e
-          puts e
+        
+        threads << Thread.new do
+          begin
+            bin_steem_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=STEEMBTC').read].fetch('price').to_f
+            bin_btc_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=BTCUSDT').read].fetch('price').to_f
+            bin_usdt_steem = bin_btc_usdt * bin_steem_btc
+            bin_usdt_steem = number_to_currency(bin_usdt_steem, precision: 4).rjust(11)
+            bin_steem_btc = number_to_currency(bin_steem_btc, precision: 8, unit: '').rjust(11)
+            
+            ticker[key_binance] = "#{bin_usdt_steem} |             | #{bin_steem_btc} |            "
+          rescue => e
+            puts e
+          end
         end
-      end
-      
-      threads << Thread.new do
-        begin
-          upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
-          upb_btc_sbd = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-SBD').read][0].fetch('trade_price').to_f
-          upb_usdt_btc = JSON[open('https://api.upbit.com/v1/trades/ticks?market=USDT-BTC').read][0].fetch('trade_price').to_f
-          upb_usdt_steem = upb_usdt_btc * upb_btc_steem
-          upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
-          upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4).rjust(11)
-          upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4).rjust(11)
-          upb_btc_steem = number_to_currency(upb_btc_steem, precision: 8, unit: '').rjust(11)
-          upb_btc_sbd = number_to_currency(upb_btc_sbd, precision: 8, unit: '').rjust(11)
-          
-          ticker[key_upbit] = "#{upb_usdt_steem} | #{upb_usdt_sbd} | #{upb_btc_steem} | #{upb_btc_sbd}"
-        rescue => e
-          puts e
+        
+        threads << Thread.new do
+          begin
+            upb_btc_steem = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-STEEM').read][0].fetch('trade_price').to_f
+            upb_btc_sbd = JSON[open('https://api.upbit.com/v1/trades/ticks?market=BTC-SBD').read][0].fetch('trade_price').to_f
+            upb_usdt_btc = JSON[open('https://api.upbit.com/v1/trades/ticks?market=USDT-BTC').read][0].fetch('trade_price').to_f
+            upb_usdt_steem = upb_usdt_btc * upb_btc_steem
+            upb_usdt_sbd = upb_usdt_btc * upb_btc_sbd
+            upb_usdt_steem = number_to_currency(upb_usdt_steem, precision: 4).rjust(11)
+            upb_usdt_sbd = number_to_currency(upb_usdt_sbd, precision: 4).rjust(11)
+            upb_btc_steem = number_to_currency(upb_btc_steem, precision: 8, unit: '').rjust(11)
+            upb_btc_sbd = number_to_currency(upb_btc_sbd, precision: 8, unit: '').rjust(11)
+            
+            ticker[key_upbit] = "#{upb_usdt_steem} | #{upb_usdt_sbd} | #{upb_btc_steem} | #{upb_btc_sbd}"
+          rescue => e
+            puts e
+          end
         end
-      end
-      
-      threads << Thread.new do
-        begin
-          post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
-          pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
-          pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
-          pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4).rjust(11)
-          pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4).rjust(11)
-          
-          ticker[key_postpromoter] = "#{pp_usd_steem} | #{pp_usd_sbd} |             |            "
-        rescue => e
-          puts e
+        
+        threads << Thread.new do
+          begin
+            post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
+            pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
+            pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
+            pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4).rjust(11)
+            pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4).rjust(11)
+            
+            ticker[key_postpromoter] = "#{pp_usd_steem} | #{pp_usd_sbd} |             |            "
+          rescue => e
+            puts e
+          end
         end
-      end
-      
-      threads << Thread.new do
-        begin
-          cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
-          cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
-          cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
-          cg_btc_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('btc').to_f
-          cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
-          cg_btc_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('btc').to_f
-          cg_usd_steem = number_to_currency(cg_usd_steem, precision: 4).rjust(11)
-          cg_usd_sbd = number_to_currency(cg_usd_sbd, precision: 4).rjust(11)
-          cg_btc_steem = number_to_currency(cg_btc_steem, precision: 8, unit: '').rjust(11)
-          cg_btc_sbd = number_to_currency(cg_btc_sbd, precision: 8, unit: '').rjust(11)
-          
-          ticker[key_coingecko] = "#{cg_usd_steem} | #{cg_usd_sbd} | #{cg_btc_steem} | #{cg_btc_sbd}"
-        rescue => e
-          puts e
+        
+        threads << Thread.new do
+          begin
+            cg_steem = JSON[open('https://api.coingecko.com/api/v3/coins/steem').read]
+            cg_sbd = JSON[open('https://api.coingecko.com/api/v3/coins/steem-dollars').read]
+            cg_usd_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('usd').to_f
+            cg_btc_steem = cg_steem.fetch('market_data').fetch('current_price').fetch('btc').to_f
+            cg_usd_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('usd').to_f
+            cg_btc_sbd = cg_sbd.fetch('market_data').fetch('current_price').fetch('btc').to_f
+            cg_usd_steem = number_to_currency(cg_usd_steem, precision: 4).rjust(11)
+            cg_usd_sbd = number_to_currency(cg_usd_sbd, precision: 4).rjust(11)
+            cg_btc_steem = number_to_currency(cg_btc_steem, precision: 8, unit: '').rjust(11)
+            cg_btc_sbd = number_to_currency(cg_btc_sbd, precision: 8, unit: '').rjust(11)
+            
+            ticker[key_coingecko] = "#{cg_usd_steem} | #{cg_usd_sbd} | #{cg_btc_steem} | #{cg_btc_sbd}"
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            pol_usdt_btc = JSON[open("https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=10").read]
+            pol_btc_steem = JSON[open("https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_STEEM&depth=10").read]
+            pol_usdt_btc = pol_usdt_btc['asks'].first.first.to_f
+            pol_btc_steem = pol_btc_steem['asks'].first.first.to_f
+            pol_usdt_steem = pol_usdt_btc * pol_btc_steem
+            pol_usdt_steem = number_to_currency(pol_usdt_steem, precision: 4).rjust(11)
+            pol_btc_steem = number_to_currency(pol_btc_steem, precision: 8, unit: '').rjust(11)
+
+            ticker[key_poloniex] = "#{pol_usdt_steem} |             | #{pol_btc_steem} |            "
+          rescue => e
+            puts e
+          end
+        end
+      when :hive
+        key_coingecko =    'coingecko.com    '
+        ticker = {
+          key_coingecko => nil,
+        }
+        
+        threads << Thread.new do
+          begin
+            cg_hive = JSON[open('https://api.coingecko.com/api/v3/coins/hive').read] rescue {}
+            cg_hbd = JSON[open('https://api.coingecko.com/api/v3/coins/hive-dollars').read] rescue {}
+            cg_usd_hive = cg_hive.fetch('market_data').fetch('current_price').fetch('usd').to_f rescue -1
+            cg_btc_hive = cg_hive.fetch('market_data').fetch('current_price').fetch('btc').to_f rescue -1
+            cg_usd_hbd = cg_hbd.fetch('market_data').fetch('current_price').fetch('usd').to_f rescue -1
+            cg_btc_hbd = cg_hbd.fetch('market_data').fetch('current_price').fetch('btc').to_f rescue -1
+            
+            cg_usd_hive = if cg_usd_hive == -1
+              'N/A'
+            else
+              number_to_currency(cg_usd_hive, precision: 4)
+            end.rjust(10)
+            
+            cg_usd_hbd = if cg_usd_hbd == -1
+              'N/A'
+            else
+              number_to_currency(cg_usd_hbd, precision: 4)
+            end.rjust(10)
+            
+            cg_btc_hive = if cg_btc_hive == -1
+              'N/A'
+            else
+              number_to_currency(cg_btc_hive, precision: 8, unit: '')
+            end.rjust(10)
+            
+            cg_btc_hbd = if cg_btc_hbd == -1
+              'N/A'
+            else
+              number_to_currency(cg_btc_hbd, precision: 8, unit: '')
+            end.rjust(10)
+            
+            ticker[key_coingecko] = "#{cg_usd_hive} |  #{cg_usd_hbd} | #{cg_btc_hive} |  #{cg_btc_hbd}"
+          rescue => e
+            puts e
+          end
         end
       end
       
       event.channel.start_typing if !!event
       threads.each(&:join)
       
-      render_ticker(message, event, ticker)
+      render_ticker(message, event, ticker, chain)
     end
     
     def promoted(chain = :steem, period = :today)
@@ -507,7 +581,7 @@ module Cosgrove
       "#{price} #{symbol}"
     end
     
-    def apr(chain = :steem, limit = 19)
+    def apr(chain = :steem, limit = 20)
       chain = chain.to_sym
       rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
         witnesses.map(&:props).map { |p| p['sbd_interest_rate'] }
