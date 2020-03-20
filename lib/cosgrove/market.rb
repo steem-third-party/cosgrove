@@ -542,6 +542,24 @@ module Cosgrove
         supply << ["#{current_supply} CORE (Worth #{total_base} TBD)"]
         supply << ["#{current_debt_supply} TBD (#{ratio} of supply)"]
         supply << ["#{liquid_supply} Liquid CORE (#{ratio_liquid} of supply)"]
+      when :hive
+        reward_balance = api(chain).get_reward_fund('post') do |reward_fund|
+          reward_fund.reward_balance.split(' ').first.to_f
+        end
+        
+        liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
+        ratio_liquid = (liquid_supply / current_supply) * 100
+
+        current_supply = number_with_precision(current_supply, precision: 0, delimiter: ',', separator: '.')
+        ratio = number_to_percentage(ratio, precision: 3)
+        total_base = number_to_currency(total_base, precision: 0)
+        current_debt_supply = number_to_currency(current_debt_supply, precision: 0)
+        liquid_supply = number_with_precision(liquid_supply, precision: 0, delimiter: ',', separator: '.')
+        ratio_liquid = number_to_percentage(ratio_liquid, precision: 3)
+      
+        supply << ["#{current_supply} HIVE (Worth #{total_base} HBD)"]
+        supply << ["#{current_debt_supply} HBD (#{ratio} of supply)"]
+        supply << ["#{liquid_supply} Liquid HIVE (#{ratio_liquid} of supply)"]
       end
       
       "Supply: `" + supply.join('; ') + "`"
@@ -603,7 +621,7 @@ module Cosgrove
     end
     
     def effective_price(chain = :steem)
-      chain = chain.to_sym
+      chain = chain.to_s.downcase.to_sym
       current_median_history = api(chain).get_feed_history do |feed_history|
         feed_history.current_median_history
       end
@@ -614,6 +632,7 @@ module Cosgrove
       symbol = case chain
       when :steem then 'SBD'
       when :golos then 'GBG'
+      when :hive then 'HBD'
       end
       
       price = b / q

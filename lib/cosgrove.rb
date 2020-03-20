@@ -13,7 +13,7 @@ defined? Thread.report_on_exception and Thread.report_on_exception = true
 
 module Cosgrove
   PWD = Dir.pwd.freeze
-  KNOWN_CHAINS = [:steem, :test]
+  KNOWN_CHAINS = [:steem, :test, :hive]
   
   require 'cosgrove/version'
   require 'cosgrove/phantomjs'
