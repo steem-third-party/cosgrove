@@ -76,6 +76,21 @@ module Cosgrove
       
       if post.nil?
         if !!message
+          message = message.edit 'Looking for content on Hive ...'
+        end
+        
+        # Fall back to Hive RPC
+        api(:hive).get_content(author_name, permlink) do |content, errors|
+          unless content.author.empty?
+            post = content
+            created = Time.parse(content.created + 'Z')
+            cashout_time = Time.parse(content.cashout_time + 'Z')
+          end
+        end
+      end
+      
+      if post.nil?
+        if !!message
           message = message.edit 'Unable to locate.'
           sleep 5
           message.delete

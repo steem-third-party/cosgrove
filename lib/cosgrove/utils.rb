@@ -7,8 +7,8 @@ module Cosgrove
     end
     
     def reset_api
-      @steem_api = @test_api = nil
-      @steem_folow_api = @test_folow_api = nil
+      @steem_api = @hive_api = @test_api = nil
+      @steem_follow_api = @hive_follow_api = @test_follow_api = nil
       @cycle_api_at = nil
     end
     
@@ -28,6 +28,12 @@ module Cosgrove
           url: steem_api_url,
           failover_urls: steem_api_failover_urls.any? ? steem_api_failover_urls : nil
         }
+      when :hive
+        {
+          chain: :steem, # TODO switch to :hive when supported by radiator
+          url: hive_api_url,
+          failover_urls: hive_api_failover_urls.any? ? hive_api_failover_urls : nil
+        }
       when :test
         {
           chain: :test,
@@ -44,6 +50,7 @@ module Cosgrove
       
       case chain
       when :steem then @steem_api ||= Radiator::Api.new(chain_options(chain))
+      when :hive then @hive_api ||= Radiator::Api.new(chain_options(chain))
       when :test then @test_api ||= Radiator::Api.new(chain_options(chain))
       end
     end
@@ -55,6 +62,7 @@ module Cosgrove
       
       case chain
       when :steem then @steem_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
+      when :hive then @hive_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
       when :test then @test_follow_api ||= Radiator::FollowApi.new(chain_options(chain))
       end
     end
@@ -114,8 +122,8 @@ module Cosgrove
     end
     
     def reset_stream
-      @steem_stream = @test_stream = nil
-      @steem_folow_stream = @test_folow_stream = nil
+      @steem_stream = @hive_stream = @test_stream = nil
+      @steem_follow_stream = @hive_follow_stream = @test_follow_stream = nil
       @cycle_stream_at = nil
     end
     
@@ -126,6 +134,7 @@ module Cosgrove
       
       case chain
       when :steem then @steem_stream ||= Radiator::Stream.new(chain_options(chain))
+      when :hive then @hive_stream ||= Radiator::Stream.new(chain_options(chain))
       when :test then @test_stream ||= Radiator::Stream.new(chain_options(chain))
       end
     end
@@ -145,6 +154,7 @@ module Cosgrove
     def new_tx(chain)
       case chain
       when :steem then Radiator::Transaction.new(chain_options(chain).merge(wif: steem_posting_wif))
+      when :hive then Radiator::Transaction.new(chain_options(chain).merge(wif: hive_posting_wif))
       when :test then Radiator::Transaction.new(chain_options(chain).merge(wif: test_posting_wif))
       end
     end
@@ -196,9 +206,9 @@ module Cosgrove
       []
     end
     
-    def find_comment_by_slug(slug)
+    def find_comment_by_slug(slug, chain = :steem)
       author_name, permlink = parse_slug slug
-      find_comment(chain: :steem, author_name: author_name, permlink: permlink)
+      find_comment(chain: chain, author_name: author_name, permlink: permlink)
     end
     
     def find_comment(options)
@@ -305,6 +315,7 @@ module Cosgrove
     def core_asset(chain = :steem)
       case chain
       when :steem then 'STEEM'
+      when :hive then 'HIVE'
       else; 'TESTS'
       end
     end
@@ -312,6 +323,7 @@ module Cosgrove
     def debt_asset(chain = :steem)
       case chain
       when :steem then 'SBD'
+      when :hive then 'HBD'
       else; 'TBD'
       end
     end

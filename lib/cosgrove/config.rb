@@ -36,6 +36,14 @@ module Cosgrove
       [chain[:steem_api_failover_urls]].flatten.compact
     end
     
+    def hive_api_url
+      chain[:hive_api_url]
+    end
+    
+    def hive_api_failover_urls
+      [chain[:hive_api_failover_urls]].flatten.compact
+    end
+    
     def test_api_url
       chain[:test_api_url]
     end
@@ -54,6 +62,14 @@ module Cosgrove
     
     def steem_posting_wif
       chain[:steem_posting_wif]
+    end
+    
+    def hive_account
+      chain[:hive_account]
+    end
+    
+    def hive_posting_wif
+      chain[:hive_posting_wif]
     end
     
     def test_posting_wif
