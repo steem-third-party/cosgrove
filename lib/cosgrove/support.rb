@@ -4,9 +4,15 @@ module Cosgrove
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::DateHelper
     
-    def suggest_account_name(account_name)
+    def suggest_account_name(account_name, chain = :steem)
+      chain = chain.to_s.downcase.to_sym
       pattern = account_name.chars.each.map{ |c| c }.join('%')
-      guesses = SteemApi::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
+      guesses = case chain
+      when :steem then SteemApi::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
+      when :hive then HiveSQL::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
+      else
+        []
+      end
       
       if guesses.any?
         guesses.sample
@@ -57,9 +63,10 @@ module Cosgrove
       
       posts = case chain
       when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink)
+      when :hive then HiveSQL::Comment.where(author: author_name, permlink: permlink)
       end
       
-      posts.select(:ID, :created, :cashout_time, :author, :permlink, :active_votes, :children)
+      posts.select(:ID, :created, :cashout_time, :author, :permlink, :active_votes, :children, :category)
       
       post = posts.last
       
@@ -113,6 +120,11 @@ module Cosgrove
       end
       message = message.edit details.join('; ') if !!message
       
+      if !!post.category && !!post.category.starts_with?('hive-') && (communities = Cosgrove::FindCommunitiesJob.new.perform(nil, [post.category]), 1).any?
+        details << "in #{communities.first.payload['props']['title']}" rescue nil
+        message = message.edit details.join('; ') if !!message
+      end
+      
       active_votes = case post.active_votes
       when String then JSON[post.active_votes] rescue []
       else; active_votes
@@ -129,6 +141,7 @@ module Cosgrove
         if created > 1.hour.ago
           votes = case chain
           when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
+          when :hive then HiveSQL::Tx::Vote.where('timestamp > ?', post.created)
           end
           total_votes = votes.distinct("concat(author, permlink)").count
           total_voters = votes.distinct(:voter).count
@@ -153,12 +166,17 @@ module Cosgrove
     
     def find_account(key, event = nil, chain = :steem)
       key = key.to_s.downcase
-      chain = chain.to_sym
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       
-      raise "Required argument: chain" if chain.nil?
       
-      if chain == :steem
+      case chain
+      when :steem
         account = if (accounts = SteemApi::Account.where(name: key)).any?
+          accounts.first
+        end
+      when :hive
+        account = if (accounts = HiveSQL::Account.where(name: key)).any?
           accounts.first
         end
       end
@@ -172,6 +190,8 @@ module Cosgrove
       if account.nil?
         account = if !!key
           if chain == :steem && (accounts = SteemApi::Account.where(name: key)).any?
+            accounts.first
+          elsif chain == :hive && (accounts = HiveSQL::Account.where(name: key)).any?
             accounts.first
           else
             # Fall back to RPC
@@ -227,6 +247,8 @@ module Cosgrove
     end
     
     def last_irreversible_block(chain = :steem)
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       seconds_ago = (head_block_number(chain) - last_irreversible_block_num(chain)) * 3
       
       "Last Irreversible Block was #{time_ago_in_words(seconds_ago.seconds.ago)} ago."
@@ -245,7 +267,8 @@ module Cosgrove
     def muted(options = {})
       [] if options.empty?
       by = [options[:by]].flatten
-      chain = options[:chain]
+      chain = options[:chain] || :steem
+      chain = chain.to_s.downcase.to_sym
       muted = []
       
       by.each do |a|

@@ -184,17 +184,24 @@ module Cosgrove
       end
     end
     
-    def find_author_name_permlink(slug)
+    def find_author_name_permlink(slug, chain = :steem)
+      chain = chain.to_s.downcase.to_sym
       op, author_name = slug.split(':')
       author_name, offset = author_name.split(/[\+-]/)
-      author = find_account(author_name)
+      author = find_account(author_name, nil, chain)
       
       offset = offset.to_i
       
       posts = if op == 'latest'
-        SteemApi::Comment.where(depth: 0, author: author.name).order(created: :desc)
+        case chain
+        when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :desc)
+        when :hive then HiveSQL::Comment.where(depth: 0, author: author.name).order(created: :desc)
+        end
       elsif op == 'first'
-        SteemApi::Comment.where(depth: 0, author: author.name).order(created: :asc)
+        case chain
+        when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :asc)
+        when :hive then HiveSQL::Comment.where(depth: 0, author: author.name).order(created: :asc)
+        end
       else
         []
       end
@@ -207,12 +214,15 @@ module Cosgrove
     end
     
     def find_comment_by_slug(slug, chain = :steem)
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       author_name, permlink = parse_slug slug
       find_comment(chain: chain, author_name: author_name, permlink: permlink)
     end
     
     def find_comment(options)
       chain = options[:chain] || :steem
+      chain = chain.to_s.downcase.to_sym
       author_name = options[:author_name]
       permlink = options[:permlink]
       parent_permlink = options[:parent_permlink]
@@ -223,12 +233,24 @@ module Cosgrove
         posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
         
         posts.first
+      elsif chain == :hive
+        posts = HiveSQL::Comment.where(depth: 0, author: author_name)
+        posts = posts.where(permlink: permlink) if !!permlink
+        posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+        
+        posts.first
       end
       
       if post.nil?
         post = case chain
         when :steem
           posts = SteemApi::Comment.where(author: author_name)
+          posts = posts.where(permlink: permlink) if !!permlink
+          posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
+          
+          posts.first
+        when :hive
+          posts = HiveSQL::Comment.where(author: author_name)
           posts = posts.where(permlink: permlink) if !!permlink
           posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
           
@@ -249,10 +271,14 @@ module Cosgrove
     end
     
     def find_author(options)
-      chain = options[:chain]
+      chain = options[:chain] || :steem
+      chain = chain.to_s.downcase.to_sym
       author_name = options[:author_name]
       
-      author = SteemApi::Account.where(name: author_name).first
+      author = case chain
+      when :steem then SteemApi::Account.where(name: author_name).first
+      when :hive then HiveSQL::Account.where(name: author_name).first
+      end
       
       if author.nil?
         author = api(chain).get_accounts([author_name]) do |accounts, errors|
@@ -279,6 +305,19 @@ module Cosgrove
           transfers.last
         else
           SteemApi::Tx::Transfer.
+            where(from: from).
+            where(to: to).
+            where("memo LIKE ?", "%#{memo_key}%").last
+        end
+      when :hive
+        transfers = HiveSQL::Tx::Transfer.
+          where(from: from, to: steem_account).
+          where("memo LIKE ?", "%#{memo_key}%")
+      
+        if transfers.any?
+          transfers.last
+        else
+          HiveSQL::Tx::Transfer.
             where(from: from).
             where(to: to).
             where("memo LIKE ?", "%#{memo_key}%").last
@@ -313,6 +352,9 @@ module Cosgrove
     end
     
     def core_asset(chain = :steem)
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
+      
       case chain
       when :steem then 'STEEM'
       when :hive then 'HIVE'
@@ -321,6 +363,9 @@ module Cosgrove
     end
     
     def debt_asset(chain = :steem)
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
+      
       case chain
       when :steem then 'SBD'
       when :hive then 'HBD'

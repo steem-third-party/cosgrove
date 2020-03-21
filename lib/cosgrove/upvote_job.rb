@@ -8,12 +8,13 @@ module Cosgrove
       @on_success = options[:on_success]
     end
     
-    def perform(event, slug)
+    def perform(event, slug, chain = :steem)
       if slug.nil? || slug.empty?
         event.respond 'Sorry, I wasn\'t paying attention.'
         return
       end
       
+      chain = chain.to_s.downcase.to_sym
       author_name, permlink = parse_slug slug
       discord_id = event.author.id
       cb_account = Cosgrove::Account.find_by_discord_id(discord_id)
@@ -22,14 +23,17 @@ module Cosgrove
       muters << steem_account
       muted = muted by: muters, chain: :steem
       
-      post = find_comment(chain: :steem, author_name: author_name, permlink: permlink)
+      post = find_comment(chain: chain, author_name: author_name, permlink: permlink)
       
       if post.nil?
         cannot_find_input(event)
         return
       end
       
-      votes_today = SteemApi::Tx::Vote.where(voter: steem_account).today
+      votes_today = case chain
+      when :steem then SteemApi::Tx::Vote.where(voter: steem_account).today
+      when :hive then HiveSQL::Tx::Vote.where(voter: steem_account).today
+      end
       today_count = votes_today.count
       author_count = votes_today.where(author: author_name).count
       vote_ratio = if today_count == 0

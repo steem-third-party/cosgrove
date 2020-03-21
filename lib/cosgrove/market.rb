@@ -79,21 +79,44 @@ module Cosgrove
       btx_usdt_sbd = btx_usdt_btc * btx_btc_sbd
       btx_usdt_steem = btx_usdt_btc * btx_btc_steem
       
-      {usdt_steem: btx_usdt_steem, usdt_sbd: btx_usdt_sbd, btc_steem: btx_btc_steem, btc_sbd: btx_btc_sbd}
+      btx_btc_hive = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-hive").read]
+      btx_btc_hbd = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-hbd").read]
+      
+      btx_btc_hive = btx_btc_hive['result'].first['Ask'].to_f
+      btx_btc_hbd = btx_btc_hbd['result'].first['Ask'].to_f
+      
+      btx_usdt_hbd = btx_usdt_btc * btx_btc_hbd
+      btx_usdt_hive = btx_usdt_btc * btx_btc_hive
+      
+      {
+        usdt_steem: btx_usdt_steem,
+        usdt_sbd: btx_usdt_sbd,
+        btc_steem: btx_btc_steem,
+        btc_sbd: btx_btc_sbd,
+        usdt_hive: btx_usdt_hive,
+        usdt_hbd: btx_usdt_hbd,
+        btc_hive: btx_btc_hive,
+        btc_hbd: btx_btc_hbd
+      }
     end
     
     def mvests(chain = :steem, account_names = [])
+      chain = chain.to_s.downcase.to_sym
       _btx_market_data = btx_market_data
-      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
+      btx_usdt_hive, btx_usdt_hbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
       base_per_mvest, base_per_debt = price_feed(chain)
       
       if account_names.none?
-        btx_base_per_dept_as_usdt = base_per_mvest * btx_usdt_steem
+        btx_base_per_dept_as_usdt = case chain
+        when :steem then base_per_mvest * btx_usdt_steem
+        when :hive then base_per_mvest * btx_usdt_hive
+        end
         btx_base_per_dept_as_usdt = number_to_currency(btx_base_per_dept_as_usdt, precision: 3)
         
         base_per_mvest = number_with_precision(base_per_mvest, precision: 3, delimiter: ',', separator: '.')
         
-        base_per_debt = if chain == :steem
+        base_per_debt = if chain == :steem || chain == :hive
           number_to_currency(base_per_debt, precision: 3)
         else
           _btc_gld, usdt_gld_per_milli = gold_price
@@ -108,6 +131,7 @@ module Cosgrove
         when :steem then "`1 MV = 1M VESTS = #{base_per_mvest} STEEM = #{base_per_debt} = #{btx_base_per_dept_as_usdt} on Bittrex`"
         when :golos then "`1 MG = 1M GESTS = #{base_per_mvest} GOLOS = #{base_per_debt} GBG = #{base_per_debt_as_usdt}`"
         when :test then "`1 MT = 1M TESTS = #{base_per_mvest} TEST = #{base_per_debt}`"
+        when :hive then "`1 MV = 1M VESTS = #{base_per_mvest} HIVE = #{base_per_debt} = #{btx_base_per_dept_as_usdt} on Bittrex`"
         end
       end
       
@@ -210,13 +234,89 @@ module Cosgrove
         usd = number_to_currency(usd, precision: 3)
         
         "**#{account.name}:** `#{mgests} MGESTS = #{golos} GOLOS = #{gbg} GBG = #{usd}`"
+      when :hive
+        vests = 0
+        delegated_vests = 0
+        received_vests = 0
+        account = nil
+        wildcards = false
+        
+        account_names.each do |a|
+          if a =~ /.*\*$/
+            wildcards = true
+            lower_bound_name = a.split('*').first
+            api(chain).lookup_accounts(a, 1000) do |names, error|
+              if names.any?
+                account_names -= [a]
+                account_names += [lower_bound_name]
+                account_names += names.map { |name| name if name =~ /#{lower_bound_name}.*/ }.compact
+              end
+            end
+          end
+        end
+        
+        account_names = account_names.map(&:downcase).uniq
+        accounts = HiveSQL::Account.where(name: account_names)
+        account = accounts.limit(1).first
+        
+        if accounts.count == account_names.size
+          vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
+          delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
+          received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
+        elsif !wildcards
+          valid_names = accounts.distinct(:name)
+          unknown_names = account_names - valid_names
+          return unknown_account(unknown_names.first)
+        end
+        
+        if accounts.count == 1 && vests == 0.0
+          # Falling back to RPC because balance is out of date and we only want
+          # a single account.
+          api(chain).get_accounts([account.name]) do |accounts|
+            account = accounts.first
+            vests = account.vesting_shares.split(' ').first.to_f
+            delegated_vests = account.delegated_vesting_shares.split(' ').first.to_f
+            received_vests = account.received_vesting_shares.split(' ').first.to_f
+          end
+        end
+        
+        mvests = vests / 1000000
+        delegated_vests = (received_vests - delegated_vests) / 1000000
+        hive = base_per_mvest * mvests
+        hbd = base_per_debt * mvests
+        btx_hbd = base_per_mvest * mvests * btx_usdt_hive
+        
+        mvests = number_with_precision(mvests, precision: 3, delimiter: ',', separator: '.')
+        delegated_sign = delegated_vests >= 0.0 ? '+' : '-'
+        delegated_vests = number_with_precision(delegated_vests.abs, precision: 3, delimiter: ',', separator: '.')
+        hive = number_with_precision(hive, precision: 3, delimiter: ',', separator: '.')
+        hbd = number_to_currency(hbd, precision: 3)
+        btx_hbd = number_to_currency(btx_hbd, precision: 3)
+        
+        if accounts.size == 1
+          balance = ["#{mvests} MVESTS = #{hive} HIVE = #{hbd} = #{btx_hbd} on Bittrex"]
+          unless delegated_vests == '0.000'
+            balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
+          end
+          
+          "**#{account.name}:** `#{balance.join(' ')}`"
+        else
+          balance = ["#{mvests} MVESTS = #{hive} HIVE = #{hbd} = #{btx_hbd} on Bittrex"]
+          unless delegated_vests == '0.000'
+            balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
+          end
+          
+          "**#{pluralize(accounts.count, 'account')}:** `#{balance.join(' ')}`"
+        end
       when :test then "Query not supported.  No database for Testnet."
       end
     end
     
     def rewardpool(chain = :steem)
+      chain = chain.to_s.downcase.to_sym
       _btx_market_data = btx_market_data
       btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
+      btx_usdt_hive, btx_usdt_hbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
       base_per_mvest, base_per_debt = price_feed(chain)
       
       case chain
@@ -248,10 +348,24 @@ module Cosgrove
         "Total Reward Fund: `#{total} GOLOS (Worth: #{total_gbg} GBG internally; #{btx_total_usd} on Bittrex)`"
       when :test
         "Total Reward Fund: `#{('%.3f' % total)} TEST (Worth: #{('%.3f' % total_usd)} TBD internally)`"
+      when :hive
+        total = api(chain).get_reward_fund('post') do |reward_fund|
+          reward_fund.reward_balance.split(' ').first.to_f
+        end
+        
+        total_usd = (total / base_per_mvest) * base_per_debt
+        btx_total_usd = total * btx_usdt_hive
+        
+        total = number_with_precision(total, precision: 0, delimiter: ',', separator: '.')
+        total_usd = number_to_currency(total_usd, precision: 0)
+        btx_total_usd = number_to_currency(btx_total_usd, precision: 0)
+        
+        "Total Reward Fund: `#{total} HIVE (Worth: #{total_usd} internally; #{btx_total_usd} on Bittrex)`"
       end
     end
     
     def render_ticker(message, event, ticker = {}, chain = :steem)
+      chain = chain.to_s.downcase.to_sym
       return if ticker.size < 1
       
       event.channel.start_typing if !!event
@@ -402,10 +516,43 @@ module Cosgrove
           end
         end
       when :hive
+        key_ionomy    =    'ionomy.com       '
+        key_bittrex =      'bittrex.com      '
         key_coingecko =    'coingecko.com    '
         ticker = {
+          key_ionomy => nil,
+          key_bittrex => nil,
           key_coingecko => nil,
         }
+        
+        threads << Thread.new do
+          begin
+            _btx_market_data = btx_market_data
+            btx_usdt_hive, btx_usdt_hbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
+            btx_btc_hive, btx_btx_hbd = _btx_market_data[:btc_hive], _btx_market_data[:btc_hbd]
+
+            btx_usdt_hive = number_to_currency(btx_usdt_hive, precision: 4).rjust(10)
+            btx_usdt_hbd = number_to_currency(btx_usdt_hbd, precision: 4).rjust(10)
+            btx_btc_hive = number_to_currency(btx_btc_hive, precision: 8, unit: '').rjust(10)
+            btx_btx_hbd = number_to_currency(btx_btx_hbd, precision: 8, unit: '').rjust(10)
+
+            ticker[key_bittrex] = "#{btx_usdt_hive} |  #{btx_usdt_hbd} | #{btx_btc_hive} |  #{btx_btx_hbd}"
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            ionomy_market = JSON[open('https://ionomy.com/api/v1/public/markets-summaries').read].fetch('data')
+            in_btc_hive = ionomy_market.find{|m| m.fetch('market') == 'btc-hive'}.fetch('price').to_f
+            in_btc_hive = number_to_currency(in_btc_hive, precision: 8, unit: '').rjust(10)
+            
+            ticker[key_ionomy] = "           |             | #{in_btc_hive} |            "
+          rescue => e
+            puts e
+          end
+        end
         
         threads << Thread.new do
           begin
@@ -454,9 +601,14 @@ module Cosgrove
     end
     
     def promoted(chain = :steem, period = :today)
-      return "Query not supported.  No database for #{chain.to_s.capitalize}." unless chain == :steem
+      chain = chain.to_s.downcase.to_sym
       
-      promoted = SteemApi::Tx::Transfer.where(to: 'null', amount_symbol: 'SBD').send(period)
+      promoted = case chain
+      when :steem then SteemApi::Tx::Transfer.where(to: 'null', amount_symbol: 'SBD').send(period)
+      when :hive then HiveSQL::Tx::Transfer.where(to: 'null', amount_symbol: 'HBD').send(period)
+      else
+        return "Query not supported.  No database for #{chain.to_s.capitalize}."
+      end
       count_promoted = promoted.count
       sum_promoted = promoted.sum(:amount)
       
@@ -474,7 +626,9 @@ module Cosgrove
       "#{pluralize(count_promoted, 'post')} promoted #{period} totalling #{sum_promoted} (#{ratio} the size of reward pool)."
     end
     
-    def supply(chain)
+    def supply(chain = :steem)
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       base_per_mvest, base_per_debt = price_feed(chain)
       properties = api(chain).get_dynamic_global_properties do |_properties, error|
         _properties
@@ -567,16 +721,19 @@ module Cosgrove
     
     def mvests_sum(options = {})
       chain = options[:chain] || :steem
+      chain = chain.to_s.downcase.to_sym
       account_names = options[:account_names]
       case chain
       when :steem then SteemApi::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
       when :golos then "Query not supported.  No database for Golos."
       when :test then "Query not supported.  No database for Testnet."
+      when :hive then HiveSQL::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
       end
     end
     
     def debt_exchange_rate(chain = :steem, limit = 19)
-      chain = chain.to_sym
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
         witnesses.map(&:sbd_exchange_rate)
       end
@@ -584,6 +741,7 @@ module Cosgrove
       symbol = case chain
       when :steem then 'SBD'
       when :golos then 'GBG'
+      when :hive then 'HBD'
       end
       
       ratio = rates.map do |r|
@@ -600,7 +758,8 @@ module Cosgrove
     end
     
     def apr(chain = :steem, limit = 20)
-      chain = chain.to_sym
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
         witnesses.map(&:props).map { |p| p['sbd_interest_rate'] }
       end
@@ -611,7 +770,8 @@ module Cosgrove
     end
     
     def effective_apr(chain = :steem)
-      chain = chain.to_sym
+      chain ||= :steem
+      chain = chain.to_s.downcase.to_sym
       rate = api(chain).get_dynamic_global_properties do |properties|
         properties.sbd_interest_rate
       end
@@ -621,6 +781,7 @@ module Cosgrove
     end
     
     def effective_price(chain = :steem)
+      chain ||= :steem
       chain = chain.to_s.downcase.to_sym
       current_median_history = api(chain).get_feed_history do |feed_history|
         feed_history.current_median_history
