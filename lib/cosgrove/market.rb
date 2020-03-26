@@ -518,10 +518,12 @@ module Cosgrove
       when :hive
         key_ionomy    =    'ionomy.com       '
         key_bittrex =      'bittrex.com      '
+        key_probit    =    'probit.com       '
         key_coingecko =    'coingecko.com    '
         ticker = {
           key_ionomy => nil,
           key_bittrex => nil,
+          key_probit => nil,
           key_coingecko => nil,
         }
         
@@ -556,8 +558,20 @@ module Cosgrove
         
         threads << Thread.new do
           begin
+            probit_market = JSON[open('https://api.probit.com/api/exchange/v1/ticker?market_ids=HIVE-USDT').read].fetch('data')
+            pb_usd_hive = probit_market.find{|m| m.fetch('market_id') == 'HIVE-USDT'}.fetch('last').to_f
+            pb_usd_hive = number_to_currency(pb_usd_hive, precision: 4).rjust(10)
+            
+            ticker[key_probit] = "#{pb_usd_hive} |             |            |            "
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
             cg_hive = JSON[open('https://api.coingecko.com/api/v3/coins/hive').read] rescue {}
-            cg_hbd = JSON[open('https://api.coingecko.com/api/v3/coins/hive-dollars').read] rescue {}
+            cg_hbd = JSON[open('https://api.coingecko.com/api/v3/coins/hive_dollar').read] rescue {}
             cg_usd_hive = cg_hive.fetch('market_data').fetch('current_price').fetch('usd').to_f rescue -1
             cg_btc_hive = cg_hive.fetch('market_data').fetch('current_price').fetch('btc').to_f rescue -1
             cg_usd_hbd = cg_hbd.fetch('market_data').fetch('current_price').fetch('usd').to_f rescue -1
