@@ -1,6 +1,7 @@
 module Cosgrove
   module Market
     include Support
+    include Utils
     include ActionView::Helpers::NumberHelper
     
     def base_per_mvest(chain = :steem)
@@ -409,13 +410,15 @@ module Cosgrove
         key_postpromoter = 'postpromoter.net '
         key_coingecko =    'coingecko.com    '
         key_poloniex =     'poloniex.com     '
+        key_steem_engine = 'steem-engine.com '
         ticker = {
           key_bittrex => nil,
           key_binance => nil,
           key_upbit => nil,
           key_postpromoter => nil,
           key_coingecko => nil,
-          key_poloniex => nil
+          key_poloniex => nil,
+          key_steem_engine => nil
         }
         
         threads << Thread.new do
@@ -515,16 +518,44 @@ module Cosgrove
             puts e
           end
         end
+        
+        threads << Thread.new do
+          begin
+            # btc_history_data = steem_engine_contracts(:find, {
+            #   contract: 'market',
+            #   table: 'tradesHistory',
+            #   query: {
+            #     symbol: 'BTCP'
+            #   },
+            #   limit: 1,
+            #   offset: 0,
+            #   indexes: [{index: '_id', descending: true}]
+            # })
+            
+            se_prices = JSON[open('https://postpromoter.net/api/prices').read]
+            se_usd_steem = se_prices['steem_price']
+            # se_steem_usd = btc_history_data[0]['price'].to_f * se_usd_steem
+            # se_btc_steem = se_usd_steem / se_steem_usd
+            se_usd_steem = number_to_currency(se_usd_steem, precision: 4).rjust(11)
+            # se_btc_steem = number_to_currency(se_btc_steem, precision: 8, unit: '').rjust(11)
+            
+            ticker[key_steem_engine] = "#{se_usd_steem} |             |             |            "
+          rescue => e
+            puts e
+          end
+        end
       when :hive
         key_ionomy    =    'ionomy.com       '
         key_bittrex =      'bittrex.com      '
         key_probit    =    'probit.com       '
         key_coingecko =    'coingecko.com    '
+        key_steem_engine = 'steem-engine.com '
         ticker = {
           key_ionomy => nil,
           key_bittrex => nil,
           key_probit => nil,
           key_coingecko => nil,
+          key_steem_engine => nil
         }
         
         threads << Thread.new do
@@ -602,6 +633,44 @@ module Cosgrove
             end.rjust(10)
             
             ticker[key_coingecko] = "#{cg_usd_hive} |  #{cg_usd_hbd} | #{cg_btc_hive} |  #{cg_btc_hbd}"
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            hive_history_data = steem_engine_contracts(:find, {
+              contract: 'market',
+              table: 'tradesHistory',
+              query: {
+                symbol: 'HIVEP'
+              },
+              limit: 1,
+              offset: 0,
+              indexes: [{index: '_id', descending: true}]
+            })
+            
+            # btc_history_data = steem_engine_contracts(:find, {
+            #   contract: 'market',
+            #   table: 'tradesHistory',
+            #   query: {
+            #     symbol: 'BTCP'
+            #   },
+            #   limit: 1,
+            #   offset: 0,
+            #   indexes: [{index: '_id', descending: true}]
+            # })
+            
+            se_prices = JSON[open('https://postpromoter.net/api/prices').read]
+            se_usd_steem = se_prices['steem_price']
+            se_usd_hive = hive_history_data[0]['price'].to_f * se_usd_steem
+            # se_hive_usd = btc_history_data[0]['price'].to_f * se_usd_hive
+            # se_btc_hive = se_usd_hive / se_hive_usd
+            se_usd_hive = number_to_currency(se_usd_hive, precision: 4).rjust(10)
+            # se_btc_hive = number_to_currency(se_btc_hive, precision: 8, unit: '').rjust(10)
+            
+            ticker[key_steem_engine] = "#{se_usd_hive} |             |            |            "
           rescue => e
             puts e
           end
