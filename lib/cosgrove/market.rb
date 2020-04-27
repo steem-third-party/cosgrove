@@ -547,13 +547,17 @@ module Cosgrove
       when :hive
         key_ionomy    =    'ionomy.com       '
         key_bittrex =      'bittrex.com      '
+        key_binance =      'binance.com      '
         key_probit    =    'probit.com       '
+        key_blocktrades =  'blocktrades.us   '
         key_coingecko =    'coingecko.com    '
         key_steem_engine = 'steem-engine.com '
         ticker = {
           key_ionomy => nil,
           key_bittrex => nil,
+          key_binance => nil,
           key_probit => nil,
+          key_blocktrades => nil,
           key_coingecko => nil,
           key_steem_engine => nil
         }
@@ -570,6 +574,19 @@ module Cosgrove
             btx_btx_hbd = number_to_currency(btx_btx_hbd, precision: 8, unit: '').rjust(10)
 
             ticker[key_bittrex] = "#{btx_usdt_hive} |  #{btx_usdt_hbd} | #{btx_btc_hive} |  #{btx_btx_hbd}"
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            bin_hive_usdt = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=HIVEUSDT').read].fetch('price').to_f
+            bin_hive_btc = JSON[open('https://api.binance.com/api/v1/ticker/price?symbol=HIVEBTC').read].fetch('price').to_f
+            bin_hive_usdt = number_to_currency(bin_hive_usdt, precision: 4).rjust(10)
+            bin_hive_btc = number_to_currency(bin_hive_btc, precision: 8, unit: '').rjust(10)
+            
+            ticker[key_binance] = "#{bin_hive_usdt} |             | #{bin_hive_btc} |            "
           rescue => e
             puts e
           end
@@ -594,6 +611,32 @@ module Cosgrove
             pb_usd_hive = number_to_currency(pb_usd_hive, precision: 4).rjust(10)
             
             ticker[key_probit] = "#{pb_usd_hive} |             |            |            "
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            # See: https://cryptofresh.com/a/TRADE.HIVE
+            hive_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read]
+            # See: https://cryptofresh.com/a/TRADE.HBD
+            hbd_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read]
+            btr_usd_hive = hive_market.fetch('TRADE.USDT', {}).fetch('price', '')
+            btr_usd_hbd = hbd_market.fetch('TRADE.USDT', {}).fetch('price', '')
+            btr_btc_hive = hive_market.fetch('TRADE.BTC', {}).fetch('price', '')
+            btr_btc_hbd = hbd_market.fetch('TRADE.BTC', {}).fetch('price', '')
+            
+            btr_usd_hive = number_to_currency(btr_usd_hive, precision: 4).rjust(10)
+            btr_usd_hbd = number_to_currency(btr_usd_hbd, precision: 4).rjust(10)
+            btr_btc_hive = number_to_currency(btr_btc_hive, precision: 8, unit: '').rjust(10)
+            btr_btc_hbd = number_to_currency(btr_btc_hbd, precision: 8, unit: '').rjust(10)
+            
+            if btr_usd_hive =~ /[0-9]+/ || btr_usd_hbd =~ /[0-9]+/ || btr_btc_hive =~ /[0-9]+/ || btr_btc_hbd =~ /[0-9]+/
+              ticker[key_blocktrades] = "#{btr_usd_hive} |  #{btr_usd_hbd} | #{btr_btc_hive} |  #{btr_btc_hbd}"
+            else
+              ticker.delete(key_blocktrades)
+            end
           rescue => e
             puts e
           end
