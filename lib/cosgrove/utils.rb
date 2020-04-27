@@ -117,6 +117,56 @@ module Cosgrove
       return result
     end
     
+    def hive_engine_shutdown
+      problem = false
+      
+      begin
+        @hive_engine_blockchain.shutdown if !!@hive_engine_blockchain
+      rescue => e
+        puts "Unable to shut down hive engine blockchain rpc: #{e}"
+        problem = true
+      end
+      
+      begin
+        @hive_engine_contracts.shutdown if !!@hive_engine_contracts
+      rescue => e
+        puts "Unable to shut down hive engine contracts rpc: #{e}"
+        problem = true
+      end
+      
+      !problem
+    end
+    
+    def hive_engine(method, params = {}, rpc)
+      begin
+        if params.respond_to?(:empty?) && params.empty?
+          rpc.send(method)
+        else
+          rpc.send(method, params)
+        end
+      rescue => e
+        hive_engine_shutdown
+        
+        raise e
+      end
+    end
+    
+    def hive_engine_blockchain(method, params = {}, &block)
+      @hive_engine_blockchain ||= Radiator::SSC::Blockchain.new(root_url: hive_engine_api_url)
+      result = hive_engine(method, params, @hive_engine_blockchain)
+      
+      yield result if !!block
+      return result
+    end
+    
+    def hive_engine_contracts(method, params = {}, &block)
+      @hive_engine_contracts ||= Radiator::SSC::Contracts.new(root_url: hive_engine_api_url)
+      result = hive_engine(method, params, @hive_engine_contracts)
+      
+      yield result if !!block
+      return result
+    end
+    
     def cycle_stream_at
       @cycle_stream_at if defined? @cycle_stream_at
     end

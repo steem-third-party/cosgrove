@@ -56,6 +56,10 @@ module Cosgrove
       (chain[:steem_engine_api_url] rescue nil) || 'https://api.steem-engine.com/rpc'
     end
     
+    def hive_engine_api_url
+      (chain[:hive_engine_api_url] rescue nil) || 'https://api.hive-engine.com/rpc'
+    end
+    
     def steem_account
       chain[:steem_account]
     end
