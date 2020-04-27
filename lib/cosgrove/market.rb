@@ -406,6 +406,7 @@ module Cosgrove
       when :steem
         key_bittrex =      'bittrex.com      '
         key_binance =      'binance.com      '
+        key_huobi =        'huobi.pro        '
         key_upbit =        'upbit.com        '
         key_postpromoter = 'postpromoter.net '
         key_coingecko =    'coingecko.com    '
@@ -414,6 +415,7 @@ module Cosgrove
         ticker = {
           key_bittrex => nil,
           key_binance => nil,
+          key_huobi => nil,
           key_upbit => nil,
           key_postpromoter => nil,
           key_coingecko => nil,
@@ -447,6 +449,19 @@ module Cosgrove
             bin_steem_btc = number_to_currency(bin_steem_btc, precision: 8, unit: '').rjust(11)
             
             ticker[key_binance] = "#{bin_usdt_steem} |             | #{bin_steem_btc} |            "
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            hub_steem_usdt = JSON[open('https://api.huobi.pro/market/detail/merged?symbol=steemusdt').read].fetch('tick').fetch('close').to_f
+            hub_steem_btc = JSON[open('https://api.huobi.pro/market/detail/merged?symbol=steembtc').read].fetch('tick').fetch('close').to_f
+            hub_steem_usdt = number_to_currency(hub_steem_usdt, precision: 4).rjust(11)
+            hub_steem_btc = number_to_currency(hub_steem_btc, precision: 8, unit: '').rjust(11)
+            
+            ticker[key_huobi] = "#{hub_steem_usdt} |             | #{hub_steem_btc} |            "
           rescue => e
             puts e
           end
@@ -548,6 +563,7 @@ module Cosgrove
         key_ionomy    =    'ionomy.com       '
         key_bittrex =      'bittrex.com      '
         key_binance =      'binance.com      '
+        key_huobi =        'huobi.pro        '
         key_probit    =    'probit.com       '
         key_blocktrades =  'blocktrades.us   '
         key_coingecko =    'coingecko.com    '
@@ -556,6 +572,7 @@ module Cosgrove
           key_ionomy => nil,
           key_bittrex => nil,
           key_binance => nil,
+          key_huobi => nil,
           key_probit => nil,
           key_blocktrades => nil,
           key_coingecko => nil,
@@ -587,6 +604,19 @@ module Cosgrove
             bin_hive_btc = number_to_currency(bin_hive_btc, precision: 8, unit: '').rjust(10)
             
             ticker[key_binance] = "#{bin_hive_usdt} |             | #{bin_hive_btc} |            "
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            hub_hive_usdt = JSON[open('https://api.huobi.pro/market/detail/merged?symbol=hiveusdt').read].fetch('tick').fetch('close').to_f
+            hub_hive_btc = JSON[open('https://api.huobi.pro/market/detail/merged?symbol=hivebtc').read].fetch('tick').fetch('close').to_f
+            hub_hive_usdt = number_to_currency(hub_hive_usdt, precision: 4).rjust(10)
+            hub_hive_btc = number_to_currency(hub_hive_btc, precision: 8, unit: '').rjust(10)
+            
+            ticker[key_huobi] = "#{hub_hive_usdt} |             | #{hub_hive_btc} |            "
           rescue => e
             puts e
           end
