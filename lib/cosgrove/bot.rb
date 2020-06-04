@@ -41,7 +41,7 @@ module Cosgrove
         help << "`$slap [target]` - does a slap on the `target`"
         help << "`$verify <account> [chain]` - check `account` association with Discord users (`chain` default `steem`)"
         help << "`$register <account> [chain]` - associate `account` with your Discord user (`chain` default `steem`)"
-        help << "`$upvote [url]` - upvote from #{steem_account}; empty or `^` to upvote last steemit link"
+        help << "`$upvote [url]` - upvote from #{hive_account}; empty or `^` to upvote last steemit link"
         help.join("\n")
       end
       
@@ -49,12 +49,12 @@ module Cosgrove
         "cosgrove: #{Cosgrove::VERSION} :: https://github.com/steem-third-party/cosgrove"
       end
       
-      self.command :verify do |event, key, chain = :steem|
+      self.command :verify do |event, key, chain = :hive|
         return if event.channel.pm? && !cosgrove_allow_pm_commands
         cb_account = nil
         
         if key.nil?
-          event.respond "To create an account: https://steemit.com/enter_email?r=#{steem_account}"
+          event.respond "To create an account: https://hive.blog/enter_email?r=#{hive_account}"
           return
         end
         
@@ -86,7 +86,7 @@ module Cosgrove
         end
       end
       
-      self.command :register do |event, account_name, chain = :steem|
+      self.command :register do |event, account_name, chain = :hive|
         return if event.channel.pm? && !cosgrove_allow_pm_commands
         
         discord_id = event.author.id
@@ -111,7 +111,7 @@ module Cosgrove
         end
         
         memo_key = cb_account.memo_key(discord_id)
-        op = find_transfer(chain: chain, account: steem_account, from: account.name, to: steem_account, memo_key: memo_key)
+        op = find_transfer(chain: chain, account: hive_account, from: account.name, to: hive_account, memo_key: memo_key)
           
         if !!op
           cb_account.add_discord_id(discord_id)
@@ -127,7 +127,7 @@ module Cosgrove
           
           "Ok.  #{chain.to_s.upcase} account #{account.name} has been registered with <@#{discord_id}>."
         else
-          "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{core_asset}` or `0.001 #{debt_asset}` to `#{steem_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
+          "To register `#{account.name}` with <@#{discord_id}>, send `0.001 #{core_asset}` or `0.001 #{debt_asset}` to `#{hive_account}` with memo: `#{memo_key}`\n\nThen type `$register #{account.name}` again."
         end
       end
       

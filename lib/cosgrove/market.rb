@@ -4,7 +4,7 @@ module Cosgrove
     include Utils
     include ActionView::Helpers::NumberHelper
     
-    def base_per_mvest(chain = :steem)
+    def base_per_mvest(chain = :hive)
       api(chain).get_dynamic_global_properties do |properties|
         total_vesting_fund_steem = properties.total_vesting_fund_steem.to_f
         total_vesting_shares_mvest = properties.total_vesting_shares.to_f / 1e6
@@ -13,7 +13,7 @@ module Cosgrove
       end
     end
     
-    def price_feed(chain = :steem)
+    def price_feed(chain = :hive)
       api(chain).get_feed_history do |feed_history|
         current_median_history = feed_history.current_median_history
         base = current_median_history.base
@@ -69,25 +69,26 @@ module Cosgrove
     def btx_market_data
       btx_usdt_btc = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=usdt-btc").read]
       
-      btx_usdt_btc = btx_usdt_btc['result'].first['Ask'].to_f
+      btx_usdt_btc = btx_usdt_btc['result'].first['Last'].to_f
       
       btx_btc_steem = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-steem").read]
       btx_btc_sbd = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-sbd").read]
       
-      btx_btc_steem = btx_btc_steem['result'].first['Ask'].to_f
-      btx_btc_sbd = btx_btc_sbd['result'].first['Ask'].to_f
+      btx_btc_steem = btx_btc_steem['result'].first['Last'].to_f
+      btx_btc_sbd = btx_btc_sbd['result'].first['Last'].to_f
       
       btx_usdt_sbd = btx_usdt_btc * btx_btc_sbd
       btx_usdt_steem = btx_usdt_btc * btx_btc_steem
       
       btx_btc_hive = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-hive").read]
+      btx_usdt_hive = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=usdt-hive").read]
       btx_btc_hbd = JSON[open("https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-hbd").read]
       
-      btx_btc_hive = btx_btc_hive['result'].first['Ask'].to_f
-      btx_btc_hbd = btx_btc_hbd['result'].first['Ask'].to_f
+      btx_btc_hive = btx_btc_hive['result'].first['Last'].to_f
+      btx_usdt_hive = btx_usdt_hive['result'].first['Last'].to_f
+      btx_btc_hbd = btx_btc_hbd['result'].first['Last'].to_f
       
       btx_usdt_hbd = btx_usdt_btc * btx_btc_hbd
-      btx_usdt_hive = btx_usdt_btc * btx_btc_hive
       
       {
         usdt_steem: btx_usdt_steem,
@@ -101,7 +102,7 @@ module Cosgrove
       }
     end
     
-    def mvests(chain = :steem, account_names = [])
+    def mvests(chain = :hive, account_names = [])
       chain = chain.to_s.downcase.to_sym
       _btx_market_data = btx_market_data
       btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
@@ -162,58 +163,58 @@ module Cosgrove
         end
         
         account_names = account_names.map(&:downcase).uniq
-        accounts = SteemApi::Account.where(name: account_names)
-        account = accounts.limit(1).first
+        # accounts = SteemApi::Account.where(name: account_names)
+        # account = accounts.limit(1).first
         
-        if accounts.count == account_names.size
-          vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
-          delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
-          received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
-        elsif !wildcards
-          valid_names = accounts.distinct(:name)
-          unknown_names = account_names - valid_names
-          return unknown_account(unknown_names.first)
-        end
+        # if accounts.count == account_names.size
+        #   vests = accounts.pluck(:vesting_shares).map(&:to_f).sum
+        #   delegated_vests = accounts.pluck(:delegated_vesting_shares).map(&:to_f).sum
+        #   received_vests = accounts.pluck(:received_vesting_shares).map(&:to_f).sum
+        # elsif !wildcards
+        #   valid_names = accounts.distinct(:name)
+        #   unknown_names = account_names - valid_names
+        #   return unknown_account(unknown_names.first)
+        # end
         
-        if accounts.count == 1 && vests == 0.0
-          # Falling back to RPC because balance is out of date and we only want
-          # a single account.
-          api(:steem).get_accounts([account.name]) do |accounts|
-            account = accounts.first
-            vests = account.vesting_shares.split(' ').first.to_f
-            delegated_vests = account.delegated_vesting_shares.split(' ').first.to_f
-            received_vests = account.received_vesting_shares.split(' ').first.to_f
-          end
-        end
+        # if accounts.count == 1 && vests == 0.0
+        #   # Falling back to RPC because balance is out of date and we only want
+        #   # a single account.
+        #   api(:steem).get_accounts([account.name]) do |accounts|
+        #     account = accounts.first
+        #     vests = account.vesting_shares.split(' ').first.to_f
+        #     delegated_vests = account.delegated_vesting_shares.split(' ').first.to_f
+        #     received_vests = account.received_vesting_shares.split(' ').first.to_f
+        #   end
+        # end
         
-        mvests = vests / 1000000
-        delegated_vests = (received_vests - delegated_vests) / 1000000
-        steem = base_per_mvest * mvests
-        sbd = base_per_debt * mvests
-        btx_sbd = base_per_mvest * mvests * btx_usdt_steem
-        
-        mvests = number_with_precision(mvests, precision: 3, delimiter: ',', separator: '.')
-        delegated_sign = delegated_vests >= 0.0 ? '+' : '-'
-        delegated_vests = number_with_precision(delegated_vests.abs, precision: 3, delimiter: ',', separator: '.')
-        steem = number_with_precision(steem, precision: 3, delimiter: ',', separator: '.')
-        sbd = number_to_currency(sbd, precision: 3)
-        btx_sbd = number_to_currency(btx_sbd, precision: 3)
-        
-        if accounts.size == 1
-          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
-          unless delegated_vests == '0.000'
-            balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
-          end
-          
-          "**#{account.name}:** `#{balance.join(' ')}`"
-        else
-          balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
-          unless delegated_vests == '0.000'
-            balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
-          end
-          
-          "**#{pluralize(accounts.count, 'account')}:** `#{balance.join(' ')}`"
-        end
+        # mvests = vests / 1000000
+        # delegated_vests = (received_vests - delegated_vests) / 1000000
+        # steem = base_per_mvest * mvests
+        # sbd = base_per_debt * mvests
+        # btx_sbd = base_per_mvest * mvests * btx_usdt_steem
+        # 
+        # mvests = number_with_precision(mvests, precision: 3, delimiter: ',', separator: '.')
+        # delegated_sign = delegated_vests >= 0.0 ? '+' : '-'
+        # delegated_vests = number_with_precision(delegated_vests.abs, precision: 3, delimiter: ',', separator: '.')
+        # steem = number_with_precision(steem, precision: 3, delimiter: ',', separator: '.')
+        # sbd = number_to_currency(sbd, precision: 3)
+        # btx_sbd = number_to_currency(btx_sbd, precision: 3)
+        # 
+        # if accounts.size == 1
+        #   balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
+        #   unless delegated_vests == '0.000'
+        #     balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
+        #   end
+        # 
+        #   "**#{account.name}:** `#{balance.join(' ')}`"
+        # else
+        #   balance = ["#{mvests} MVESTS = #{steem} STEEM = #{sbd} = #{btx_sbd} on Bittrex"]
+        #   unless delegated_vests == '0.000'
+        #     balance << "(#{delegated_sign}#{delegated_vests} MVESTS delegated)"
+        #   end
+        # 
+        #   "**#{pluralize(accounts.count, 'account')}:** `#{balance.join(' ')}`"
+        # end
       when :golos
         account = nil
         gests = nil
@@ -313,7 +314,7 @@ module Cosgrove
       end
     end
     
-    def rewardpool(chain = :steem)
+    def rewardpool(chain = :hive)
       chain = chain.to_s.downcase.to_sym
       _btx_market_data = btx_market_data
       btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
@@ -365,7 +366,7 @@ module Cosgrove
       end
     end
     
-    def render_ticker(message, event, ticker = {}, chain = :steem)
+    def render_ticker(message, event, ticker = {}, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       return if ticker.size < 1
       
@@ -397,7 +398,7 @@ module Cosgrove
       message || ticker_text
     end
     
-    def ticker(event = nil, chain = :steem)
+    def ticker(event = nil, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       message = nil
       threads = []
@@ -756,11 +757,11 @@ module Cosgrove
       render_ticker(message, event, ticker, chain)
     end
     
-    def promoted(chain = :steem, period = :today)
+    def promoted(chain = :hive, period = :today)
       chain = chain.to_s.downcase.to_sym
       
       promoted = case chain
-      when :steem then SteemApi::Tx::Transfer.where(to: 'null', amount_symbol: 'SBD').send(period)
+      # when :steem then SteemApi::Tx::Transfer.where(to: 'null', amount_symbol: 'SBD').send(period)
       when :hive then HiveSQL::Tx::Transfer.where(to: 'null', amount_symbol: 'HBD').send(period)
       else
         return "Query not supported.  No database for #{chain.to_s.capitalize}."
@@ -782,8 +783,8 @@ module Cosgrove
       "#{pluralize(count_promoted, 'post')} promoted #{period} totalling #{sum_promoted} (#{ratio} the size of reward pool)."
     end
     
-    def supply(chain = :steem)
-      chain ||= :steem
+    def supply(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       base_per_mvest, base_per_debt = price_feed(chain)
       properties = api(chain).get_dynamic_global_properties do |_properties, error|
@@ -876,19 +877,19 @@ module Cosgrove
     end
     
     def mvests_sum(options = {})
-      chain = options[:chain] || :steem
+      chain = options[:chain] || :hive
       chain = chain.to_s.downcase.to_sym
       account_names = options[:account_names]
       case chain
-      when :steem then SteemApi::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
+      # when :steem then SteemApi::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
       when :golos then "Query not supported.  No database for Golos."
       when :test then "Query not supported.  No database for Testnet."
       when :hive then HiveSQL::Account.where(name: account_names).sum("TRY_PARSE(REPLACE(vesting_shares, ' VESTS', '') AS float)")
       end
     end
     
-    def debt_exchange_rate(chain = :steem, limit = 19)
-      chain ||= :steem
+    def debt_exchange_rate(chain = :hive, limit = 19)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
         witnesses.map(&:sbd_exchange_rate)
@@ -913,8 +914,8 @@ module Cosgrove
       "#{price} #{symbol}"
     end
     
-    def apr(chain = :steem, limit = 20)
-      chain ||= :steem
+    def apr(chain = :hive, limit = 20)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       rates = api(chain).get_witnesses_by_vote('', limit) do |witnesses|
         witnesses.map(&:props).map { |p| p['sbd_interest_rate'] }
@@ -925,8 +926,8 @@ module Cosgrove
       number_to_percentage(rate, precision: 3)
     end
     
-    def effective_apr(chain = :steem)
-      chain ||= :steem
+    def effective_apr(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       rate = api(chain).get_dynamic_global_properties do |properties|
         properties.sbd_interest_rate
@@ -936,8 +937,8 @@ module Cosgrove
       number_to_percentage(rate, precision: 3)
     end
     
-    def effective_price(chain = :steem)
-      chain ||= :steem
+    def effective_price(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       current_median_history = api(chain).get_feed_history do |feed_history|
         feed_history.current_median_history

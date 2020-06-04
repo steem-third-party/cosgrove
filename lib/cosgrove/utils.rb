@@ -197,7 +197,7 @@ module Cosgrove
       properties(chain)['head_block_number']
     end
     
-    def last_irreversible_block_num(chain = :steem)
+    def last_irreversible_block_num(chain = :hive)
       properties(chain)['last_irreversible_block_num']
     end
     
@@ -234,7 +234,7 @@ module Cosgrove
       end
     end
     
-    def find_author_name_permlink(slug, chain = :steem)
+    def find_author_name_permlink(slug, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       op, author_name = slug.split(':')
       author_name, offset = author_name.split(/[\+-]/)
@@ -244,12 +244,12 @@ module Cosgrove
       
       posts = if op == 'latest'
         case chain
-        when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :desc)
+        # when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :desc)
         when :hive then HiveSQL::Comment.where(depth: 0, author: author.name).order(created: :desc)
         end
       elsif op == 'first'
         case chain
-        when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :asc)
+        # when :steem then SteemApi::Comment.where(depth: 0, author: author.name).order(created: :asc)
         when :hive then HiveSQL::Comment.where(depth: 0, author: author.name).order(created: :asc)
         end
       else
@@ -263,8 +263,8 @@ module Cosgrove
       []
     end
     
-    def find_comment_by_slug(slug, chain = :steem)
-      chain ||= :steem
+    def find_comment_by_slug(slug, chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       author_name, permlink = parse_slug slug
       find_comment(chain: chain, author_name: author_name, permlink: permlink)
@@ -277,8 +277,8 @@ module Cosgrove
       permlink = options[:permlink]
       parent_permlink = options[:parent_permlink]
       
-      post = if chain == :steem
-        posts = SteemApi::Comment.where(depth: 0, author: author_name)
+      post = if chain == :hive
+        # posts = SteemApi::Comment.where(depth: 0, author: author_name)
         posts = posts.where(permlink: permlink) if !!permlink
         posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
         
@@ -294,7 +294,7 @@ module Cosgrove
       if post.nil?
         post = case chain
         when :steem
-          posts = SteemApi::Comment.where(author: author_name)
+          # posts = SteemApi::Comment.where(author: author_name)
           posts = posts.where(permlink: permlink) if !!permlink
           posts = posts.where(parent_permlink: parent_permlink) if !!parent_permlink
           
@@ -326,7 +326,7 @@ module Cosgrove
       author_name = options[:author_name]
       
       author = case chain
-      when :steem then SteemApi::Account.where(name: author_name).first
+      # when :steem then SteemApi::Account.where(name: author_name).first
       when :hive then HiveSQL::Account.where(name: author_name).first
       end
       
@@ -346,22 +346,22 @@ module Cosgrove
       memo_key = options[:memo].to_s.strip
       
       op = case chain
-      when :steem
-        transfers = SteemApi::Tx::Transfer.
-          where(from: from, to: steem_account).
-          where("memo LIKE ?", "%#{memo_key}%")
-      
-        if transfers.any?
-          transfers.last
-        else
-          SteemApi::Tx::Transfer.
-            where(from: from).
-            where(to: to).
-            where("memo LIKE ?", "%#{memo_key}%").last
-        end
+      # when :steem
+      #   transfers = SteemApi::Tx::Transfer.
+      #     where(from: from, to: steem_account).
+      #     where("memo LIKE ?", "%#{memo_key}%")
+      # 
+      #   if transfers.any?
+      #     transfers.last
+      #   else
+      #     SteemApi::Tx::Transfer.
+      #       where(from: from).
+      #       where(to: to).
+      #       where("memo LIKE ?", "%#{memo_key}%").last
+      #   end
       when :hive
         transfers = HiveSQL::Tx::Transfer.
-          where(from: from, to: steem_account).
+          where(from: from, to: hive_account).
           where("memo LIKE ?", "%#{memo_key}%")
       
         if transfers.any?
@@ -378,7 +378,7 @@ module Cosgrove
         # Fall back to RPC.  The transaction is so new, SteemApi hasn't seen it
         # yet, SteemApi is behind, or there is no such transfer.
         
-        api(chain).get_account_history(steem_account, -1, 10000) do |history, error|
+        api(chain).get_account_history(hive_account, -1, 10000) do |history, error|
           if !!error
             ap error
             return "Try again later."
@@ -390,7 +390,7 @@ module Cosgrove
             next unless type == 'transfer'
             o = e.last
             next unless o.from == from
-            next unless o.to == steem_account
+            next unless o.to == hive_account
             next unless o.memo =~ /.*#{memo_key}.*/
             
             o
@@ -401,8 +401,8 @@ module Cosgrove
       op
     end
     
-    def core_asset(chain = :steem)
-      chain ||= :steem
+    def core_asset(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       
       case chain
@@ -412,8 +412,8 @@ module Cosgrove
       end
     end
     
-    def debt_asset(chain = :steem)
-      chain ||= :steem
+    def debt_asset(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       
       case chain

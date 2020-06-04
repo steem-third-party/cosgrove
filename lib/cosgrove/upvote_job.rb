@@ -8,7 +8,7 @@ module Cosgrove
       @on_success = options[:on_success]
     end
     
-    def perform(event, slug, chain = :steem)
+    def perform(event, slug, chain = :hive)
       if slug.nil? || slug.empty?
         event.respond 'Sorry, I wasn\'t paying attention.'
         return
@@ -20,7 +20,7 @@ module Cosgrove
       cb_account = Cosgrove::Account.find_by_discord_id(discord_id)
       registered = !!cb_account
       muters = cosgrove_operators
-      muters << steem_account
+      muters << hive_account
       muted = muted by: muters, chain: :steem
       
       post = find_comment(chain: chain, author_name: author_name, permlink: permlink)
@@ -31,8 +31,8 @@ module Cosgrove
       end
       
       votes_today = case chain
-      when :steem then SteemApi::Tx::Vote.where(voter: steem_account).today
-      when :hive then HiveSQL::Tx::Vote.where(voter: steem_account).today
+      # when :steem then SteemApi::Tx::Vote.where(voter: steem_account).today
+      when :hive then HiveSQL::Tx::Vote.where(voter: hive_account).today
       end
       today_count = votes_today.count
       author_count = votes_today.where(author: author_name).count
@@ -87,7 +87,7 @@ module Cosgrove
         'Unable to vote.  Your account has been resticted.'
       elsif today_count > 10 && vote_ratio > 0.1
         "Maybe later.  It seems like I've been voting for #{author_name} quite a bit lately."
-      elsif active_votes.map{ |v| v['voter'] }.include?(steem_account)
+      elsif active_votes.map{ |v| v['voter'] }.include?(hive_account)
         title = post.title
         title = post.permlink if title.empty?
         "I already voted on #{title} by #{post.author}."
@@ -100,7 +100,7 @@ module Cosgrove
       
       vote = {
         type: :vote,
-        voter: steem_account,
+        voter: hive_account,
         author: post.author,
         permlink: post.permlink,
         weight: upvote_weight(event.channel.id)
@@ -184,13 +184,13 @@ module Cosgrove
       
       case upvote_weight
       when 'dynamic'
-        bot_account = find_account(steem_account)
+        bot_account = find_account(hive_account)
         upvote_weight = bot_account.voting_power.to_i
       when 'upvote_rules'
         upvote_weight = channel_upvote_weight(channel_id)
         
         if upvote_weight == 'dynamic'
-          bot_account = find_account(steem_account)
+          bot_account = find_account(hive_account)
           upvote_weight = bot_account.voting_power.to_i
         else
           upvote_weight = (((upvote_weight || '0.00 %').to_f) * 100).to_i

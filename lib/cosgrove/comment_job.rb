@@ -6,9 +6,9 @@ module Cosgrove
     include Support
     
     def perform(event, slug, template, message = nil)
-      chain = :steem
+      chain = :hive
       author_name, permlink = parse_slug slug
-      muted = muted by: steem_account, chain: chain
+      muted = muted by: hive_account, chain: chain
       
       author = find_author(chain: chain, author_name: author_name)
       
@@ -50,7 +50,7 @@ module Cosgrove
         'Unable to vote.'
       # elsif template == :welcome && author.post_count != 1
       #   'Sorry, this function is intended to welcome new authors.'
-      elsif find_comment(chain: :steem, author_name: steem_account, parent_permlink: post.permlink).any?
+      elsif find_comment(chain: :hive, author_name: hive_account, parent_permlink: post.permlink).any?
         title = post.title
         title = post.permlink if title.empty?
         "I already commented on #{title} by #{post.author}."
@@ -65,7 +65,7 @@ module Cosgrove
       comment = {
         type: :comment,
         parent_permlink: post.permlink,
-        author: steem_account,
+        author: hive_account,
         permlink: "re-#{post.author.gsub(/[^a-z0-9\-]+/, '-')}-#{post.permlink}-#{now.utc.strftime('%Y%m%dt%H%M%S%Lz')}", # e.g.: 20170225t235138025z
         title: '',
         body: merge(template, message, event.author.username),

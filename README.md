@@ -28,6 +28,8 @@ One example of a bot that uses this framework is [@banjo](https://steemit.com/st
   * Callback `on_success_upvote_job` which can be used to, for example, reply to the post after being upvoted.
   * Market data now uses Bittrex instead of Poloniex.
   * `operators` to keep track of steem accounts that can do things like block upvotes (by blockchain mute).
+  * Support for HiveSQL
+  * Optimized interactive messages to update as data is acquired in realtime
 
 ## Installation
 
@@ -66,6 +68,11 @@ Add a config file to your `ruby` project called `config.yml`:
   :steem_account: 
   :steem_posting_wif: 
   :steem_api_url: https://api.steemit.com
+  :steem_engine_api_url: https://api.steem-engine.com/rpc
+  :hive_engine_api_url: https://api.hive-engine.com/rpc
+  :hive_account: 
+  :hive_posting_wif: 
+  :hive_api_url: https://api.steem.house
 :discord:
   :log_mode: info
 ```
@@ -88,21 +95,19 @@ SecureRandom.hex(32)
 4. Give that URL to the Discord server/guild owner and have them authorize the bot.
 5. Set the `token` and `client_id` in your bot constructor (see below).
 
-## SteemSQL
+## HiveSQL
 
-Some features provided by `cosgrove` require access to [SteemSQL](http://steemsql.com/), which is a Microsoft SQL database containing all the Steem blockchain data.
+Some features provided by `cosgrove` require access to [HiveSQL](http://hivesql.io/), which is a Microsoft SQL database containing all the Steem blockchain data.
 
 **Please note:**
 
-> SteemSQL has moved to a monthly subscription model and the default free account/password “steemit/steemit” has been disabled.
-
-If you intend to use SteemSQL, you can provide the credentials in `authorize-steem-sql.sh`, then use this terminal command to enable SteemSQL just before running your bot.  Copy the example `example-authorize-steem-sql.sh` and add your credentials:
+If you intend to use HiveSQL, you can provide the credentials in `authorize-hive-sql.sh`, then use this terminal command to enable HiveSQL just before running your bot.  Copy the example `example-authorize-hive-sql.sh` and add your credentials:
 
 ```bash
-source path/to/authorize-steem-sql.sh
+source path/to/authorize-hive-sql.sh
 ```
 
-Features that currently require SteemSQL:
+Features that currently require HiveSQL:
 
 * Details in `$mvests` command
 * Any command that tries to suggest account names

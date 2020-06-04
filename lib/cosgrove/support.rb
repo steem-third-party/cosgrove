@@ -4,11 +4,11 @@ module Cosgrove
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::DateHelper
     
-    def suggest_account_name(account_name, chain = :steem)
+    def suggest_account_name(account_name, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       pattern = account_name.chars.each.map{ |c| c }.join('%')
       guesses = case chain
-      when :steem then SteemApi::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
+      # when :steem then SteemApi::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
       when :hive then HiveSQL::Account.where("name LIKE '%#{pattern}%'").pluck(:name)
       else
         []
@@ -43,7 +43,7 @@ module Cosgrove
     def append_link_details(event, slug)
       return if skipped_channel? event.channel.id
       
-      chain = :steem
+      chain = :hive
       author_name, permlink = parse_slug slug
       created = nil
       cashout_time = nil
@@ -62,7 +62,7 @@ module Cosgrove
       end
       
       posts = case chain
-      when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink)
+      # when :steem then SteemApi::Comment.where(author: author_name, permlink: permlink)
       when :hive then HiveSQL::Comment.where(author: author_name, permlink: permlink)
       end
       
@@ -140,7 +140,7 @@ module Cosgrove
         # Only append this detail of the post less than an hour old.
         if created > 1.hour.ago
           votes = case chain
-          when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
+          # when :steem then SteemApi::Tx::Vote.where('timestamp > ?', post.created)
           when :hive then HiveSQL::Tx::Vote.where('timestamp > ?', post.created)
           end
           total_votes = votes.distinct("concat(author, permlink)").count
@@ -164,17 +164,17 @@ module Cosgrove
       details.join('; ') if event.nil?
     end
     
-    def find_account(key, event = nil, chain = :steem)
+    def find_account(key, event = nil, chain = :hive)
       key = key.to_s.downcase
-      chain ||= :steem
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       
       
       case chain
-      when :steem
-        account = if (accounts = SteemApi::Account.where(name: key)).any?
-          accounts.first
-        end
+      # when :steem
+      #   account = if (accounts = SteemApi::Account.where(name: key)).any?
+      #     accounts.first
+      #   end
       when :hive
         account = if (accounts = HiveSQL::Account.where(name: key)).any?
           accounts.first
@@ -189,9 +189,9 @@ module Cosgrove
       
       if account.nil?
         account = if !!key
-          if chain == :steem && (accounts = SteemApi::Account.where(name: key)).any?
-            accounts.first
-          elsif chain == :hive && (accounts = HiveSQL::Account.where(name: key)).any?
+          # if chain == :steem && (accounts = SteemApi::Account.where(name: key)).any?
+          #   accounts.first
+          if chain == :hive && (accounts = HiveSQL::Account.where(name: key)).any?
             accounts.first
           else
             # Fall back to RPC
@@ -246,8 +246,8 @@ module Cosgrove
       end
     end
     
-    def last_irreversible_block(chain = :steem)
-      chain ||= :steem
+    def last_irreversible_block(chain = :hive)
+      chain ||= :hive
       chain = chain.to_s.downcase.to_sym
       seconds_ago = (head_block_number(chain) - last_irreversible_block_num(chain)) * 3
       
@@ -267,7 +267,7 @@ module Cosgrove
     def muted(options = {})
       [] if options.empty?
       by = [options[:by]].flatten
-      chain = options[:chain] || :steem
+      chain = options[:chain] || :hive
       chain = chain.to_s.downcase.to_sym
       muted = []
       

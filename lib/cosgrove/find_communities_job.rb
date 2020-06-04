@@ -1,11 +1,11 @@
 module Cosgrove
   class FindCommunitiesJob
-    def perform(event, args, limit = 1000, chain = :steem)
+    def perform(event, args, limit = 1000, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       terms = args.map{|term| "%#{term.downcase.strip}%"}
       
       all_communities = case chain
-      when :steem then SteemApi::Tx::Custom::Community.where('id >= 217640816').op('updateProps').order(id: :desc).limit(limit)
+      # when :steem then SteemApi::Tx::Custom::Community.where('id >= 217640816').op('updateProps').order(id: :desc).limit(limit)
       when :hive then HiveSQL::Tx::Custom::Community.where('id >= 217640816').op('updateProps').order(id: :desc).limit(limit)
       end
       
