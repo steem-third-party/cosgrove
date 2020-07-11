@@ -370,7 +370,7 @@ module Cosgrove
       chain = chain.to_s.downcase.to_sym
       return if ticker.size < 1
       
-      event.channel.start_typing if !!event
+      start_typing event
       
       ticker_text = case chain
       when :steem
@@ -409,19 +409,19 @@ module Cosgrove
         key_binance =      'binance.com      '
         key_huobi =        'huobi.pro        '
         key_upbit =        'upbit.com        '
-        key_postpromoter = 'postpromoter.net '
+        # key_postpromoter = 'postpromoter.net '
         key_coingecko =    'coingecko.com    '
         key_poloniex =     'poloniex.com     '
-        key_steem_engine = 'steem-engine.com '
+        # key_steem_engine = 'steem-engine.com '
         ticker = {
           key_bittrex => nil,
           key_binance => nil,
           key_huobi => nil,
           key_upbit => nil,
-          key_postpromoter => nil,
+          # key_postpromoter => nil,
           key_coingecko => nil,
           key_poloniex => nil,
-          key_steem_engine => nil
+          # key_steem_engine => nil
         }
         
         threads << Thread.new do
@@ -486,19 +486,19 @@ module Cosgrove
           end
         end
         
-        threads << Thread.new do
-          begin
-            post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
-            pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
-            pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
-            pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4).rjust(11)
-            pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4).rjust(11)
-            
-            ticker[key_postpromoter] = "#{pp_usd_steem} | #{pp_usd_sbd} |             |            "
-          rescue => e
-            puts e
-          end
-        end
+        # threads << Thread.new do
+        #   begin
+        #     post_promoter_feed = JSON[open('https://postpromoter.net/api/prices').read]
+        #     pp_usd_steem = post_promoter_feed.fetch('steem_price').to_f
+        #     pp_usd_sbd = post_promoter_feed.fetch('sbd_price').to_f
+        #     pp_usd_steem = number_to_currency(pp_usd_steem, precision: 4).rjust(11)
+        #     pp_usd_sbd = number_to_currency(pp_usd_sbd, precision: 4).rjust(11)
+        # 
+        #     ticker[key_postpromoter] = "#{pp_usd_steem} | #{pp_usd_sbd} |             |            "
+        #   rescue => e
+        #     puts e
+        #   end
+        # end
         
         threads << Thread.new do
           begin
@@ -535,31 +535,31 @@ module Cosgrove
           end
         end
         
-        threads << Thread.new do
-          begin
-            # btc_history_data = steem_engine_contracts(:find, {
-            #   contract: 'market',
-            #   table: 'tradesHistory',
-            #   query: {
-            #     symbol: 'BTCP'
-            #   },
-            #   limit: 1,
-            #   offset: 0,
-            #   indexes: [{index: '_id', descending: true}]
-            # })
-            
-            se_prices = JSON[open('https://postpromoter.net/api/prices').read]
-            se_usd_steem = se_prices['steem_price']
-            # se_steem_usd = btc_history_data[0]['price'].to_f * se_usd_steem
-            # se_btc_steem = se_usd_steem / se_steem_usd
-            se_usd_steem = number_to_currency(se_usd_steem, precision: 4).rjust(11)
-            # se_btc_steem = number_to_currency(se_btc_steem, precision: 8, unit: '').rjust(11)
-            
-            ticker[key_steem_engine] = "#{se_usd_steem} |             |             |            "
-          rescue => e
-            puts e
-          end
-        end
+        # threads << Thread.new do
+        #   begin
+        #     # btc_history_data = steem_engine_contracts(:find, {
+        #     #   contract: 'market',
+        #     #   table: 'tradesHistory',
+        #     #   query: {
+        #     #     symbol: 'BTCP'
+        #     #   },
+        #     #   limit: 1,
+        #     #   offset: 0,
+        #     #   indexes: [{index: '_id', descending: true}]
+        #     # })
+        # 
+        #     # se_prices = JSON[open('https://postpromoter.net/api/prices').read]
+        #     # se_usd_steem = se_prices['steem_price']
+        #     # # se_steem_usd = btc_history_data[0]['price'].to_f * se_usd_steem
+        #     # # se_btc_steem = se_usd_steem / se_steem_usd
+        #     # se_usd_steem = number_to_currency(se_usd_steem, precision: 4).rjust(11)
+        #     # # se_btc_steem = number_to_currency(se_btc_steem, precision: 8, unit: '').rjust(11)
+        #     # 
+        #     # ticker[key_steem_engine] = "#{se_usd_steem} |             |             |            "
+        #   rescue => e
+        #     puts e
+        #   end
+        # end
       when :hive
         key_ionomy    =    'ionomy.com       '
         key_bittrex =      'bittrex.com      '
@@ -568,7 +568,7 @@ module Cosgrove
         key_probit    =    'probit.com       '
         key_blocktrades =  'blocktrades.us   '
         key_coingecko =    'coingecko.com    '
-        key_steem_engine = 'steem-engine.com '
+        # key_hive_engine =  'hive-engine.com '
         ticker = {
           key_ionomy => nil,
           key_bittrex => nil,
@@ -577,7 +577,7 @@ module Cosgrove
           key_probit => nil,
           key_blocktrades => nil,
           key_coingecko => nil,
-          key_steem_engine => nil
+          # key_hive_engine => nil
         }
         
         threads << Thread.new do
@@ -712,46 +712,46 @@ module Cosgrove
           end
         end
         
-        threads << Thread.new do
-          begin
-            hive_history_data = steem_engine_contracts(:find, {
-              contract: 'market',
-              table: 'tradesHistory',
-              query: {
-                symbol: 'HIVEP'
-              },
-              limit: 1,
-              offset: 0,
-              indexes: [{index: '_id', descending: true}]
-            })
-            
-            # btc_history_data = steem_engine_contracts(:find, {
-            #   contract: 'market',
-            #   table: 'tradesHistory',
-            #   query: {
-            #     symbol: 'BTCP'
-            #   },
-            #   limit: 1,
-            #   offset: 0,
-            #   indexes: [{index: '_id', descending: true}]
-            # })
-            
-            se_prices = JSON[open('https://postpromoter.net/api/prices').read]
-            se_usd_steem = se_prices['steem_price']
-            se_usd_hive = hive_history_data[0]['price'].to_f * se_usd_steem
-            # se_hive_usd = btc_history_data[0]['price'].to_f * se_usd_hive
-            # se_btc_hive = se_usd_hive / se_hive_usd
-            se_usd_hive = number_to_currency(se_usd_hive, precision: 4).rjust(10)
-            # se_btc_hive = number_to_currency(se_btc_hive, precision: 8, unit: '').rjust(10)
-            
-            ticker[key_steem_engine] = "#{se_usd_hive} |             |            |            "
-          rescue => e
-            puts e
-          end
-        end
+        # threads << Thread.new do
+        #   begin
+        #     hive_history_data = hive_engine_contracts(:find, {
+        #       contract: 'market',
+        #       table: 'tradesHistory',
+        #       query: {
+        #         symbol: 'SWAP.HIVE'
+        #       },
+        #       limit: 1,
+        #       offset: 0,
+        #       indexes: [{index: '_id', descending: true}]
+        #     })
+        # 
+        #     # btc_history_data = hive_engine_contracts(:find, {
+        #     #   contract: 'market',
+        #     #   table: 'tradesHistory',
+        #     #   query: {
+        #     #     symbol: 'SWAP.BTC'
+        #     #   },
+        #     #   limit: 1,
+        #     #   offset: 0,
+        #     #   indexes: [{index: '_id', descending: true}]
+        #     # })
+        # 
+        #     cg_prices = JSON[open('https://api.coingecko.com/api/v3/simple/price?ids=HIVE&vs_currencies=USD').read]
+        #     cg_usd_hive = cg_prices['hive']['usd']
+        #     he_usd_hive = hive_history_data[0]['price'].to_f * cg_usd_hive
+        #     # # se_hive_usd = btc_history_data[0]['price'].to_f * se_usd_hive
+        #     # # se_btc_hive = se_usd_hive / se_hive_usd
+        #     # se_usd_hive = number_to_currency(se_usd_hive, precision: 4).rjust(10)
+        #     # # se_btc_hive = number_to_currency(se_btc_hive, precision: 8, unit: '').rjust(10)
+        #     # 
+        #     ticker[key_steem_engine] = "#{he_usd_hive} |             |            |            "
+        #   rescue => e
+        #     puts e
+        #   end
+        # end
       end
       
-      event.channel.start_typing if !!event
+      start_typing event
       threads.each(&:join)
       
       render_ticker(message, event, ticker, chain)

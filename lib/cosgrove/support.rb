@@ -4,6 +4,23 @@ module Cosgrove
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::DateHelper
     
+    # Reduce RL bucket depletion
+    def start_typing(event)
+      return if event.nil?
+      return unless event.respond_to? :channel
+      return unless event.channel.respond_to? :start_typing
+      
+      @channels_typing ||= {}
+      
+      if !!@channels_typing[event.channel.id] && (Time.now - @channels_typing[event.channel.id]) < 15
+        return
+      end
+      
+      @channels_typing[event.channel.id] = Time.now
+      
+      event.channel.start_typing
+    end
+    
     def suggest_account_name(account_name, chain = :hive)
       chain = chain.to_s.downcase.to_sym
       pattern = account_name.chars.each.map{ |c| c }.join('%')
@@ -21,7 +38,7 @@ module Cosgrove
 
     def unknown_account(account_name, event = nil)
       help = ["Unknown account: *#{account_name}*"]
-      event.channel.start_typing if !!event
+      start_typing event
       guess = suggest_account_name(account_name)
 
       help << ", did you mean: #{guess}?" if !!guess
