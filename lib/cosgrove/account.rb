@@ -1,4 +1,5 @@
 require 'digest/bubblebabble'
+require "yaml/store"
 
 module Cosgrove
   class Account
@@ -10,7 +11,7 @@ module Cosgrove
     
     attr_accessor :account_name, :discord_ids
     
-    def initialize(account_name, chain = :steem)
+    def initialize(account_name, chain = :hive)
       @chain = chain.to_sym
       raise "Unknown Chain: #{@chain}" unless Cosgrove::KNOWN_CHAINS.include? @chain
       
@@ -22,14 +23,14 @@ module Cosgrove
       end
     end
     
-    def self.find_by_discord_id(discord_id, chain = :steem)
-      return if Account.yml[chain.to_s].nil?
+    def self.find_by_discord_id(discord_id, chain = :hive)
+      return if Account.chain_data(chain.to_s).nil?
       
       discord_id = discord_id.to_s.split('@').last.split('>').first.to_i
       
       return nil if discord_id == 0
       
-      Account.yml[chain.to_s].each do |k, v|
+      Account.chain_data(chain.to_s).each do |k, v|
         ids = v[DISCORD_IDS]
         return Account.new(k, chain) if !!ids && ids.include?(discord_id)
       end
@@ -37,8 +38,8 @@ module Cosgrove
       return nil
     end
     
-    def self.find_by_memo_key(memo_key, secure, chain = :steem)
-      Account.yml[chain.to_s].each do |k, v|
+    def self.find_by_memo_key(memo_key, secure, chain = :hive)
+      Account.chain_data(chain.to_s).each do |k, v|
         v[DISCORD_IDS].each do |discord_id|
           return Account.new(k, chain) if Account.gen_memo_key(k, discord_id, secure, chain) == memo_key
         end
@@ -47,13 +48,9 @@ module Cosgrove
       return nil
     end
     
-    def chain_data
-      @chain_data ||= Account.yml[@chain.to_s] || {}
-    end
-    
-    def details
-      chain_data[@account_name] ||= {}
-      chain_data[@account_name]
+    def details(chain = :hive)
+      Account.chain_data(chain.to_s)[@account_name] ||= {}
+      Account.chain_data(chain.to_s)[@account_name]
     end
     
     def hidden?
@@ -69,7 +66,7 @@ module Cosgrove
       details[DISCORD_IDS] << discord_id.to_i
       details[DISCORD_IDS] = details[DISCORD_IDS].uniq
       
-      Account.save_yml!
+      Account.save_chain_data!(:hive)
     end
     
     def memo_key(discord_id)
@@ -110,6 +107,22 @@ module Cosgrove
         end
         {}
       end
+    end
+    
+    def self.store
+      @store ||= YAML::Store.new(ACCOUNTS_FILE)
+    end
+    
+    def self.save_chain_data!(chain, data = @chain_data)
+      store.transaction {
+        store[chain] = data
+      }
+    end
+    
+    def self.chain_data(chain)
+      store.transaction {
+        @chain_data = store[chain] || {}
+      }
     end
   end
 end

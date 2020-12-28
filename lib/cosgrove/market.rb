@@ -6,10 +6,16 @@ module Cosgrove
     
     def base_per_mvest(chain = :hive)
       api(chain).get_dynamic_global_properties do |properties|
-        total_vesting_fund_steem = properties.total_vesting_fund_steem.to_f
-        total_vesting_shares_mvest = properties.total_vesting_shares.to_f / 1e6
+        case chain
+        when :steem
+          total_vesting_fund_base = properties.total_vesting_fund_steem.to_f
+          total_vesting_shares_mvest = properties.total_vesting_shares.to_f / 1e6
+        when :hive
+          total_vesting_fund_base = properties.total_vesting_fund_hive.to_f
+          total_vesting_shares_mvest = properties.total_vesting_shares.to_f / 1e6
+        end
       
-        total_vesting_fund_steem / total_vesting_shares_mvest
+        total_vesting_fund_base / total_vesting_shares_mvest
       end
     end
     
@@ -105,7 +111,7 @@ module Cosgrove
     def mvests(chain = :hive, account_names = [])
       chain = chain.to_s.downcase.to_sym
       _btx_market_data = btx_market_data
-      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
+      btx_usdt_steem, btx_usdt_sbd = _btx_market_data[:usdt_steem], _btx_market_data[:usdt_sbd]
       btx_usdt_hive, btx_usdt_hbd = _btx_market_data[:usdt_hive], _btx_market_data[:usdt_hbd]
       base_per_mvest, base_per_debt = price_feed(chain)
       
@@ -367,6 +373,8 @@ module Cosgrove
     end
     
     def render_ticker(message, event, ticker = {}, chain = :hive)
+      chain ||= :hive
+      ticker ||= {}
       chain = chain.to_s.downcase.to_sym
       return if ticker.size < 1
       
@@ -792,12 +800,23 @@ module Cosgrove
       end
       
       current_supply = properties.current_supply.split(' ').first.to_f
-      current_debt_supply = properties.current_sbd_supply.split(' ').first.to_f
-      total_vesting_fund_steem = properties.total_vesting_fund_steem.split(' ').first.to_f
       virtual_supply = properties.virtual_supply.split(' ').first.to_f
       debt_steem = virtual_supply - current_supply
       total_base = (current_supply / base_per_mvest) * base_per_debt
       ratio = (debt_steem / virtual_supply) * 100
+      
+      current_debt_supply, total_vesting_fund_base = case chain
+        when :steem
+          [
+            properties.current_sbd_supply.split(' ').first.to_f,
+            properties.total_vesting_fund_steem.split(' ').first.to_f
+          ]
+        when :hive
+          [
+            properties.current_hbd_supply.split(' ').first.to_f,
+            properties.total_vesting_fund_hive.split(' ').first.to_f
+          ]
+      end
       
       supply = []
       case chain
@@ -806,7 +825,7 @@ module Cosgrove
           reward_fund.reward_balance.split(' ').first.to_f
         end
         
-        liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
+        liquid_supply = current_supply - reward_balance - total_vesting_fund_base
         ratio_liquid = (liquid_supply / current_supply) * 100
 
         current_supply = number_with_precision(current_supply, precision: 0, delimiter: ',', separator: '.')
@@ -823,7 +842,7 @@ module Cosgrove
         reward_balance = properties.total_reward_fund_steem
         reward_balance = reward_balance.split(' ').first.to_f
         
-        liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
+        liquid_supply = current_supply - reward_balance - total_vesting_fund_base
         ratio_liquid = (liquid_supply / current_supply) * 100
         
         current_supply = number_with_precision(current_supply, precision: 0, delimiter: ',', separator: '.')
@@ -840,7 +859,7 @@ module Cosgrove
         reward_balance = properties.total_reward_fund_steem
         reward_balance = reward_balance.split(' ').first.to_f
         
-        liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
+        liquid_supply = current_supply - reward_balance - total_vesting_fund_base
         ratio_liquid = (liquid_supply / current_supply) * 100
         
         current_supply = number_with_precision(current_supply, precision: 0, delimiter: ',', separator: '.')
@@ -858,7 +877,7 @@ module Cosgrove
           reward_fund.reward_balance.split(' ').first.to_f
         end
         
-        liquid_supply = current_supply - reward_balance - total_vesting_fund_steem
+        liquid_supply = current_supply - reward_balance - total_vesting_fund_base
         ratio_liquid = (liquid_supply / current_supply) * 100
 
         current_supply = number_with_precision(current_supply, precision: 0, delimiter: ',', separator: '.')
