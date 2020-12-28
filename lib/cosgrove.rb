@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'yaml'
+require 'active_support'
 require 'action_view'
 require 'radiator'
 require 'awesome_print'
