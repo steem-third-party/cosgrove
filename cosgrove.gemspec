@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.11', '>= 0.11.2'
   spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.19'
 
-  spec.add_dependency 'radiator', '~> 0.4', '>= 0.4.6'
+  spec.add_dependency 'radiator', '~> 0.4', '>= 0.4.8'
   spec.add_dependency 'hive_sql'#, '~> 1.0', '>= 1.0.0'
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
   spec.add_dependency 'ai4r', '~> 1.13', '>= 1.13'
