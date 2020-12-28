@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ['cosgrove@martin-studio.com']
 
   spec.summary = %q{Cosgrove Discord Bot}
-  spec.description = %q{STEEM centric Discord bot.}
+  spec.description = %q{Hive centric Discord bot.}
   spec.homepage = 'https://github.com/steem-third-party/cosgrove'
   spec.license = 'CC0-1.0'
 

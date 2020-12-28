@@ -5,9 +5,8 @@ Cosgrove is a STEEM Centric Discord Bot Framework that allows you to write your 
 One example of a bot that uses this framework is [@banjo](https://steemit.com/steemdata/@inertia/introducing-banjo) on SteemSpeak.
 
 ## New features
-
-* Support for SteemApi (replacing SteemData; dropped mongodb support)
-* Optimized interactive messages to update as data is acquired in realtime
+  
+* Engine support provided by the `Cosgrove::Utils` module.
 * Bug fixes
 * Gem updates.
 
@@ -128,6 +127,34 @@ bot = Cosgrove::Bot.new
 
 bot.message(with_text: 'Ping!') do |event|
   event.respond 'Pong!'
+end
+
+bot.run
+```
+
+### Engine Lookups
+
+Here's an example of a bot that does Engine API calls when you type: `$bal ENG alice`
+
+```ruby
+require 'cosgrove'
+
+include Cosgrove::Utils
+
+bot = Cosgrove::Bot.new
+
+bot.command :bal do |event, *args|
+  symbol = args[0].strip.upcase
+  account = args[0].strip.downcase
+  params = {
+    query: {
+      symbol: symbol,
+      account: account
+    }
+  }
+  result = steem_engine_contracts(:findOne, params)
+  
+  "#{result['balance']}'s '#{result['symbol']}: #{result['balance']}"
 end
 
 bot.run
