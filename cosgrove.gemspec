@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ['cosgrove@martin-studio.com']
 
   spec.summary = %q{Cosgrove Discord Bot}
-  spec.description = %q{Hive centric Discord bot.}
+  spec.description = %q{STEEM centric Discord bot.}
   spec.homepage = 'https://github.com/steem-third-party/cosgrove'
   spec.license = 'CC0-1.0'
 
@@ -28,12 +28,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.19'
 
   spec.add_dependency 'radiator', '~> 0.4', '>= 0.4.8'
-  spec.add_dependency 'hive_sql'#, '~> 1.0', '>= 1.0.0'
+  spec.add_dependency 'hive_sql', '~> 1.0', '>= 1.0.2'
   spec.add_dependency 'discordrb', '~> 3.2', '>= 3.2.1'
   spec.add_dependency 'ai4r', '~> 1.13', '>= 1.13'
   spec.add_dependency 'steem-slap', '~> 0.0', '>= 0.0.2'
-  spec.add_dependency 'activesupport', '~> 5.1', '>= 5.1.1'
-  spec.add_dependency 'railties', '~> 5.1', '>= 5.1.1'
+  spec.add_dependency 'activesupport', '~> 6.0', '>= 6.0.3'
+  spec.add_dependency 'railties', '~> 6.0', '>= 6.0.3'
   spec.add_dependency 'rdiscount', '~> 2.2', '>= 2.2.0.1'
   spec.add_dependency 'phantomjs', '~> 2.1', '>= 2.1.1.0'
   spec.add_dependency 'mechanize', '~> 2.7', '>= 2.7.5'
