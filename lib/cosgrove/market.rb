@@ -576,6 +576,7 @@ module Cosgrove
         key_probit    =    'probit.com       '
         key_blocktrades =  'blocktrades.us   '
         key_coingecko =    'coingecko.com    '
+        key_upbit =        'upbit.com        '
         # key_hive_engine =  'hive-engine.com '
         ticker = {
           key_ionomy => nil,
@@ -585,6 +586,7 @@ module Cosgrove
           key_probit => nil,
           key_blocktrades => nil,
           key_coingecko => nil,
+          key_upbit => nil,
           # key_hive_engine => nil
         }
         
@@ -658,9 +660,9 @@ module Cosgrove
         threads << Thread.new do
           begin
             # See: https://cryptofresh.com/a/TRADE.HIVE
-            hive_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read]
+            hive_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read] rescue {}
             # See: https://cryptofresh.com/a/TRADE.HBD
-            hbd_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read]
+            hbd_market = JSON[open('https://cryptofresh.com/api/asset/markets?asset=TRADE.HIVE').read] rescue {}
             btr_usd_hive = hive_market.fetch('TRADE.USDT', {}).fetch('price', '')
             btr_usd_hbd = hbd_market.fetch('TRADE.USDT', {}).fetch('price', '')
             btr_btc_hive = hive_market.fetch('TRADE.BTC', {}).fetch('price', '')
@@ -715,6 +717,45 @@ module Cosgrove
             end.rjust(10)
             
             ticker[key_coingecko] = "#{cg_usd_hive} |  #{cg_usd_hbd} | #{cg_btc_hive} |  #{cg_btc_hbd}"
+          rescue => e
+            puts e
+          end
+        end
+        
+        threads << Thread.new do
+          begin
+            ub_btc_hive = JSON[open('https://api.upbit.com/v1/ticker?markets=BTC-HIVE').read][0].fetch('trade_price').to_f rescue -1
+            ub_btc_hbd = JSON[open('https://api.upbit.com/v1/ticker?markets=BTC-HBD').read][0].fetch('trade_price').to_f rescue -1
+            # ub_krw_hive = JSON[open('https://api.upbit.com/v1/ticker?markets=KRW-HIVE').read][0].fetch('trade_price').to_f rescue -1
+            ub_usd_btc = JSON[open('https://api.upbit.com/v1/ticker?markets=USDT-BTC').read][0].fetch('trade_price').to_f rescue -1
+            ub_usd_hive = ub_btc_hive * ub_usd_btc
+            ub_usd_hbd = ub_btc_hbd * ub_usd_btc
+            
+            ub_usd_hive = if ub_usd_hive < 0
+              'N/A'
+            else
+              number_to_currency(ub_usd_hive, precision: 4)
+            end.rjust(10)
+            
+            ub_usd_hbd = if ub_usd_hbd < 0
+              'N/A'
+            else
+              number_to_currency(ub_usd_hbd, precision: 4)
+            end.rjust(10)
+            
+            ub_btc_hive = if ub_btc_hive < 0
+              'N/A'
+            else
+              number_to_currency(ub_btc_hive, precision: 8, unit: '')
+            end.rjust(10)
+            
+            ub_btc_hbd = if ub_btc_hbd < 0
+              'N/A'
+            else
+              number_to_currency(ub_btc_hbd, precision: 8, unit: '')
+            end.rjust(10)
+            
+            ticker[key_upbit] = "#{ub_usd_hive} |  #{ub_usd_hbd} | #{ub_btc_hive} |  #{ub_btc_hbd}"
           rescue => e
             puts e
           end
