@@ -636,10 +636,16 @@ module Cosgrove
         threads << Thread.new do
           begin
             ionomy_market = JSON[open('https://ionomy.com/api/v1/public/markets-summaries').read].fetch('data')
+            # in_busd_hive = ionomy_market.find{|m| m.fetch('market') == 'busd-hive'}.fetch('price').to_f
+            # in_busd_hive = number_to_currency(in_busd_hive, precision: 8, unit: '').rjust(10)
             in_btc_hive = ionomy_market.find{|m| m.fetch('market') == 'btc-hive'}.fetch('price').to_f
             in_btc_hive = number_to_currency(in_btc_hive, precision: 8, unit: '').rjust(10)
+            in_btc_hbd = ionomy_market.find{|m| m.fetch('market') == 'btc-hbd'}.fetch('price').to_f
+            in_btc_hbd = number_to_currency(in_btc_hbd, precision: 8, unit: '').rjust(10)
+            in_busd_hbd = ionomy_market.find{|m| m.fetch('market') == 'busd-hbd'}.fetch('price').to_f
+            in_busd_hbd = number_to_currency(in_busd_hbd, precision: 4).rjust(10)
             
-            ticker[key_ionomy] = "           |             | #{in_btc_hive} |            "
+            ticker[key_ionomy] = "           |  #{in_busd_hbd} | #{in_btc_hive} |  #{in_btc_hbd}"
           rescue => e
             puts e
           end
