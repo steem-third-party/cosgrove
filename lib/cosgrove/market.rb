@@ -653,11 +653,14 @@ module Cosgrove
         
         threads << Thread.new do
           begin
-            probit_market = JSON[open('https://api.probit.com/api/exchange/v1/ticker?market_ids=HIVE-USDT').read].fetch('data')
-            pb_usd_hive = probit_market.find{|m| m.fetch('market_id') == 'HIVE-USDT'}.fetch('last').to_f
+            pb_usd_hive = JSON[open('https://api.probit.com/api/exchange/v1/ticker?market_ids=HIVE-USDT').read].fetch('data')
+            pb_usd_hive = pb_usd_hive.find{|m| m.fetch('market_id') == 'HIVE-USDT'}.fetch('last').to_f
             pb_usd_hive = number_to_currency(pb_usd_hive, precision: 4).rjust(10)
+            pb_btc_hive = JSON[open('https://api.probit.com/api/exchange/v1/ticker?market_ids=HIVE-BTC').read].fetch('data')
+            pb_btc_hive = pb_btc_hive.find{|m| m.fetch('market_id') == 'HIVE-BTC'}.fetch('last').to_f
+            pb_btc_hive = number_to_currency(pb_btc_hive, precision: 8, unit: '').rjust(10)
             
-            ticker[key_probit] = "#{pb_usd_hive} |             |            |            "
+            ticker[key_probit] = "#{pb_usd_hive} |             | #{pb_btc_hive} |            "
           rescue => e
             puts e
           end
